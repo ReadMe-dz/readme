@@ -3,6 +3,7 @@ const app = express()
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const mongoose = require("mongoose")
+const path = require("path")
 
 const DB_URL = process.env.DB_URL || "localhost"
 const DB_PORT = process.env.DB_PORT || 27017
@@ -14,6 +15,7 @@ const books_router = require("./api/routes/books.routes")
 const users_router = require("./api/routes/users.routes")
 const errors_router = require("./api/routes/errors.routes")
 
+app.use("/uploads", express.static(path.join(__dirname, '/api/uploads')))
 app.use(cors())
 app.use(bodyParser.json())
 
