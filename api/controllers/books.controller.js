@@ -31,13 +31,9 @@ const get_book_by_id = (req, res, next) => {
 
 const add_book = (req, res, next) => {
     let { title, author, user, price } = req.body
-    let book = new Book({
-        _id: new mongoose.Types.ObjectId(),
-        title,
-        author,
-        user,
-        price
-    })
+    let book = new Book({ _id: new mongoose.Types.ObjectId(), title, author, user, price })
+    if (req.file.path) book.conver = req.file.path
+
     book.save()
         .then(result => res.status(201).json({ created: result, success: true }))
         .catch(error => res.status(500).json({ error }))
