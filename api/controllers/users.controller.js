@@ -2,6 +2,8 @@ const mongoose = require("mongoose")
 const bcryptjs = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const User = require("../models/user.model")
+const fs = require("fs")
+const path = require("path")
 
 const search_users = (req, res, next) => {
     let find = {}
@@ -65,15 +67,27 @@ const update_user = (req, res, next) => {
     req.body.username ? new_user.username = req.body.username : null
     req.body.wilaya ? new_user.wilaya = req.body.wilaya : null
     req.body.more_info ? new_user.more_info = req.body.more_info : null
-    //req.body.picture ? new_user.picture = req.body.picture : null
     req.body.birthdate ? new_user.birthdate = req.body.birthdate : null
     req.body.phone ? new_user.phone = req.body.phone : null
     req.body.facebook ? new_user.facebook = req.body.facebook : null
     req.body.twitter ? new_user.twitter = req.body.twitter : null
 
-    User.updateOne({ _id: req.params.id }, { $set: new_user }).exec()
-        .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
-        .catch(error => res.status(500).json(error))
+    if (req.file.path) {
+        User.findOne({ _id: req.params.id }).exec()
+            .then(result => {
+                if (result.picture)
+                    fs.unlinkSync(path.join(__dirname, "../../" + result.picture))
+                new_user.picture = req.file.path
+                User.updateOne({ _id: req.params.id }, { $set: new_user }).exec()
+                    .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
+                    .catch(error => res.status(500).json(error))
+            })
+            .catch(error => res.status(500).json(error))
+    } else {
+        User.updateOne({ _id: req.params.id }, { $set: new_user }).exec()
+            .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
+            .catch(error => res.status(500).json(error))
+    }
 }
 
 const delete_user = (req, res, next) => {

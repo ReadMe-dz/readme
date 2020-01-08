@@ -1,5 +1,7 @@
 const mongoose = require("mongoose")
 const Book = require("../models/book.model")
+const fs = require("fs")
+const path = require("path")
 
 const search_books = (req, res, next) => {
     let find = {}
@@ -46,9 +48,23 @@ const update_book = (req, res, next) => {
     req.body.title ? new_book.title = req.body.title : null
     req.body.author ? new_book.author = req.body.author : null
     req.body.price ? new_book.price = req.body.price : null
-    Book.updateOne({ _id: req.params.id }, { $set: new_book }).exec()
-        .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
-        .catch(error => res.status(500).json(error))
+
+    if (req.file.path) {
+        User.findOne({ _id: req.params.id }).exec()
+            .then(result => {
+                if (result.conver)
+                    fs.unlinkSync(path.join(__dirname, "../../" + result.conver))
+                new_book.conver = req.file.path
+                Book.updateOne({ _id: req.params.id }, { $set: new_book }).exec()
+                    .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
+                    .catch(error => res.status(500).json(error))
+            })
+            .catch(error => res.status(500).json(error))
+    } else {
+        Book.updateOne({ _id: req.params.id }, { $set: new_book }).exec()
+            .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
+            .catch(error => res.status(500).json(error))
+    }
 }
 
 const delete_book = (req, res, next) => {
