@@ -15,7 +15,7 @@ const books_router = require("./api/routes/books.routes")
 const users_router = require("./api/routes/users.routes")
 const errors_router = require("./api/routes/errors.routes")
 
-app.use("/uploads", express.static(path.join(__dirname, '/api/uploads')))
+app.use("/api/uploads", express.static(path.join(__dirname, '/api/uploads')))
 app.use(cors())
 app.use(bodyParser.json())
 
