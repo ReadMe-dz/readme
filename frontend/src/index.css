@@ -4,6 +4,7 @@
     --main-color: #23D18B;
     --white: #F1F2F3;
     --black: #212121;
+    --cubic-bezier: cubic-bezier(0.65, 0.05, 0, 1.08);
 }
 
 *,
