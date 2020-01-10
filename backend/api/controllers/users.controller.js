@@ -32,6 +32,8 @@ const get_user_by_id = (req, res, next) => {
 
 const add_user = (req, res, next) => {
     let { email, password, username, wilaya } = req.body
+    console.log({ ...req.body })
+
     User.find({ email }).exec()
         .then(result => {
             if (result.length > 0) {
@@ -46,7 +48,8 @@ const add_user = (req, res, next) => {
                             email,
                             password: hashed,
                             username,
-                            wilaya
+                            wilaya,
+                            picture: req.file.path ? req.file.path : "api/uploads/6321661312364123146.png"
                         })
 
                         // add some validation HERE !!!
@@ -72,22 +75,20 @@ const update_user = (req, res, next) => {
     req.body.facebook ? new_user.facebook = req.body.facebook : null
     req.body.twitter ? new_user.twitter = req.body.twitter : null
 
-    if (req.file.path) {
-        User.findOne({ _id: req.params.id }).exec()
-            .then(result => {
-                if (result.picture)
-                    fs.unlinkSync(path.join(__dirname, "../../" + result.picture))
-                new_user.picture = req.file.path
-                User.updateOne({ _id: req.params.id }, { $set: new_user }).exec()
-                    .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
-                    .catch(error => res.status(500).json(error))
-            })
-            .catch(error => res.status(500).json(error))
-    } else {
-        User.updateOne({ _id: req.params.id }, { $set: new_user }).exec()
-            .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
-            .catch(error => res.status(500).json(error))
-    }
+
+    req.file.path ? new_user.picture = req.file.path : new_user.picture = "api/uploads/6321661312364123146.png"
+
+    User.findOne({ _id: req.params.id }).exec()
+        .then(result => {
+            if (result.picture)
+                fs.unlinkSync(path.join(__dirname, "../../" + result.picture))
+
+            User.updateOne({ _id: req.params.id }, { $set: new_user }).exec()
+                .then(result => res.status(200).json({ updated_id: req.params.id, success: true }))
+                .catch(error => res.status(500).json(error))
+        })
+        .catch(error => res.status(500).json(error))
+
 }
 
 const delete_user = (req, res, next) => {
