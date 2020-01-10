@@ -11,7 +11,7 @@ users_router.get("/", users_controller.get_all_users)
 
 users_router.get("/:id", users_controller.get_user_by_id)
 
-users_router.post("/", token_verification, users_controller.add_user)
+users_router.post("/", uploads.single("picture"), users_controller.add_user)
 
 users_router.patch("/:id", token_verification, uploads.single("picture"), users_controller.update_user)
 
