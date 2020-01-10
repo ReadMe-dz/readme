@@ -7,14 +7,13 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, callback) => {
         let name = (new Date().getTime()) + (Math.random().toFixed(3) * 1000)
-        let ext = file.originalname.slice(-5)
-        if (ext === ".jpeg") name = name + ext
-        else name = name + ext.slice(-4)
-        callback(null, name)
+        let ext = file.originalname.slice(file.originalname.lastIndexOf("."))
+        callback(null, name + ext)
     }
 })
 
 const file_filter = (req, file, callback) => {
+    console.log(file)
     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") callback(null, true)
     else callback(new Error("Error! Uncceptable file type."), false)
 }
