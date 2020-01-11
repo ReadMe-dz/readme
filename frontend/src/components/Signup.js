@@ -8,18 +8,20 @@ import wilaya from '../assets/data/wilaya.json'
 export default function Subscribe() {
     const [user, setUser] = useState({ wilaya: "Adrar" })
     const [eyeIsOpen, setEyeIsOpen] = useState(false)
-    const [validUser, setValidUser] = useState({ username: false, email: false, password: false })
+    const [validUser, setValidUser] = useState({ username: false, email: false, password: false, repassword: false })
+    const [pictureName, setPictureName] = useState("No Profile Picture")
+    const [message, setMessage] = useState({ value: null, type: null })
 
     const onInputChange = e => {
         if (e.target.name === "picture") {
-            //let file_name = e.target.value.slice(e.target.value.lastIndexOf("\\"))
+            setPictureName(e.target.value.slice(e.target.value.lastIndexOf("\\") + 1))
             let picture = e.target.files[0]
             setUser({ ...user, picture })
         } else {
             if (e.target.name === "username") (e.target.value.length > 4 && /^[a-z0-9_\-]+$/i.test(String(e.target.value))) ? setValidUser({ ...validUser, username: true }) : setValidUser({ ...validUser, username: false })
             if (e.target.name === "email") (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(e.target.value))) ? setValidUser({ ...validUser, email: true }) : setValidUser({ ...validUser, email: false })
-            if (e.target.name === "password") (e.target.value.length > 6 && e.target.value === user.repassword) ? setValidUser({ ...validUser, password: true }) : setValidUser({ ...validUser, password: false })
-            if (e.target.name === "repassword") (e.target.value === user.password) ? setValidUser({ ...validUser, password: true }) : setValidUser({ ...validUser, password: false })
+            if (e.target.name === "password") (e.target.value.length > 6) ? setValidUser({ ...validUser, password: true }) : setValidUser({ ...validUser, password: false })
+            if (e.target.name === "repassword") (e.target.value === user.password) ? setValidUser({ ...validUser, repassword: true }) : setValidUser({ ...validUser, repassword: false })
 
             setUser({ ...user, [e.target.name]: e.target.value })
         }
@@ -40,8 +42,6 @@ export default function Subscribe() {
 
     const onFormSubmit = e => {
         e.preventDefault()
-
-
         let user_data = new FormData()
         user_data.append('username', user.username)
         user_data.append('email', user.email)
@@ -50,10 +50,11 @@ export default function Subscribe() {
         user_data.append('wilaya', user.wilaya)
         user_data.append('picture', user.picture)
 
-        const url = 'http://localhost:3300/users';
+        const url = 'http://localhost:3300/users'
 
         Axios.post(url, user_data)
-            .then((response) => { console.log(response); })
+            .then(res => setMessage({ value: "The User Has Been Created Successfully", type: "success" }))
+            .catch(err => (err.response) ? setMessage({ value: err.response.data.message, type: "error" }) : setMessage({ value: err.message, type: "error" }))
     }
 
     return (
@@ -62,6 +63,11 @@ export default function Subscribe() {
             <div className="signup-container">
                 <div className="form-container">
                     <h4>Sign Up</h4>
+
+                    {
+                        (message) ? <div className={`message ${message.type}`}><p>{message.value}</p></div> : null
+                    }
+
                     <form onSubmit={onFormSubmit} encType="multipart/form-data">
                         <div className={`input-field ${validUser.username ? '' : 'error'}`}>
                             <label htmlFor="username">username</label>
@@ -76,7 +82,7 @@ export default function Subscribe() {
                         <div className={`input-field ${validUser.password ? '' : 'error'}`}>
                             <label htmlFor="password">password</label>
                             <div>
-                                <input type="password" onKeyDown={onInputChange} name="password" id="password" />
+                                <input type="password" onChange={onInputChange} name="password" id="password" />
                                 <button className="the-eye password" onClick={(e) => onEyeClick(e, "password")}>
                                     <img src={closedEye} alt="display / hide the password" />
                                 </button>
@@ -86,12 +92,12 @@ export default function Subscribe() {
                         <div className={`input-field ${validUser.password ? '' : 'error'}`}>
                             <label htmlFor="repassword">confirm password</label>
                             <div>
-                                <input type="password" onKeyDown={onInputChange} name="repassword" id="repassword" />
+                                <input type="password" onChange={onInputChange} name="repassword" id="repassword" />
                                 <button className="the-eye repassword" onClick={(e) => onEyeClick(e, "repassword")}>
                                     <img src={closedEye} alt="display / hide the password" />
                                 </button>
                             </div>
-                            {validUser.password ? <p></p> : <p>Must be more then 6 chars & identical with the password.</p>}
+                            {validUser.repassword ? <p></p> : <p>Must be identical to the password.</p>}
                         </div>
                         <div className="input-field">
                             <label htmlFor="address">address</label>
@@ -102,9 +108,10 @@ export default function Subscribe() {
                         <div className="input-field">
                             <label htmlFor="picture">profile picture</label>
                             <input type="file" onChange={onInputChange} name="picture" id="picture" />
+                            <span>{pictureName}</span>
                         </div>
 
-                        <button disabled={!(validUser.email && validUser.password && validUser.username)}>Sign Up Now</button>
+                        <button disabled={!(validUser.email && validUser.password && validUser.username && validUser.repassword)}>Sign Up Now</button>
                     </form>
                 </div>
             </div>
