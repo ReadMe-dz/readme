@@ -2,6 +2,7 @@ TODO:
 =====
 [+] images uploader with multer
 [ ] form validation backend
-[ ] add 6321661312364123146.png default profile picture
-[ ] fix uploading profile picture when user exists
+[+] add 6321661312364123146.png default profile picture
+[+] fix uploading profile picture when user exists
 [ ] remove console.log 
+[+] add error messages err.message in the backend
