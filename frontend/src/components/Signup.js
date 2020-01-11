@@ -5,7 +5,7 @@ import openedEye from '../assets/images/eye-outline.svg'
 import closedEye from '../assets/images/eye-off-outline.svg'
 import wilaya from '../assets/data/wilaya.json'
 
-export default function Subscribe() {
+export default function Signup() {
     const [user, setUser] = useState({ wilaya: "Adrar" })
     const [eyeIsOpen, setEyeIsOpen] = useState(false)
     const [validUser, setValidUser] = useState({ username: false, email: false, password: false, repassword: false })
@@ -63,11 +63,7 @@ export default function Subscribe() {
             <div className="signup-container">
                 <div className="form-container">
                     <h4>Sign Up</h4>
-
-                    {
-                        (message) ? <div className={`message ${message.type}`}><p>{message.value}</p></div> : null
-                    }
-
+                    {(message) ? <div className={`message ${message.type}`}><p>{message.value}</p></div> : null}
                     <form onSubmit={onFormSubmit} encType="multipart/form-data">
                         <div className={`input-field ${validUser.username ? '' : 'error'}`}>
                             <label htmlFor="username">username</label>
@@ -118,3 +114,5 @@ export default function Subscribe() {
         </div>
     )
 }
+
+
