@@ -32,12 +32,12 @@ const get_user_by_id = (req, res, next) => {
 
 const add_user = (req, res, next) => {
     let { email, password, username, wilaya } = req.body
-    console.log({ ...req.body })
 
     User.find({ email }).exec()
         .then(result => {
             if (result.length > 0) {
-                res.status(409).json({ message: "Email allready exists." })
+                req.file ? fs.unlinkSync(path.join(__dirname, "../../" + req.file.path)) : null
+                res.status(409).json({ message: "Email already exists." })
             } else {
                 bcryptjs.hash(String(password), 7, (error, hashed) => {
                     if (error) {
@@ -49,7 +49,7 @@ const add_user = (req, res, next) => {
                             password: hashed,
                             username,
                             wilaya,
-                            picture: req.file.path ? req.file.path : "api/uploads/6321661312364123146.png"
+                            picture: req.file ? req.file.path : "api/uploads/6321661312364123146.png"
                         })
 
                         // add some validation HERE !!!
