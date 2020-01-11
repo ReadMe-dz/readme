@@ -105,8 +105,8 @@ const login_user = (req, res, next) => {
                 bcryptjs.compare(String(password), user.password, (error, result) => {
                     if (error || !result) res.status(401).json({ message: "Auth Failed." })
                     else {
-                        let token = jwt.sign({ email, _id: user._id }, process.env.JWT_KEY || "What The Fuck", { expiresIn: "5d" })
-                        res.status(200).json({ message: "Logged In.", token })
+                        let token = jwt.sign({ email, _id: user._id }, process.env.JWT_KEY || "G0-p2^vPj1/6$vE[aK1vM3$5", { expiresIn: "5d" })
+                        res.status(200).json({ message: "Logged In.", token, user: { email: user.email, picture: user.picture, username: user.username, wilaya: user.wilaya } })
                     }
                 })
 
@@ -116,6 +116,5 @@ const login_user = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error, message: "there was an error" }))
 }
-
 
 module.exports = { search_users, get_all_users, get_user_by_id, add_user, update_user, delete_user, login_user }
