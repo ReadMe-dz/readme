@@ -15,14 +15,14 @@ const search_users = (req, res, next) => {
         .then(result => res.status(200).json({ count: result.length, users: result }))
         .catch(error => res.status(500).json(error))
 }
-
+/*
 const get_all_users = (req, res, next) => {
     User.find()
         .select("_id email username wilaya more_info picture birthdate phone facebook twitter").exec()
         .then(result => res.status(200).json({ count: result.length, users: result }))
         .catch(error => res.status(500).json(error))
 }
-
+*/
 const get_user_by_id = (req, res, next) => {
     User.findById(req.params.id)
         .select("_id email username wilaya more_info picture birthdate phone facebook twitter").exec()
@@ -76,7 +76,7 @@ const update_user = (req, res, next) => {
     req.body.twitter ? new_user.twitter = req.body.twitter : null
 
 
-    req.file.path ? new_user.picture = req.file.path : new_user.picture = "api/uploads/6321661312364123146.png"
+    req.file.path ? new_user.picture = req.file.path : new_user.picture = "api/uploads/0321661312364.png"
 
     User.findOne({ _id: req.params.id }).exec()
         .then(result => {
@@ -117,4 +117,18 @@ const login_user = (req, res, next) => {
         .catch(error => res.status(500).json({ error, message: "there was an error" }))
 }
 
-module.exports = { search_users, get_all_users, get_user_by_id, add_user, update_user, delete_user, login_user }
+const load_user = (req, res, next) => {
+    const { email } = req.verified_token
+    User.findOne({ email }).exec()
+        .then(data => {
+            if (data) {
+                const { picture, username, wilaya } = data
+                res.status(200).json({ user: { picture, username, wilaya } })
+            } else {
+                res.status(401).json({ message: "Auth Failed." })
+            }
+        })
+        .catch(error => res.status(500).json({ error, message: "there was an error" }))
+}
+
+module.exports = { search_users, get_user_by_id, add_user, update_user, delete_user, login_user, load_user }
