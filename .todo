@@ -6,3 +6,4 @@ TODO:
 [+] fix uploading profile picture when user exists
 [ ] remove console.log 
 [+] add error messages err.message in the backend
+[ ] add forget password
