@@ -1,22 +1,35 @@
-const express = require("express")
-const users_router = express.Router()
+const express = require("express");
+const tokenVerification = require("../middleware/token-verification");
+const {
+  searchUsers,
+  getUserById,
+  addUser,
+  updateUser,
+  deleteUser,
+  loginUser,
+  loadUser,
+} = require("../controllers/users.controller");
+const uploads = require("../middleware/images-upload");
 
-const token_verification = require("../middleware/token-verification")
-const { search_users, get_user_by_id, add_user, update_user, delete_user, login_user, load_user } = require("../controllers/users.controller")
-const uploads = require("../middleware/images-upload")
+const usersRouter = express.Router();
 
-users_router.get("/search", search_users)
+usersRouter.get("/search", searchUsers);
 
-users_router.get("/:id", get_user_by_id)
+usersRouter.get("/:id", getUserById);
 
-users_router.post("/", uploads.single("picture"), add_user)
+usersRouter.post("/", uploads.single("picture"), addUser);
 
-users_router.patch("/:id", token_verification, uploads.single("picture"), update_user)
+usersRouter.patch(
+  "/:id",
+  tokenVerification,
+  uploads.single("picture"),
+  updateUser
+);
 
-users_router.delete("/:id", token_verification, delete_user)
+usersRouter.delete("/:id", tokenVerification, deleteUser);
 
-users_router.post("/login", login_user)
+usersRouter.post("/login", loginUser);
 
-users_router.get("/", token_verification, load_user)
+usersRouter.get("/", tokenVerification, loadUser);
 
-module.exports = users_router
+module.exports = usersRouter;
