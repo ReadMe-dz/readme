@@ -40,6 +40,8 @@ module.exports = {
     ],
     'no-use-before-define': [0],
     '@typescript-eslint/no-use-before-define': [1],
+    'react/jsx-props-no-spreading': 0,
+    'react/forbid-prop-types': 0,
   },
   overrides: [
     {
