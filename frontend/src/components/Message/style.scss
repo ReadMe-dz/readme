@@ -1,0 +1,42 @@
+@import '../../assets/scss/constants.scss';
+
+.message {
+  display: flex;
+  width: 100%;
+  padding: 10px 0;
+  overflow: hidden;
+
+  &.error {
+    background-color: $red;
+  }
+
+  &.sucess {
+    background-color: $green;
+  }
+
+  p {
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial,
+      sans-serif;
+    font-size: 14px;
+    color: $light;
+    line-height: 20px;
+    transform: translateY(-100px);
+    animation: showContent 4300ms ease forwards running;
+  }
+}
+
+@keyframes showContent {
+  0%,
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+
+  15%,
+  85% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
