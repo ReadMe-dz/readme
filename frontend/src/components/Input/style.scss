@@ -42,8 +42,8 @@
     &:focus {
       background-color: $white;
       border-color: $lighterPink;
-      -webkit-box-shadow: 0 0 0 3px #f1cdd788;
-      box-shadow: 0 0 0 3px #f1cdd788;
+      -webkit-box-shadow: 0 0 0 3px $fadePink;
+      box-shadow: 0 0 0 3px $fadePink;
     }
   }
 

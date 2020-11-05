@@ -31,6 +31,10 @@ button.button {
     opacity: 0.8;
   }
 
+  &:active {
+    background-color: $darkPink;
+  }
+
   &:disabled {
     cursor: disabled;
     display: none;
