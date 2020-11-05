@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Logout from './pages/Logout';
 import Login from './pages/Login';
 import Subscribe from './pages/Subscribe';
+import ForgetPassword from './pages/ForgetPassword';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <PrivateRoute exact path="/" component={Home} />
           <GuestRoute path="/login" component={Login} />
           <GuestRoute path="/subscribe" component={Subscribe} />
+          <GuestRoute path="/forget-password" component={ForgetPassword} />
           <PrivateRoute exact path="/logout" component={Logout} />
           <Redirect to="/" />
         </Switch>
