@@ -28,7 +28,7 @@ export const loginUser = (userData: any, history: any) => (dispatch: any) => {
       const { response, message } = err;
       const payload = {
         message: generateMessage(
-          response.data ? response.data.message : message
+          response && response.data ? response.data.message : message
         ),
       };
 
