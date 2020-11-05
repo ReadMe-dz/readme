@@ -48,11 +48,13 @@ const Login: React.FC<any> = ({ history, login, error, clear }: any) => {
       {error.errors && <Message type="error" content={error.errors.message} />}
       <div className="aside aside-left">
         <div className="logo">
-          <img src={logo} alt="Read Me Logo" />
+          <Link to="/">
+            <img src={logo} alt="Read Me Logo" />
+          </Link>
         </div>
         <div className="intro">
           <h2>
-            Wellcome to the biggest web platfrom for books exchanging in all of
+            Welcome to the biggest web platfrom for books exchanging in all of
             Algeria.
           </h2>
         </div>
@@ -86,7 +88,7 @@ const Login: React.FC<any> = ({ history, login, error, clear }: any) => {
                   >
                     <path d="M22.676 0H1.324C.593 0 0 .593 0 1.324v21.352C0 23.408.593 24 1.324 24h11.494v-9.294H9.689v-3.621h3.129V8.41c0-3.099 1.894-4.785 4.659-4.785 1.325 0 2.464.097 2.796.141v3.24h-1.921c-1.5 0-1.792.721-1.792 1.771v2.311h3.584l-.465 3.63H16.56V24h6.115c.733 0 1.325-.592 1.325-1.324V1.324C24 .593 23.408 0 22.676 0" />
                   </svg>
-                  <span>With Facebook</span>
+                  <span>with Facebook</span>
                 </>
               }
             />
@@ -139,15 +141,15 @@ const Login: React.FC<any> = ({ history, login, error, clear }: any) => {
                 name="email"
                 label="Email address"
                 type="email"
-                className="input input-email"
+                className="input-email"
               />
               <Input
                 name="password"
                 label="Password"
                 type="password"
-                className="input input-password"
+                className="input-password"
               />
-              <Link className="login-link" to="/reset-password">
+              <Link className="login-link" to="/forget-password">
                 Forgot password ?
               </Link>
 
