@@ -1,0 +1,49 @@
+@import './assets/scss/reset.scss';
+@import './assets/scss/constants.scss';
+@import './assets/scss/fonts.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  color: $font;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Merriweather', Helvetica, serif;
+  font-weight: 700;
+  color: $darkFont;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a {
+  font-size: 14px;
+  color: $link;
+  text-decoration: none;
+  transition: opacity 100ms ease-out;
+
+  &:hover {
+    text-decoration: underline;
+    color: $lightLink;
+  }
+}
