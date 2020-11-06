@@ -69,9 +69,9 @@ const ForgetPassword: React.FC<any> = ({ error, clear }: any) => {
       <div className="aside aside-right">
         <div className="head">
           <p>
-            Already a member?
-            <Link className="login-link" to="/login">
-              Sign in
+            Not a member?
+            <Link className="subscribe-link" to="/subscribe">
+              Sign Up
             </Link>
           </p>
         </div>
@@ -111,7 +111,7 @@ const ForgetPassword: React.FC<any> = ({ error, clear }: any) => {
                 content={
                   <>
                     {loading && <Loader dim={20} width={2} color="#212121" />}
-                    <span>send reset instructions</span>
+                    <span>Send Reset Instructions</span>
                   </>
                 }
               />

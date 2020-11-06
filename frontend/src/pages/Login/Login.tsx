@@ -4,13 +4,11 @@ import { Formik, Form } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { loginUser } from '../../redux-store/actions/user.actions';
-import { clearErrors } from '../../redux-store/actions/error.actions';
 import validate from '../../validations';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-import Message from '../../components/Message';
 
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork.svg';
@@ -21,17 +19,12 @@ type loginValues = {
   password: string;
 };
 
-const Login: React.FC<any> = ({ history, login, error, clear }: any) => {
+const Login: React.FC<any> = ({ history, login, error }: any) => {
   const [loading, setLoading] = useState(false);
   const initialValues: loginValues = { email: '', password: '' };
 
   useEffect(() => {
     setLoading(error.loading);
-    if (error.errors) {
-      setTimeout(() => {
-        clear();
-      }, 4000);
-    }
   }, [error]);
 
   const onSubmit = (
@@ -45,7 +38,6 @@ const Login: React.FC<any> = ({ history, login, error, clear }: any) => {
 
   return (
     <div className="login">
-      {error.errors && <Message type="error" content={error.errors.message} />}
       <div className="aside aside-left">
         <div className="logo">
           <Link to="/">
@@ -67,7 +59,7 @@ const Login: React.FC<any> = ({ history, login, error, clear }: any) => {
           <p>
             Not a member?
             <Link className="login-link" to="/subscribe">
-              Sign up now
+              Sign Up Now
             </Link>
           </p>
         </div>
@@ -178,6 +170,5 @@ const mapStateToProps = (state: any) => ({
 });
 const mapActionsToProps = {
   login: loginUser,
-  clear: clearErrors,
 };
 export default connect(mapStateToProps, mapActionsToProps)(Login);

@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
-import { clearErrors } from '../../redux-store/actions/error.actions';
 import validate from '../../validations';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-import Message from '../../components/Message';
 import Checkbox from '../../components/Checkbox';
 
 import logo from '../../assets/images/logo.png';
@@ -26,7 +24,7 @@ type subscribeValues = {
   terms: boolean;
 };
 
-const Subscribe: React.FC<any> = ({ error, clear }: any) => {
+const Subscribe: React.FC<any> = ({ error }: any) => {
   const [loading, setLoading] = useState(false);
   const initialValues: subscribeValues = {
     name: '',
@@ -39,11 +37,6 @@ const Subscribe: React.FC<any> = ({ error, clear }: any) => {
 
   useEffect(() => {
     setLoading(error.loading);
-    if (error.errors) {
-      setTimeout(() => {
-        clear();
-      }, 4000);
-    }
   }, [error]);
 
   const onSubmit = (
@@ -58,9 +51,6 @@ const Subscribe: React.FC<any> = ({ error, clear }: any) => {
 
   return (
     <div className="subscribe">
-      {error && error.errors && (
-        <Message type="error" content={error.errors.message} />
-      )}
       <div className="aside aside-left">
         <div className="logo">
           <Link to="/">
@@ -82,7 +72,7 @@ const Subscribe: React.FC<any> = ({ error, clear }: any) => {
           <p>
             Already a member?
             <Link className="login-link" to="/login">
-              Sign in
+              Sign In
             </Link>
           </p>
         </div>
@@ -208,7 +198,7 @@ const Subscribe: React.FC<any> = ({ error, clear }: any) => {
                 content={
                   <>
                     {loading && <Loader dim={20} width={2} color="#212121" />}
-                    <span>subscribe</span>
+                    <span>Subscribe</span>
                   </>
                 }
               />
@@ -223,7 +213,5 @@ const Subscribe: React.FC<any> = ({ error, clear }: any) => {
 const mapStateToProps = (state: any) => ({
   error: state.error,
 });
-const mapActionsToProps = {
-  clear: clearErrors,
-};
-export default connect(mapStateToProps, mapActionsToProps)(Subscribe);
+
+export default connect(mapStateToProps)(Subscribe);

@@ -5,7 +5,7 @@
   flex: 1;
   flex-wrap: wrap;
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
 
   .aside {
     display: flex;
@@ -54,6 +54,8 @@
       display: flex;
       flex: 1;
       flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
 
       .head {
         margin: 40px;
