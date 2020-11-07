@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import userReducer from './user.reducer';
-import errorReducer from './error.reducer';
+import msgReducer from './msg.reducer';
 
 const reducer = combineReducers({
   user: userReducer,
-  error: errorReducer,
+  msg: msgReducer,
 });
 
 export default reducer;

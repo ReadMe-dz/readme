@@ -1,24 +1,26 @@
-import { SET_ERRORS, LOADING, CLEAR_ERRORS } from '../types';
+import { SET_MSG, LOADING, CLEAR_MSG } from '../types';
 
 const initialState = {
   loading: false,
-  errors: null,
+  content: null,
+  type: null,
 };
 
 export default function (state = initialState, action: any) {
   switch (action.type) {
-    case SET_ERRORS:
+    case SET_MSG:
       return {
         ...state,
         loading: false,
-        errors: action.payload,
+        ...action.payload,
       };
 
-    case CLEAR_ERRORS:
+    case CLEAR_MSG:
       return {
         ...state,
         loading: false,
-        errors: null,
+        content: null,
+        type: null,
       };
 
     case LOADING:
