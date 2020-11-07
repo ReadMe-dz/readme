@@ -8,13 +8,20 @@ type props = {
   type: string;
   label: string;
   className?: string;
+  placeholder?: string;
 };
 
-const Input: React.FC<props> = ({ name, type, label, className }) => {
+const Input: React.FC<props> = ({
+  name,
+  type,
+  label,
+  className,
+  placeholder,
+}) => {
   return (
     <div className={`input ${className}`}>
       <label htmlFor={name}>{label}</label>
-      <Field id={name} name={name} type={type} />
+      <Field id={name} name={name} type={type} placeholder={placeholder} />
       <p className="error-message">
         <ErrorMessage name={name} />
       </p>
@@ -27,10 +34,12 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   className: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 Input.defaultProps = {
   className: '',
+  placeholder: '',
 };
 
 export default Input;
