@@ -3,6 +3,7 @@ import { Route, RouteProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Geust from '../pages/Geust';
 import Loader from '../components/Loader';
+import NavBar from '../containers/NavBar';
 
 interface MyRouteProps extends RouteProps {
   component: any;
@@ -21,10 +22,15 @@ const PrivateRoute: React.FC<MyRouteProps> = ({
     return <Loader />;
   }
   return (
-    <Route
-      {...rest}
-      render={(props) => (authenticated ? <Component {...props} /> : <Geust />)}
-    />
+    <>
+      <NavBar />
+      <Route
+        {...rest}
+        render={(props) =>
+          authenticated ? <Component {...props} /> : <Geust />
+        }
+      />
+    </>
   );
 };
 
