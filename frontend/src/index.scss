@@ -8,14 +8,17 @@
 
 html,
 body,
-#root {
+#root,
+.app {
   display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 100vh;
   font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial,
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-variation-settings: 'wght' 360;
   font-size: 16px;
   color: $font;
 }
@@ -29,6 +32,16 @@ h6 {
   font-family: 'Merriweather', Helvetica, serif;
   font-weight: 700;
   color: $darkFont;
+}
+
+input,
+select,
+button,
+textarea,
+label {
+  font-variation-settings: 'wght' 330;
+  font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
 }
 
 code {
