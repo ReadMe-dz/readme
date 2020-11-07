@@ -12,7 +12,10 @@ const Button: React.FC<
   return (
     // The `type` should not be dynamic! >> https://github.com/yannickcr/eslint-plugin-react/issues/1555
     // eslint-disable-next-line react/button-has-type
-    <button {...rest} className={`button ${rest.className}`}>
+    <button
+      {...rest}
+      className={`button ${rest.className ? rest.className : ''}`}
+    >
       {content}
     </button>
   );
