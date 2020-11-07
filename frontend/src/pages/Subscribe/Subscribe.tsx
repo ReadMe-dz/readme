@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import validate from '../../validations';
+import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
+import { generateMessage, msgTypes } from '../../utils/msgs';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import Checkbox from '../../components/Checkbox';
-
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork2.svg';
 import wilayas from '../../utils/data/wilayas.json';
@@ -24,7 +26,9 @@ type subscribeValues = {
   terms: boolean;
 };
 
-const Subscribe: React.FC<any> = ({ error }: any) => {
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3300';
+
+const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
   const initialValues: subscribeValues = {
     name: '',
@@ -36,8 +40,8 @@ const Subscribe: React.FC<any> = ({ error }: any) => {
   };
 
   useEffect(() => {
-    setLoading(error.loading);
-  }, [error]);
+    setLoading(msg.loading);
+  }, [msg]);
 
   const onSubmit = (
     values: subscribeValues,
@@ -45,8 +49,23 @@ const Subscribe: React.FC<any> = ({ error }: any) => {
   ) => {
     setSubmitting(false);
     setLoading(true);
-    console.log(values);
-    // use axios.
+    Axios.post(`${BASE_URL}/users`, values)
+      .then(({ data }) => {
+        if (data && data.success) {
+          setMsg({
+            type: 'success',
+            content: `@${values.username} has been created.`,
+          });
+          setLoading(false);
+        } else {
+          setMsg(generateMessage(msgTypes.SERVER));
+        }
+      })
+      .catch(({ status }) => {
+        setMsg(
+          generateMessage(status === 409 ? msgTypes.CONFLICT : msgTypes.SERVER)
+        );
+      });
   };
 
   return (
@@ -194,7 +213,7 @@ const Subscribe: React.FC<any> = ({ error }: any) => {
               <Button
                 className="subscribe-button"
                 type="submit"
-                disabled={error.errors}
+                disabled={msg.content}
                 content={
                   <>
                     {loading && <Loader dim={20} width={2} color="#212121" />}
@@ -211,7 +230,11 @@ const Subscribe: React.FC<any> = ({ error }: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  error: state.error,
+  msg: state.msg,
 });
 
-export default connect(mapStateToProps)(Subscribe);
+const mapActionsToProps = {
+  setMsg: setMessage,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Subscribe);

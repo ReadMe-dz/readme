@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
-import { clearErrors } from '../../redux-store/actions/error.actions';
 import validate from '../../validations';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-import Message from '../../components/Message';
 
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork3.svg';
@@ -18,20 +16,15 @@ type forgetValues = {
   email: string;
 };
 
-const ForgetPassword: React.FC<any> = ({ error, clear }: any) => {
+const ForgetPassword: React.FC<any> = ({ msg }: any) => {
   const [loading, setLoading] = useState(false);
   const initialValues: forgetValues = {
     email: '',
   };
 
   useEffect(() => {
-    setLoading(error.loading);
-    if (error.errors) {
-      setTimeout(() => {
-        clear();
-      }, 4000);
-    }
-  }, [error]);
+    setLoading(msg.loading);
+  }, [msg]);
 
   const onSubmit = (
     values: forgetValues,
@@ -45,9 +38,6 @@ const ForgetPassword: React.FC<any> = ({ error, clear }: any) => {
 
   return (
     <div className="forget-password">
-      {error && error.errors && (
-        <Message type="error" content={error.errors.message} />
-      )}
       <div className="aside aside-left">
         <div className="logo">
           <Link to="/">
@@ -107,7 +97,7 @@ const ForgetPassword: React.FC<any> = ({ error, clear }: any) => {
               <Button
                 className="forget-password-button"
                 type="submit"
-                disabled={error.errors}
+                disabled={msg.content}
                 content={
                   <>
                     {loading && <Loader dim={20} width={2} color="#212121" />}
@@ -124,9 +114,6 @@ const ForgetPassword: React.FC<any> = ({ error, clear }: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  error: state.error,
+  msg: state.msg,
 });
-const mapActionsToProps = {
-  clear: clearErrors,
-};
-export default connect(mapStateToProps, mapActionsToProps)(ForgetPassword);
+export default connect(mapStateToProps)(ForgetPassword);

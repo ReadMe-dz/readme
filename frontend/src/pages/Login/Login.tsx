@@ -5,11 +5,9 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { loginUser } from '../../redux-store/actions/user.actions';
 import validate from '../../validations';
-
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork.svg';
 import './style.scss';
@@ -19,13 +17,13 @@ type loginValues = {
   password: string;
 };
 
-const Login: React.FC<any> = ({ history, login, error }: any) => {
+const Login: React.FC<any> = ({ history, login, msg }: any) => {
   const [loading, setLoading] = useState(false);
   const initialValues: loginValues = { email: '', password: '' };
 
   useEffect(() => {
-    setLoading(error.loading);
-  }, [error]);
+    setLoading(msg.loading);
+  }, [msg]);
 
   const onSubmit = (
     values: loginValues,
@@ -142,13 +140,13 @@ const Login: React.FC<any> = ({ history, login, error }: any) => {
                 className="input-password"
               />
               <Link className="login-link" to="/forget-password">
-                Forgot password ?
+                <b>Forgot your password?</b>
               </Link>
 
               <Button
                 className="login-button"
                 type="submit"
-                disabled={error.errors}
+                disabled={msg.content}
                 content={
                   <>
                     {loading && <Loader dim={20} width={2} color="#212121" />}
@@ -166,8 +164,9 @@ const Login: React.FC<any> = ({ history, login, error }: any) => {
 
 const mapStateToProps = (state: any) => ({
   user: state.user,
-  error: state.error,
+  msg: state.msg,
 });
+
 const mapActionsToProps = {
   login: loginUser,
 };
