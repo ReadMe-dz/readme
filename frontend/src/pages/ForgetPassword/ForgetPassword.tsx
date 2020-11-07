@@ -99,10 +99,11 @@ const ForgetPassword: React.FC<any> = ({ msg }: any) => {
                 type="submit"
                 disabled={msg.content}
                 content={
-                  <>
-                    {loading && <Loader dim={20} width={2} color="#212121" />}
+                  loading ? (
+                    <Loader dim={20} width={2} color="#212121" />
+                  ) : (
                     <span>Send Reset Instructions</span>
-                  </>
+                  )
                 }
               />
             </Form>

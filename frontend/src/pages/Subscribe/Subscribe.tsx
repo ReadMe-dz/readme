@@ -215,10 +215,11 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
                 type="submit"
                 disabled={msg.content}
                 content={
-                  <>
-                    {loading && <Loader dim={20} width={2} color="#212121" />}
+                  loading ? (
+                    <Loader dim={20} width={2} color="#212121" />
+                  ) : (
                     <span>Subscribe</span>
-                  </>
+                  )
                 }
               />
             </Form>
