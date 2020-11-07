@@ -1,16 +1,20 @@
 @import '../../assets/scss/constants.scss';
 
 .message {
+  position: fixed;
+  z-index: 1000;
   display: flex;
   width: 100%;
-  padding: 10px 0;
+  padding: 10px;
   overflow: hidden;
+  text-align: center;
+  animation: show 400ms ease forwards running;
 
   &.error {
     background-color: $red;
   }
 
-  &.sucess {
+  &.success {
     background-color: $green;
   }
 
@@ -23,19 +27,17 @@
     color: $light;
     line-height: 20px;
     transform: translateY(-100px);
-    animation: showContent 4300ms ease forwards running;
+    animation: show 400ms ease 200ms forwards running;
   }
 }
 
-@keyframes showContent {
-  0%,
-  100% {
+@keyframes show {
+  0% {
     transform: translateY(-100px);
     opacity: 0;
   }
 
-  15%,
-  85% {
+  100% {
     transform: translateY(0);
     opacity: 1;
   }
