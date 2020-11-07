@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
+import getIcon from '../../utils/icons';
 import Image from '../../components/Image';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Loader from '../../components/Loader';
 import logo from '../../assets/images/logo.png';
-import searchIcon from '../../assets/images/icons/loupe.svg';
 import './style.scss';
 
 type searchValues = {
@@ -19,8 +19,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3300';
 const NavBar: React.FC<any> = ({ user, msg }: any) => {
   const [loading, setLoading] = useState(false);
   const initialValues: searchValues = { search: '' };
-
-  console.log(user);
 
   useEffect(() => {
     setLoading(msg.loading);
@@ -50,7 +48,7 @@ const NavBar: React.FC<any> = ({ user, msg }: any) => {
         <div className="manu-list">
           <span className="caret" />
           <div className="menu-wrapper">
-            <Link to={`/user/${id}`}>Profile</Link>
+            <Link to={`/profile/${id}`}>Profile</Link>
             <Link to={`/edit/${id}`}>Edit Profile</Link>
             <Link to={`/settings/${id}`}>Account Settings</Link>
             <span className="separator" />
@@ -103,7 +101,7 @@ const NavBar: React.FC<any> = ({ user, msg }: any) => {
                 loading ? (
                   <Loader dim={20} width={2} color="#ea4c89" />
                 ) : (
-                  <img src={searchIcon} alt="search" />
+                  <span className="icon">{getIcon('search')}</span>
                 )
               }
             />
