@@ -64,11 +64,6 @@ const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
             <span className="icon">{getIcon('pin')}</span>
             <b>{wilaya}</b>
           </div>
-
-          <div className="wilaya">
-            <span className="icon">{getIcon('cupcake')}</span>
-            <b>21-12-2200</b>
-          </div>
           {birthdate && (
             <div className="birthdate">
               <span className="icon">{getIcon('cupcake')}</span>

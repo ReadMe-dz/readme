@@ -62,26 +62,27 @@
       }
 
       .username {
-        font-size: 12px;
+        font-size: 13px;
         margin-bottom: 15px;
         color: $lightFont;
         font-weight: bold;
-        font-family: 'Merriweather', Helvetica, serif;
+        font-family: $fontSansSerif;
       }
 
       .wilaya,
       .birthdate {
         display: flex;
-        align-items: center;
+        align-items: baseline;
         margin-bottom: 10px;
         margin-top: 2px;
-        font-size: 15px;
+        font-size: 17px;
         color: $font;
+        text-transform: capitalize;
 
         .icon {
-          width: 18px;
-          height: 18px;
-          margin-right: 7px;
+          width: 17px;
+          height: 17px;
+          margin-right: 5px;
 
           svg {
             width: 100%;
@@ -101,7 +102,7 @@
     .bio {
       .title {
         font-weight: 700;
-        font-family: 'Merriweather', Helvetica, serif;
+        font-family: $fontSerif;
         font-size: 16px;
       }
 

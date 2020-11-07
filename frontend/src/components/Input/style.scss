@@ -3,15 +3,14 @@
 .input {
   label {
     display: block;
-    font: bold 15px/24px 'Merriweather', 'Helvetica Neue', Helvetica, Arial,
-      sans-serif;
+    font: bold 15px/24px;
+    font-family: $fontSerif;
     margin: 14px 0 4px;
     color: $dark;
   }
 
   input {
-    font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial,
-      sans-serif;
+    font-family: $fontSansSerif;
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;

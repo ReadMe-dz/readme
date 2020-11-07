@@ -16,8 +16,7 @@ button.button {
   appearance: none;
   position: relative;
   outline: none;
-  font-family: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial,
-    sans-serif;
+  font-family: $fontSansSerif;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
