@@ -1,0 +1,207 @@
+import React, { ChangeEvent, useState } from 'react';
+import Axios from 'axios';
+import { Formik, Form } from 'formik';
+import { connect } from 'react-redux';
+import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
+import Input from '../../components/Input';
+import ImageUpload from '../../components/ImageUpload';
+import Select from '../../components/Select';
+import Textarea from '../../components/Textarea';
+import Button from '../../components/Button';
+import Loader from '../../components/Loader';
+import wilayas from '../../utils/data/wilayas.json';
+import './style.scss';
+
+type profileValues = {
+  name: string;
+  username: string;
+  email: string;
+  wilaya: string;
+  moreInfo: string;
+  birthdate: string;
+  phone: string;
+  facebook: string;
+  twitter: string;
+};
+
+const { REACT_APP_BASE_URL } = process.env;
+
+const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
+  const { id, picture } = user;
+  const [loading, setLoading] = useState(false);
+  const [pic, setPic] = useState<string | Blob>(picture);
+
+  const initVal: profileValues = {
+    name: user.name,
+    username: user.username,
+    wilaya: user.wilaya,
+    email: user.email,
+    moreInfo: user.moreInfo || '',
+    birthdate: new Date(user.birthdate).toISOString().substring(0, 10) || '',
+    phone: user.phone || '',
+    facebook: user.facebook || '',
+    twitter: user.twitter || '',
+  };
+
+  const onSubmit = (
+    values: profileValues,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    setSubmitting(false);
+    setLoading(true);
+
+    const {
+      name,
+      username,
+      email,
+      wilaya,
+      moreInfo,
+      birthdate,
+      phone,
+      facebook,
+      twitter,
+    } = values;
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('wilaya', wilaya);
+    formData.append('moreInfo', moreInfo);
+    formData.append('birthdate', birthdate);
+    formData.append('phone', phone);
+    formData.append('facebook', facebook);
+    formData.append('twitter', twitter);
+    formData.append('picture', pic);
+
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+    };
+
+    Axios.patch(`${REACT_APP_BASE_URL}/users/${id}`, formData, config)
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.dir(err);
+        setMsg(
+          'error',
+          'There was an error editing your infos. Please try again.'
+        );
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setPic(e.target.files[0]);
+  };
+
+  return (
+    <div className="edit-profile">
+      <div className="head">
+        <h1>Edit profile</h1>
+      </div>
+      <div className="edit-form">
+        <Formik
+          initialValues={initVal}
+          validationSchema={null}
+          onSubmit={(values, { setSubmitting }) => {
+            onSubmit({ ...values }, { setSubmitting });
+          }}
+        >
+          <Form>
+            <div className="form-head">
+              <div className="left">
+                <ImageUpload
+                  label="Profile picture"
+                  name="picture"
+                  onChange={onChange}
+                  file={`${REACT_APP_BASE_URL}${picture}`}
+                />
+              </div>
+              <div className="right">
+                <Input
+                  name="name"
+                  label="Name"
+                  type="text"
+                  className="input-name"
+                />
+
+                <Select
+                  label="Wilaya"
+                  name="wilaya"
+                  options={wilayas}
+                  className="select-wilaya"
+                />
+
+                <Input
+                  name="birthdate"
+                  label="birthdate"
+                  type="date"
+                  className="input-birthdate"
+                  placeholder="mm-dd-yyyy"
+                />
+              </div>
+            </div>
+
+            <Textarea
+              name="moreInfo"
+              label="Bio"
+              className="bio"
+              placeholder="Say somthing about yourself."
+            />
+
+            <Input
+              name="phone"
+              label="phone"
+              type="tel"
+              className="input-phone"
+              placeholder="Your phone number"
+            />
+
+            <Input
+              name="facebook"
+              label="facebook"
+              type="url"
+              className="input-facebook"
+              placeholder="https://facebook.com/username"
+            />
+
+            <Input
+              name="twitter"
+              label="twitter"
+              type="url"
+              className="input-twitter"
+              placeholder="https://twitter.com/username"
+            />
+
+            <Button
+              className="save-button"
+              type="submit"
+              disabled={msg.content}
+              content={
+                loading ? (
+                  <Loader dim={20} width={2} color="#212121" />
+                ) : (
+                  <span>Save</span>
+                )
+              }
+            />
+          </Form>
+        </Formik>
+      </div>
+    </div>
+  );
+};
+
+const mapStateToProps = (state: any) => ({
+  user: state.user,
+  msg: state.msg,
+});
+
+const mapActionsToProps = {
+  setMsg: setMessage,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(EditProfile);
