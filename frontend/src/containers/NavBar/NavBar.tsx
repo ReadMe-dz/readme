@@ -41,15 +41,15 @@ const NavBar: React.FC<any> = ({ user, msg }: any) => {
         <div className="picture">
           <Image
             className="avatar"
-            src={`${BASE_URL}/api/uploads/users/${picture}`}
+            src={`${BASE_URL}${picture}`}
             alt="profile"
           />
         </div>
         <div className="manu-list">
           <span className="caret" />
           <div className="menu-wrapper">
-            <Link to={`/profile/${id}`}>Profile</Link>
-            <Link to={`/edit/${id}`}>Edit Profile</Link>
+            <Link to={`/user/${id}`}>Profile</Link>
+            <Link to="/edit">Edit Profile</Link>
             <Link to={`/settings/${id}`}>Account Settings</Link>
             <span className="separator" />
             <Link to="/logout">Sign Out</Link>
