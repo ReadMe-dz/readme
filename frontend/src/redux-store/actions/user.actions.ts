@@ -36,7 +36,7 @@ export const loginUser = (userData: any, history: any) => (dispatch: any) => {
     });
 };
 
-export const getUserData = (): any => (dispatch: any) => {
+export const getUser = (): any => (dispatch: any) => {
   dispatch({ type: LOADING_USER });
   axios
     .get(`${REACT_APP_BASE_URL}/users`)
