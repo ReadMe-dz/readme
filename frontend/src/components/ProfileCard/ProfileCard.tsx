@@ -13,7 +13,7 @@ type props = {
     email: string;
     name: string;
     wilaya: string;
-    moreInfos?: string | null;
+    moreInfo?: string | null;
     picture?: string | null;
     birthdate?: string | null;
     phone?: string | null;
@@ -32,21 +32,21 @@ const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
     email,
     name,
     wilaya,
-    moreInfos,
+    moreInfo,
     picture,
     birthdate,
     phone,
     facebook,
     twitter,
   } = user;
+
+  console.log(user);
   return (
     <div className="profile-card">
       <div className="main">
         <div className="profile-picture">
           <Image
-            src={`${BASE_URL}/api/uploads/users/${
-              picture || '0321661312364.png'
-            }`}
+            src={`${BASE_URL}${picture || '0321661312364.png'}`}
             alt={name}
           />
         </div>
@@ -60,52 +60,56 @@ const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
             )}
           </div>
           <h4 className="username">@{username}</h4>
-          <div className="wilaya">
-            <span className="icon">{getIcon('pin')}</span>
-            <b>{wilaya}</b>
-          </div>
-          {birthdate && (
-            <div className="birthdate">
-              <span className="icon">{getIcon('cupcake')}</span>
-              <b>{birthdate}</b>
+          <div className="address">
+            <div className="wilaya">
+              <span className="icon">{getIcon('pin')}</span>
+              <b>{wilaya}</b>
             </div>
-          )}
+            {birthdate && (
+              <div className="birthdate">
+                <span className="icon">{getIcon('cupcake')}</span>
+                <b>{new Date(birthdate).toISOString().substring(0, 10)}</b>
+              </div>
+            )}
+          </div>
+          <div className="email">
+            <span className="icon">{getIcon('email')}</span>
+            <span>{email}</span>
+          </div>
         </div>
       </div>
       <div className="foot">
+        {(facebook || twitter || phone) && (
+          <div className="links">
+            {facebook && (
+              <a className="facebook" href={facebook}>
+                <span className="icon">{getIcon('facebook')}</span>
+                <span>{facebook}</span>
+              </a>
+            )}
+            {twitter && (
+              <a className="twitter" href={twitter}>
+                <span className="icon">{getIcon('twitter')}</span>
+                <span>{twitter}</span>
+              </a>
+            )}
+            {phone && (
+              <div className="phone">
+                <span className="icon">{getIcon('phone')}</span>
+                <span>{phone}</span>
+              </div>
+            )}
+          </div>
+        )}
         <div className="bio">
           <b className="title">Bio: </b>
           <span className="content">
-            {moreInfos ||
+            {moreInfo ||
               (isOwner
                 ? 'Your bio is currently blank.'
                 : 'Apparently, this user prefers to keep an air of mystery about them.')}
           </span>
         </div>
-        {(facebook || twitter || phone) && (
-          <div className="links">
-            {facebook && (
-              <Link className="facebook" to={facebook}>
-                {getIcon('facebook')}
-              </Link>
-            )}
-            {twitter && (
-              <Link className="twitter" to={twitter}>
-                {getIcon('twitter')}
-              </Link>
-            )}
-            {email && (
-              <a className="email" href={`to:${email}`}>
-                {getIcon('email')}
-              </a>
-            )}
-            {phone && (
-              <a className="phone" href={`tel:${phone}`}>
-                {getIcon('phone')}
-              </a>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -118,7 +122,7 @@ ProfileCard.propTypes = {
     email: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     wilaya: PropTypes.string.isRequired,
-    moreInfos: PropTypes.string,
+    moreInfo: PropTypes.string,
     picture: PropTypes.string,
     birthdate: PropTypes.string,
     phone: PropTypes.string,

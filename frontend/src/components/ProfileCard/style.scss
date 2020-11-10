@@ -18,9 +18,14 @@
       margin-right: 40px;
       margin-top: 10px;
 
-      img {
+      span {
         width: 100%;
         height: 100%;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
 
@@ -69,25 +74,60 @@
         font-family: $fontSansSerif;
       }
 
-      .wilaya,
-      .birthdate {
+      .address {
         display: flex;
-        align-items: baseline;
+        justify-content: space-between;
+
+        .wilaya,
+        .birthdate {
+          display: flex;
+          align-items: baseline;
+          margin-bottom: 10px;
+          margin-top: 2px;
+          font-size: 15px;
+          color: $font;
+          text-transform: capitalize;
+
+          .icon {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+
+            svg {
+              width: 100%;
+              height: 100%;
+              fill: $lightFont;
+            }
+          }
+        }
+      }
+
+      .email {
+        display: flex;
+        align-items: center;
         margin-bottom: 10px;
+        height: 20px;
         margin-top: 2px;
-        font-size: 17px;
+        font-size: 15px;
         color: $font;
-        text-transform: capitalize;
 
         .icon {
-          width: 17px;
-          height: 17px;
+          width: 15px;
+          height: 15px;
           margin-right: 5px;
 
           svg {
             width: 100%;
             height: 100%;
             fill: $lightFont;
+          }
+        }
+
+        &:hover {
+          color: #da3838;
+
+          svg {
+            fill: #da3838;
           }
         }
       }
@@ -99,7 +139,66 @@
     flex-direction: column;
     margin-top: 20px;
 
+    .links {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .facebook,
+      .twitter,
+      .phone {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        height: 20px;
+        margin-top: 2px;
+        font-size: 15px;
+        color: $font;
+
+        .icon {
+          width: 15px;
+          height: 15px;
+          margin-right: 5px;
+
+          svg {
+            width: 100%;
+            height: 100%;
+            fill: $lightFont;
+          }
+        }
+
+        &:hover {
+          &.facebook {
+            color: #036ee4;
+
+            svg {
+              fill: #036ee4;
+            }
+          }
+
+          &.twitter {
+            color: #1da1f2;
+
+            svg {
+              fill: #1da1f2;
+            }
+          }
+
+          &.phone {
+            color: #6bbe95;
+
+            svg {
+              fill: #6bbe95;
+            }
+          }
+        }
+      }
+    }
+
     .bio {
+      margin-top: 10px;
+
       .title {
         font-weight: 700;
         font-family: $fontSerif;
@@ -109,55 +208,6 @@
       .content {
         color: $font;
         font-size: 14px;
-      }
-    }
-
-    .links {
-      display: flex;
-      align-items: baseline;
-      margin-top: 15px;
-
-      a {
-        width: 20px;
-        height: 20px;
-        margin-right: 12px;
-        transition: all 150ms ease;
-
-        .icon {
-          width: 100%;
-          height: 100%;
-
-          svg {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
-        &:hover {
-          &.facebook {
-            svg {
-              fill: #036ee4;
-            }
-          }
-
-          &.twitter {
-            svg {
-              fill: #1da1f2;
-            }
-          }
-
-          &.email {
-            svg {
-              fill: #da3838;
-            }
-          }
-
-          &.phone {
-            svg {
-              fill: #6bbe95;
-            }
-          }
-        }
       }
     }
   }
