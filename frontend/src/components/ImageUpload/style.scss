@@ -1,0 +1,81 @@
+@import '../../assets/scss/constants.scss';
+
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  overflow: hidden;
+
+  .preview {
+    display: flex;
+    margin: auto;
+    width: 200px;
+    height: 230px;
+    border-radius: 8px;
+    position: relative;
+
+    .preview-img,
+    .preview-img span {
+      width: 200px;
+      height: 200px;
+      margin: auto;
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .upload-icon {
+      display: block;
+      width: 25px;
+      height: 25px;
+      position: absolute;
+      left: 0;
+      top: calc(100% - 20px);
+
+      svg {
+        fill: $dark;
+        opacity: 0.2;
+        transition: opacity 150ms ease;
+      }
+    }
+
+    &:hover svg {
+      opacity: 1;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+
+  label {
+    display: block;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 15px;
+    line-height: 24px;
+    font-family: $fontSerif;
+    margin: 14px 0 4px;
+    color: $dark;
+  }
+}
