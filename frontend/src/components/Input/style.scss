@@ -3,7 +3,15 @@
 .input {
   label {
     display: block;
-    font: bold 15px/24px;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 15px;
+    line-height: 24px;
     font-family: $fontSerif;
     margin: 14px 0 4px;
     color: $dark;
