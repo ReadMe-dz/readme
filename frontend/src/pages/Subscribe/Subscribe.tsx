@@ -62,9 +62,12 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
           setMsg(generateMessage(msgTypes.SERVER));
         }
       })
-      .catch(({ status }) => {
+      .catch((err) => {
         setMsg(
-          generateMessage(status === 409 ? msgTypes.CONFLICT : msgTypes.SERVER)
+          err.response.data.message ||
+            generateMessage(
+              err.response.status === 409 ? msgTypes.CONFLICT : msgTypes.SERVER
+            )
         );
       });
   };
