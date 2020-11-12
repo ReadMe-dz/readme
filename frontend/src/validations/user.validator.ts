@@ -4,7 +4,7 @@ import wilayas from '../utils/data/wilayas.json';
 const name: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
-    new RegExp(/^[a-zA-Z]+$/),
+    new RegExp(/^[a-zA-Z ]+$/),
     'Invalid name, only ( a...z ) characters are allowed'
   )
   .min(3, 'Must be 3 characters or more')
@@ -44,4 +44,29 @@ const terms: Yup.BooleanSchema = Yup.boolean().oneOf(
   'Must accept Terms and Conditions'
 );
 
-export default { name, username, password, email, wilaya, terms };
+const phone: Yup.StringSchema = Yup.string().matches(
+  new RegExp(/^0[2-9]{1}[0-9]{8}/),
+  'Invalid phone number'
+);
+
+const twitter: Yup.StringSchema = Yup.string().matches(
+  new RegExp(/(0){1}(5,6,7,2){1}[0-9]{8}/),
+  'Invalid twitter profile link'
+);
+
+const facebook: Yup.StringSchema = Yup.string().matches(
+  new RegExp(/(0){1}(5,6,7,2){1}[0-9]{8}/),
+  'Invalid facebook profile link'
+);
+
+export default {
+  name,
+  username,
+  password,
+  email,
+  wilaya,
+  phone,
+  twitter,
+  facebook,
+  terms,
+};
