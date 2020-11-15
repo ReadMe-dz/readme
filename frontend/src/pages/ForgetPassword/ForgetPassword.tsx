@@ -82,9 +82,7 @@ const ForgetPassword: React.FC<any> = ({ msg }: any) => {
             validationSchema={Yup.object({
               email: validate.email,
             })}
-            onSubmit={(values, { setSubmitting }) =>
-              onSubmit(values, { setSubmitting })
-            }
+            onSubmit={onSubmit}
           >
             <Form className="forget-password-form">
               <Input

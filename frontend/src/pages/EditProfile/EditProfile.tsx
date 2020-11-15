@@ -121,9 +121,7 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
             twitter: validate.twitter,
             facebook: validate.facebook,
           })}
-          onSubmit={(values, { setSubmitting }) => {
-            onSubmit({ ...values }, { setSubmitting });
-          }}
+          onSubmit={onSubmit}
         >
           <Form>
             <div className="form-head">

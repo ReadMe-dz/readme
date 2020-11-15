@@ -141,9 +141,7 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
               wilaya: validate.wilaya,
               terms: validate.terms,
             })}
-            onSubmit={(values, { setSubmitting }) =>
-              onSubmit(values, { setSubmitting })
-            }
+            onSubmit={onSubmit}
           >
             <Form className="subscribe-form">
               <div className="name-fields">

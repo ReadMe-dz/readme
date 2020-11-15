@@ -98,9 +98,7 @@ const Login: React.FC<any> = ({ history, login, msg }: any) => {
               email: validate.email,
               password: validate.password,
             })}
-            onSubmit={(values, { setSubmitting }) =>
-              onSubmit(values, { setSubmitting })
-            }
+            onSubmit={onSubmit}
           >
             <Form className="login-form">
               <Input
