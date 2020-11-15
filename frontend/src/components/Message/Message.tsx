@@ -4,7 +4,7 @@ import './style.scss';
 
 type props = {
   content: string;
-  type: 'sucess' | 'error';
+  type: 'success' | 'error';
 };
 
 const Message: React.FC<props> = ({ content, type }) => {
@@ -17,7 +17,7 @@ const Message: React.FC<props> = ({ content, type }) => {
 
 Message.propTypes = {
   content: PropTypes.string.isRequired,
-  type: PropTypes.oneOf<'sucess' | 'error'>(['sucess', 'error']).isRequired,
+  type: PropTypes.oneOf<'success' | 'error'>(['success', 'error']).isRequired,
 };
 
 export default Message;
