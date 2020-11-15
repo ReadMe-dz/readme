@@ -15,7 +15,7 @@ import Loader from '../../components/Loader';
 import Checkbox from '../../components/Checkbox';
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork2.svg';
-import wilayas from '../../utils/data/wilayas.json';
+import wilayas from '../../constants/wilayas';
 import './style.scss';
 
 type subscribeValues = {

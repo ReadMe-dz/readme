@@ -11,7 +11,7 @@ import Select from '../../components/Select';
 import Textarea from '../../components/Textarea';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-import wilayas from '../../utils/data/wilayas.json';
+import wilayas from '../../constants/wilayas';
 import './style.scss';
 
 type profileValues = {
