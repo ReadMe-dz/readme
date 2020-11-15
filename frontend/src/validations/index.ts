@@ -1,7 +1,4 @@
 import user from './user.validator';
+import book from './book.validator';
 
-const validate = {
-  user,
-};
-
-export default validate;
+export { user, book };
