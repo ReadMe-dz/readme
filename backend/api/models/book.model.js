@@ -5,8 +5,21 @@ const bookSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   title: { type: String, required: true },
   author: { type: String, required: true },
-  cover: { type: Array },
+  publisher: { type: String },
+  cover: { type: String },
+  details: { type: String },
+  state: { type: String },
+  genre: { type: String },
+  language: { type: String },
   price: { type: Number },
+});
+
+bookSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+    delete ret._id;
+  },
 });
 
 module.exports = mongoose.model("Book", bookSchema);
