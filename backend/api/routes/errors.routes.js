@@ -8,7 +8,7 @@ errorsRouter.use((req, res, next) => {
   next(error);
 });
 
-errorsRouter.use((error, req, res) => {
+errorsRouter.use((error, req, res, next) => {
   res.status(error.status || 500).json({
     error: {
       message: error.message,

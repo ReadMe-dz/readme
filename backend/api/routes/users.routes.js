@@ -1,5 +1,5 @@
-const express = require("express");
-const tokenVerification = require("../middleware/token-verification");
+const express = require('express');
+const tokenVerification = require('../middleware/token-verification');
 const {
   searchUsers,
   getUserById,
@@ -8,28 +8,31 @@ const {
   deleteUser,
   loginUser,
   loadUser,
-} = require("../controllers/users.controller");
-const uploads = require("../middleware/images-upload");
+  getAllUsers,
+} = require('../controllers/users.controller');
+const uploads = require('../middleware/images-upload');
 
 const usersRouter = express.Router();
 
-usersRouter.get("/search", searchUsers);
+usersRouter.get('/all', getAllUsers);
 
-usersRouter.get("/:id", getUserById);
+usersRouter.get('/search', searchUsers);
 
-usersRouter.post("/", uploads.single("picture"), addUser);
+usersRouter.get('/:id', getUserById);
+
+usersRouter.post('/', uploads.single('picture'), addUser);
 
 usersRouter.patch(
-  "/:id",
+  '/:id',
   tokenVerification,
-  uploads.single("picture"),
+  uploads.single('picture'),
   updateUser
 );
 
-usersRouter.delete("/:id", tokenVerification, deleteUser);
+usersRouter.delete('/:id', tokenVerification, deleteUser);
 
-usersRouter.post("/login", loginUser);
+usersRouter.post('/login', loginUser);
 
-usersRouter.get("/", tokenVerification, loadUser);
+usersRouter.get('/', tokenVerification, loadUser);
 
 module.exports = usersRouter;
