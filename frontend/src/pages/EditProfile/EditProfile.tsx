@@ -83,14 +83,21 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
     Axios.patch(`${REACT_APP_BASE_URL}/users/${id}`, formData, config)
       .then((res) => {
         console.log(res);
-        window.location.reload();
+        setMsg({
+          type: 'success',
+          content: 'The profile was updated successfully.',
+        });
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2500);
       })
       .catch((err) => {
         console.dir(err);
-        setMsg(
-          'error',
-          'There was an error editing your infos. Please try again.'
-        );
+        setMsg({
+          type: 'error',
+          content: 'There was an error editing your infos. Please try again.',
+        });
       })
       .finally(() => setLoading(false));
   };
