@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
-import validate from '../../validations';
+import { user as validate } from '../../validations';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
@@ -80,7 +80,7 @@ const ForgetPassword: React.FC<any> = ({ msg }: any) => {
           <Formik
             initialValues={initialValues}
             validationSchema={Yup.object({
-              email: validate.user.email,
+              email: validate.email,
             })}
             onSubmit={(values, { setSubmitting }) =>
               onSubmit(values, { setSubmitting })

@@ -4,7 +4,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
-import validate from '../../validations';
+import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { generateMessage, msgTypes } from '../../utils/msgs';
 import getIcon from '../../utils/icons';
@@ -134,12 +134,12 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
           <Formik
             initialValues={initialValues}
             validationSchema={Yup.object({
-              name: validate.user.name,
-              username: validate.user.username,
-              email: validate.user.email,
-              password: validate.user.password,
-              wilaya: validate.user.wilaya,
-              terms: validate.user.terms,
+              name: validate.name,
+              username: validate.username,
+              email: validate.email,
+              password: validate.password,
+              wilaya: validate.wilaya,
+              terms: validate.terms,
             })}
             onSubmit={(values, { setSubmitting }) =>
               onSubmit(values, { setSubmitting })

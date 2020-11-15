@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import validate from '../../validations';
+import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import Input from '../../components/Input';
 import ImageUpload from '../../components/ImageUpload';
@@ -115,11 +115,11 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
         <Formik
           initialValues={initVal}
           validationSchema={Yup.object({
-            name: validate.user.name,
-            wilaya: validate.user.wilaya,
-            phone: validate.user.phone,
-            twitter: validate.user.twitter,
-            facebook: validate.user.facebook,
+            name: validate.name,
+            wilaya: validate.wilaya,
+            phone: validate.phone,
+            twitter: validate.twitter,
+            facebook: validate.facebook,
           })}
           onSubmit={(values, { setSubmitting }) => {
             onSubmit({ ...values }, { setSubmitting });

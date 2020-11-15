@@ -4,7 +4,7 @@ import { Formik, Form } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { loginUser } from '../../redux-store/actions/user.actions';
-import validate from '../../validations';
+import { user as validate } from '../../validations';
 import getIcon from '../../utils/icons';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -95,8 +95,8 @@ const Login: React.FC<any> = ({ history, login, msg }: any) => {
           <Formik
             initialValues={initialValues}
             validationSchema={Yup.object({
-              email: validate.user.email,
-              password: validate.user.password,
+              email: validate.email,
+              password: validate.password,
             })}
             onSubmit={(values, { setSubmitting }) =>
               onSubmit(values, { setSubmitting })
