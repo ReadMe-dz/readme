@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const fs = require("fs");
-const path = require("path");
-const User = require("../models/user.model");
+const mongoose = require('mongoose');
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
+const User = require('../models/user.model');
 
 const searchUsers = (req, res) => {
   const { username, wilaya } = req.query;
@@ -11,7 +11,7 @@ const searchUsers = (req, res) => {
 
   User.find(find)
     .select(
-      "_id email username wilaya moreInfo picture birthdate phone facebook twitter"
+      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
     )
     .exec()
     .then((result) =>
@@ -19,30 +19,35 @@ const searchUsers = (req, res) => {
     )
     .catch((error) => res.status(500).json(error));
 };
-/*
+
 const getAllUsers = (req, res) => {
-    User.find()
-        .select("_id email username wilaya moreInfo picture birthdate phone facebook twitter").exec()
-        .then(result => res.status(200).json({ count: result.length, users: result }))
-        .catch(error => res.status(500).json(error))
-}
-*/
+  User.find()
+    .select(
+      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
+    )
+    .exec()
+    .then((result) =>
+      res.status(200).json({ count: result.length, users: result })
+    )
+    .catch((error) => res.status(500).json(error));
+};
+
 const getUserById = (req, res) => {
   User.findById(req.params.id)
     .select(
-      "_id email username wilaya moreInfo picture birthdate phone facebook twitter"
+      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
     )
     .exec()
     .then((result) =>
       result
         ? res.status(200).json(result)
-        : res.status(404).json({ error: { message: "Not Found" } })
+        : res.status(404).json({ error: { message: 'Not Found' } })
     )
     .catch((error) => res.status(500).json(error));
 };
 
 const addUser = (req, res) => {
-  const { email, password, username, wilaya } = req.body;
+  const { name, email, password, username, wilaya } = req.body;
 
   User.find({ email })
     .exec()
@@ -51,24 +56,29 @@ const addUser = (req, res) => {
         if (req.file) {
           fs.unlinkSync(path.join(__dirname, `../../${req.file.path}`));
         }
-        res.status(409).json({ message: "Email already exists." });
+        res.status(409).json({ message: 'Email already exists.' });
       } else {
         bcryptjs.hash(String(password), 7, (error, hashed) => {
           if (error) {
             res.status(500).json({ error });
           } else {
+            // add validations & error messages
+
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
+              name,
               email,
               password: hashed,
               username,
               wilaya,
-              picture: req.file
-                ? req.file.path
-                : "api/uploads/6321661312364123146.png",
             });
 
-            // add some validation HERE !!!
+            if (req.file) {
+              user.picture = req.file.path;
+            } else {
+              user.picture = 'api/uploads/users/0321661312364.png';
+            }
+
             user
               .save()
               .then((userResult) =>
@@ -85,8 +95,8 @@ const addUser = (req, res) => {
 const updateUser = (req, res) => {
   const {
     email,
-    password,
     username,
+    name,
     wilaya,
     moreInfo,
     birthdate,
@@ -96,8 +106,8 @@ const updateUser = (req, res) => {
   } = req.body;
   const newUser = {
     email,
-    password,
     username,
+    name,
     wilaya,
     moreInfo,
     birthdate,
@@ -106,23 +116,29 @@ const updateUser = (req, res) => {
     twitter,
   };
 
-  if (req.file.path) {
+  const defaultPic = 'api/uploads/users/0321661312364.png';
+  if (req.file && req.file.path) {
     newUser.picture = req.file.path;
-  } else {
-    newUser.picture = "api/uploads/0321661312364.png";
   }
 
   User.findOne({ _id: req.params.id })
     .exec()
     .then((result) => {
-      if (result.picture)
+      if (
+        req.file &&
+        req.file.path &&
+        result.picture &&
+        result.picture !== defaultPic
+      ) {
         fs.unlinkSync(path.join(__dirname, `../../${result.picture}`));
+      }
 
       User.updateOne({ _id: req.params.id }, { $set: newUser })
         .exec()
-        .then(() =>
-          res.status(200).json({ updated_id: req.params.id, success: true })
-        )
+        .then((result) => {
+          console.log(result);
+          res.status(200).json({ updated_id: req.params.id, success: true });
+        })
         .catch((error) => res.status(500).json(error));
     })
     .catch((error) => res.status(500).json(error));
@@ -145,31 +161,38 @@ const loginUser = (req, res) => {
       if (user) {
         bcryptjs.compare(String(password), user.password, (error, result) => {
           if (error || !result)
-            res.status(401).json({ message: "Auth Failed." });
+            res.status(401).json({ message: 'Auth Failed.' });
           else {
             const token = jwt.sign(
               { email, _id: user._id },
-              process.env.JWT_KEY || "G0-p2^vPj1/6$vE[aK1vM3$5",
-              { expiresIn: "5d" }
+              process.env.JWT_KEY || 'G0-p2^vPj1/6$vE[aK1vM3$5',
+              { expiresIn: '5d' }
             );
             res.status(200).json({
-              message: "Logged In.",
+              message: 'Logged In.',
               token,
               user: {
+                id: user._id,
                 email: user.email,
-                picture: user.picture,
                 username: user.username,
                 wilaya: user.wilaya,
+                name: user.name,
+                moreInfo: user.moreInfo,
+                picture: user.picture,
+                birthdate: user.birthdate,
+                phone: user.phone,
+                facebook: user.facebook,
+                twitter: user.twitter,
               },
             });
           }
         });
       } else {
-        res.status(401).json({ message: "Auth Failed." });
+        res.status(401).json({ message: 'Auth Failed.' });
       }
     })
     .catch((error) =>
-      res.status(500).json({ error, message: "there was an error" })
+      res.status(500).json({ error, message: 'there was an error' })
     );
 };
 
@@ -179,14 +202,40 @@ const loadUser = (req, res) => {
     .exec()
     .then((data) => {
       if (data) {
-        const { picture, username, wilaya } = data;
-        res.status(200).json({ user: { picture, username, wilaya } });
+        const {
+          id,
+          email,
+          username,
+          wilaya,
+          name,
+          moreInfo,
+          picture,
+          birthdate,
+          phone,
+          facebook,
+          twitter,
+        } = data;
+        res.status(200).json({
+          user: {
+            id,
+            email,
+            username,
+            wilaya,
+            name,
+            moreInfo,
+            picture,
+            birthdate,
+            phone,
+            facebook,
+            twitter,
+          },
+        });
       } else {
-        res.status(401).json({ message: "Auth Failed." });
+        res.status(401).json({ message: 'Auth Failed.' });
       }
     })
     .catch((error) =>
-      res.status(500).json({ error, message: "there was an error" })
+      res.status(500).json({ error, message: 'there was an error' })
     );
 };
 
@@ -198,4 +247,5 @@ module.exports = {
   deleteUser,
   loginUser,
   loadUser,
+  getAllUsers,
 };
