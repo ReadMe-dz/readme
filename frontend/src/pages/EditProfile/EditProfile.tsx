@@ -39,7 +39,9 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
     wilaya: user.wilaya,
     email: user.email,
     moreInfo: user.moreInfo || '',
-    birthdate: new Date(user.birthdate).toISOString().substring(0, 10) || '',
+    birthdate: user.birthdate
+      ? new Date(user.birthdate).toISOString().substring(0, 10)
+      : '',
     phone: user.phone || '',
     facebook: user.facebook || '',
     twitter: user.twitter || '',
@@ -130,7 +132,7 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
                   label="Profile picture"
                   name="picture"
                   onChange={onChange}
-                  file={`${REACT_APP_BASE_URL}${picture}`}
+                  file={`${REACT_APP_BASE_URL}/${picture}`}
                 />
               </div>
               <div className="right">
