@@ -40,13 +40,12 @@ const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
     twitter,
   } = user;
 
-  console.log(user);
   return (
     <div className="profile-card">
       <div className="main">
         <div className="profile-picture">
           <Image
-            src={`${BASE_URL}${picture || '0321661312364.png'}`}
+            src={`${BASE_URL}/${picture || '0321661312364.png'}`}
             alt={name}
           />
         </div>
@@ -84,13 +83,11 @@ const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
             {facebook && (
               <a className="facebook" href={facebook}>
                 <span className="icon">{getIcon('facebook')}</span>
-                <span>{facebook}</span>
               </a>
             )}
             {twitter && (
               <a className="twitter" href={twitter}>
                 <span className="icon">{getIcon('twitter')}</span>
-                <span>{twitter}</span>
               </a>
             )}
             {phone && (
