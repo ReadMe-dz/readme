@@ -16,7 +16,7 @@ const author: Yup.StringSchema = Yup.string()
 const title: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
-    new RegExp(/^[a-zA-Z0-9_]+$/),
+    new RegExp(/^[a-zA-Z0-9_ ]+$/),
     'Invalid title, only ( a...z _ ) characters are allowed'
   )
   .min(3, 'Must be 4 characters or more')
@@ -26,7 +26,7 @@ const title: Yup.StringSchema = Yup.string()
 const publisher: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
-    new RegExp(/^[a-zA-Z0-9_]+$/),
+    new RegExp(/^[a-zA-Z0-9_ ]+$/),
     'Invalid publisher, only ( a...z _ ) characters are allowed'
   )
   .min(3, 'Must be 4 characters or more')
