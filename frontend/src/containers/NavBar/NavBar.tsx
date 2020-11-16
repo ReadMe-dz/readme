@@ -14,7 +14,7 @@ type searchValues = {
   search: string;
 };
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3300';
+const { REACT_APP_BASE_URL } = process.env;
 
 const NavBar: React.FC<any> = ({ user, msg }: any) => {
   const [loading, setLoading] = useState(false);
@@ -37,25 +37,30 @@ const NavBar: React.FC<any> = ({ user, msg }: any) => {
   const renderProfile = () => {
     const { id, picture } = user;
     return (
-      <div className="profile">
-        <div className="picture">
-          <Image
-            className="avatar"
-            src={`${BASE_URL}${picture}`}
-            alt="profile"
-          />
-        </div>
-        <div className="manu-list">
-          <span className="caret" />
-          <div className="menu-wrapper">
-            <Link to={`/user/${id}`}>Profile</Link>
-            <Link to="/edit">Edit Profile</Link>
-            <Link to={`/settings/${id}`}>Account Settings</Link>
-            <span className="separator" />
-            <Link to="/logout">Sign Out</Link>
+      <>
+        <div className="profile">
+          <div className="picture">
+            <Image
+              className="avatar"
+              src={`${REACT_APP_BASE_URL}/${picture}`}
+              alt="profile"
+            />
+          </div>
+          <div className="manu-list">
+            <span className="caret" />
+            <div className="menu-wrapper">
+              <Link to={`/user/${id}`}>Profile</Link>
+              <Link to="/edit">Edit Profile</Link>
+              <Link to={`/settings/${id}`}>Account Settings</Link>
+              <span className="separator" />
+              <Link to="/logout">Sign Out</Link>
+            </div>
           </div>
         </div>
-      </div>
+        <Link className="add-book-link" to="/add-book">
+          <Button content="Add Book" />
+        </Link>
+      </>
     );
   };
 

@@ -91,6 +91,7 @@
     min-height: 45px;
     max-height: 45px;
     margin-left: 15px;
+    margin-right: 15px;
     cursor: pointer;
 
     .picture {
@@ -115,12 +116,11 @@
       display: flex;
       appearance: none;
       opacity: 0;
-      transform: translateX(3px);
       pointer-events: none;
       width: 200px;
       position: absolute;
       top: 100%;
-      right: 0px;
+      right: -75px;
       padding-top: 15px;
       transition: all 250ms ease;
       z-index: 100;
@@ -130,8 +130,7 @@
         height: 0;
         position: absolute;
         top: 8px;
-        right: 3px;
-        transform: translateX(-50%);
+        right: calc(50% - 9px);
         border-left: 9px solid transparent;
         border-right: 9px solid transparent;
         border-bottom: 9px solid $white;
@@ -178,7 +177,6 @@
         display: flex;
         appearance: initial;
         opacity: 1;
-        transform: translateX(0px);
         pointer-events: all;
       }
 
