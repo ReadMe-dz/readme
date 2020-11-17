@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import store from '../redux-store';
-import { logoutUser, getUserData } from '../redux-store/actions/user.actions';
+import { logoutUser, getUser } from '../redux-store/actions/user.actions';
 import { SET_AUTHENTICATED } from '../redux-store/types';
 
 export default () => {
@@ -13,7 +13,7 @@ export default () => {
     } else {
       store.dispatch({ type: SET_AUTHENTICATED });
       axios.defaults.headers.common.Authorization = authToken;
-      store.dispatch(getUserData());
+      store.dispatch(getUser());
     }
   }
 };
