@@ -17,7 +17,7 @@ type book = {
   author: string;
   publisher?: string | null;
   language?: string | null;
-  year?: string | null;
+  year?: number | null;
   price: number;
   state?: string | null;
   details?: string | null;
@@ -56,7 +56,7 @@ Books.propTypes = {
       author: PropTypes.string.isRequired,
       publisher: PropTypes.string,
       language: PropTypes.string,
-      year: PropTypes.string,
+      year: PropTypes.number,
       state: PropTypes.string,
       price: PropTypes.number.isRequired,
       details: PropTypes.string,
