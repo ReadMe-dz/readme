@@ -8,6 +8,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Loader from '../../components/Loader';
 import logo from '../../assets/images/logo.png';
+import defaultAvatar from '../../assets/images/default-avatar.jpg';
 import './style.scss';
 
 type searchValues = {
@@ -42,7 +43,7 @@ const NavBar: React.FC<any> = ({ user, msg }: any) => {
           <div className="picture">
             <Image
               className="avatar"
-              src={`${REACT_APP_BASE_URL}/${picture}`}
+              src={picture ? `${REACT_APP_BASE_URL}/${picture}` : defaultAvatar}
               alt="profile"
             />
           </div>
