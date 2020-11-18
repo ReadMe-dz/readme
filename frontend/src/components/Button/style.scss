@@ -34,8 +34,7 @@ button.button {
   }
 
   &:disabled {
-    cursor: disabled;
-    display: none;
+    cursor: not-allowed;
   }
 
   .icon {
