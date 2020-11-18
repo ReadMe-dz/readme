@@ -16,8 +16,8 @@ const Select: React.FC<props> = ({ name, className, label, options }) => {
     <div className={`select ${className}`}>
       <label htmlFor={name}>{label}</label>
       <Field as="select" id={name} name={name}>
-        <option value={undefined} disabled>
-          --Please choose an option--
+        <option value={undefined} defaultValue={undefined}>
+          {label}
         </option>
         {options.map((option) => (
           <option key={option} value={option.toLowerCase()}>
