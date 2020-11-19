@@ -3,216 +3,171 @@
 .profile-card {
   display: flex;
   flex-direction: column;
-  width: fit-content;
-  max-width: 570px;
+  width: 250px;
 
-  .main {
-    display: flex;
+  .profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 9px 0px $lightGrey;
+    margin-right: 40px;
+    margin-top: 10px;
 
-    .profile-picture {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 0 9px 0px $lightGrey;
-      margin-right: 40px;
-      margin-top: 10px;
+    span {
+      width: 100%;
+      height: 100%;
 
-      span {
+      img {
         width: 100%;
         height: 100%;
-
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
-
-    .infos {
-      display: flex;
-      flex-direction: column;
-
-      .name {
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
-
-        h2 {
-          font-size: 32px;
-          font-weight: 700;
-          line-height: 38px;
-          text-transform: capitalize;
-          color: $font;
-        }
-
-        .edit-link {
-          margin-left: 10px;
-          button {
-            padding: 5px 8px;
-            background: transparent;
-            border: 1px solid $lightGrey;
-            font-size: 12px;
-            font-weight: 700;
-            color: $lightFont;
-            border-radius: 4px;
-            transition: all 150ms ease;
-
-            &:hover {
-              color: $darkFont;
-              border-color: $darkFont;
-            }
-          }
-        }
-      }
-
-      .username {
-        font-size: 13px;
-        margin-bottom: 15px;
-        color: $lightFont;
-        font-weight: bold;
-        font-family: $fontSansSerif;
-      }
-
-      .address {
-        display: flex;
-        justify-content: space-between;
-
-        .wilaya,
-        .birthdate {
-          display: flex;
-          align-items: baseline;
-          margin-bottom: 10px;
-          margin-top: 2px;
-          font-size: 15px;
-          color: $font;
-          text-transform: capitalize;
-
-          .icon {
-            width: 15px;
-            height: 15px;
-            margin-right: 5px;
-
-            svg {
-              width: 100%;
-              height: 100%;
-              fill: $lightFont;
-            }
-          }
-        }
-      }
-
-      .email {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-        height: 20px;
-        margin-top: 2px;
-        font-size: 15px;
-        color: $font;
-
-        .icon {
-          width: 15px;
-          height: 15px;
-          margin-right: 5px;
-
-          svg {
-            width: 100%;
-            height: 100%;
-            fill: $lightFont;
-          }
-        }
-
-        &:hover {
-          color: #da3838;
-
-          svg {
-            fill: #da3838;
-          }
-        }
       }
     }
   }
 
-  .foot {
+  .name {
     display: flex;
-    flex-direction: column;
-    margin-top: 20px;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 38px;
+    text-transform: capitalize;
+    color: $font;
+  }
 
-    .links {
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
+  .username {
+    font-size: 13px;
+    margin-bottom: 15px;
+    color: $lightFont;
+    font-weight: bold;
+    font-family: $fontSansSerif;
+  }
 
-      .facebook,
-      .twitter {
-        margin-right: 10px;
+  .separator {
+    display: flex;
+    height: 2px;
+    width: 90%;
+    background-color: $lightGrey;
+    margin: 10px auto;
+  }
+
+  .wilaya,
+  .birthdate {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 10px;
+    margin-top: 2px;
+    font-size: 15px;
+    color: $font;
+    text-transform: capitalize;
+
+    .icon {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        fill: $lightFont;
       }
+    }
+  }
 
-      .facebook,
-      .twitter,
-      .phone {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-        height: 20px;
-        margin-top: 2px;
-        font-size: 15px;
-        color: $font;
+  .email {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    height: 20px;
+    margin-top: 2px;
+    font-size: 15px;
+    color: $font;
 
-        .icon {
-          width: 15px;
-          height: 15px;
-          margin-right: 5px;
+    .icon {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
 
-          svg {
-            width: 100%;
-            height: 100%;
-            fill: $lightFont;
-          }
-        }
-
-        &:hover {
-          &.facebook {
-            color: #036ee4;
-
-            svg {
-              fill: #036ee4;
-            }
-          }
-
-          &.twitter {
-            color: #1da1f2;
-
-            svg {
-              fill: #1da1f2;
-            }
-          }
-
-          &.phone {
-            color: #6bbe95;
-
-            svg {
-              fill: #6bbe95;
-            }
-          }
-        }
+      svg {
+        width: 100%;
+        height: 100%;
+        fill: $lightFont;
       }
     }
 
-    .bio {
-      margin-top: 10px;
+    &:hover {
+      color: #da3838;
 
-      .title {
-        font-weight: 700;
-        font-family: $fontSerif;
-        font-size: 16px;
+      svg {
+        fill: #da3838;
       }
+    }
+  }
 
-      .content {
-        color: $font;
-        font-size: 14px;
+  .facebook,
+  .twitter {
+    margin-right: 10px;
+  }
+
+  .facebook,
+  .twitter,
+  .phone {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    height: 20px;
+    margin-top: 2px;
+    font-size: 15px;
+    color: $font;
+
+    .icon {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        fill: $lightFont;
       }
+    }
+  }
+
+  .facebook {
+    color: #036ee4;
+
+    svg {
+      fill: #036ee4;
+    }
+  }
+
+  .twitter {
+    color: #1da1f2;
+
+    svg {
+      fill: #1da1f2;
+    }
+  }
+
+  .phone {
+    color: #6bbe95;
+
+    svg {
+      fill: #6bbe95;
+    }
+  }
+
+  .bio {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid $lightGrey;
+    border-radius: 8px;
+
+    .content {
+      color: $font;
+      font-size: 14px;
+      line-height: 1.5;
     }
   }
 }
