@@ -23,16 +23,17 @@ type bookValues = {
   author: string;
   publisher: string;
   language: string;
-  year: string;
+  year: number;
   price: number;
   state: string;
+  genre: string;
   details: string;
 };
 
 const { REACT_APP_BASE_URL } = process.env;
 
 const AddBook: React.FC = ({ setMsg, msg, user: { id } }: any) => {
-  const [cover, setCover] = useState<string | Blob>(noCover);
+  const [cover, setCover] = useState<any>(noCover);
   const [loading, setLoading] = useState(false);
 
   const initVal: bookValues = {
@@ -40,7 +41,8 @@ const AddBook: React.FC = ({ setMsg, msg, user: { id } }: any) => {
     author: '',
     publisher: '',
     language: '',
-    year: '',
+    genre: '',
+    year: 0,
     price: 0,
     state: '',
     details: '',
@@ -62,6 +64,7 @@ const AddBook: React.FC = ({ setMsg, msg, user: { id } }: any) => {
       publisher,
       language,
       year,
+      genre,
       price,
       state,
       details,
@@ -74,23 +77,21 @@ const AddBook: React.FC = ({ setMsg, msg, user: { id } }: any) => {
     formData.append('author', author);
     formData.append('publisher', publisher);
     formData.append('language', language);
-    formData.append('year', year);
+    formData.append('genre', genre);
+    formData.append('year', year.toString());
     formData.append('price', price.toString());
     formData.append('state', state);
     formData.append('details', details);
     formData.append('cover', cover);
-
-    console.log(language);
 
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
     };
 
     Axios.post(`${REACT_APP_BASE_URL}/books`, formData, config)
-      .then((res) => {
-        console.log(res);
-        // window.location.reload();
+      .then(() => {
         resetForm();
+        setCover(noCover);
         setMsg({
           type: 'success',
           content: 'The book was added successfully.',
@@ -136,7 +137,7 @@ const AddBook: React.FC = ({ setMsg, msg, user: { id } }: any) => {
                   name="cover"
                   className="book-cover"
                   onChange={onChange}
-                  file={noCover}
+                  file={cover}
                 />
               </div>
               <div className="right">
