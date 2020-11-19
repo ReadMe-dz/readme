@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { selectBook } from '../../redux-store/actions/book.actions';
 import Image from '../Image';
 
 import './style.scss';
@@ -32,6 +34,7 @@ type props = {
   book: book;
   isOwner: boolean;
   deleteBook?: (id: string) => void;
+  selectedBook: (id: string | null) => void;
 };
 
 const { REACT_APP_BASE_URL } = process.env;
@@ -39,12 +42,13 @@ const Book: React.FC<props> = ({
   book: { id, title, cover, author, price, user },
   isOwner,
   deleteBook,
+  selectedBook,
 }) => {
   return (
     <div className="book">
       <div
         role="button"
-        onClick={() => console.log(id)}
+        onClick={() => selectedBook(id)}
         onKeyDown={() => null}
         tabIndex={0}
         className="main"
@@ -81,7 +85,11 @@ const Book: React.FC<props> = ({
           </>
         ) : (
           <>
-            <Link className="user" to={`/user/${user.id}`}>
+            <Link
+              onClick={() => selectedBook(null)}
+              className="user"
+              to={`/user/${user.id}`}
+            >
               <div className="avatar">
                 <Image
                   src={`${REACT_APP_BASE_URL}/${user.picture}`}
@@ -121,10 +129,15 @@ Book.propTypes = {
   }).isRequired,
   isOwner: PropTypes.bool.isRequired,
   deleteBook: PropTypes.func,
+  selectedBook: PropTypes.func.isRequired,
 };
 
 Book.defaultProps = {
   deleteBook: () => null,
 };
 
-export default Book;
+const mapActionsToProps = {
+  selectedBook: selectBook,
+};
+
+export default connect(null, mapActionsToProps)(Book);
