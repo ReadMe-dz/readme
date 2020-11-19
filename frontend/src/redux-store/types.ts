@@ -6,3 +6,6 @@ export const LOADING_USER = 'LOADING_USER';
 export const LOADING = 'LOADING';
 export const SET_MSG = 'SET_MSG';
 export const CLEAR_MSG = 'CLEAR_MSG';
+
+export const SELECT_BOOK = 'SELECT_BOOK';
+export const LOADING_BOOK = 'LOADING_BOOK';
