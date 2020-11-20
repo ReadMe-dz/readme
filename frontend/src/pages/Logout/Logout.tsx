@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../redux-store/actions/user.actions';
 
 const Logout: React.FC = ({ logout }: any) => {
-  logout();
+  useEffect(() => {
+    logout();
+  }, []);
   return <Redirect to="/" />;
 };
 
