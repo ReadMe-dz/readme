@@ -34,7 +34,7 @@ type props = {
   book: book;
   isOwner: boolean;
   deleteBook?: (id: string) => void;
-  selectedBook: (id: string | null) => void;
+  selectedBook: (id: string) => void;
 };
 
 const { REACT_APP_BASE_URL } = process.env;
@@ -86,7 +86,7 @@ const Book: React.FC<props> = ({
         ) : (
           <>
             <Link
-              onClick={() => selectedBook(null)}
+              onClick={() => selectedBook('')}
               className="user"
               to={`/user/${user.id}`}
             >
