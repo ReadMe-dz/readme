@@ -1,8 +1,14 @@
-import { SELECT_BOOK, LOADING_BOOK } from '../types';
+import {
+  SELECT_BOOK,
+  LOADING_BOOK,
+  CLEAR_LOADING_BOOK,
+  SEARCH_BOOK,
+} from '../types';
 
 const initialState = {
   loading: false,
-  id: null,
+  search: '',
+  id: '',
 };
 
 export default function (state = initialState, action: any) {
@@ -14,10 +20,22 @@ export default function (state = initialState, action: any) {
         id: action.payload,
       };
 
+    case SEARCH_BOOK:
+      return {
+        ...state,
+        search: action.payload,
+      };
+
     case LOADING_BOOK:
       return {
         ...state,
         loading: true,
+      };
+
+    case CLEAR_LOADING_BOOK:
+      return {
+        ...state,
+        loading: false,
       };
 
     default:

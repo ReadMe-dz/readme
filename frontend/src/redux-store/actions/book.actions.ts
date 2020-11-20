@@ -1,12 +1,18 @@
-import { SELECT_BOOK, LOADING_BOOK } from '../types';
+import {
+  SELECT_BOOK,
+  LOADING_BOOK,
+  CLEAR_LOADING_BOOK,
+  SEARCH_BOOK,
+} from '../types';
 
-export const loadingBook = (): any => (dispatch: any) => {
-  dispatch({ type: LOADING_BOOK });
+export const loadingBook = (loading: boolean): any => (dispatch: any) => {
+  dispatch({ type: loading ? LOADING_BOOK : CLEAR_LOADING_BOOK });
 };
 
-export const selectBook = (payload: any): any => (dispatch: any) => {
-  dispatch({
-    type: SELECT_BOOK,
-    payload,
-  });
+export const searchBook = (payload: string): any => (dispatch: any) => {
+  dispatch({ type: SEARCH_BOOK, payload });
+};
+
+export const selectBook = (payload: string): any => (dispatch: any) => {
+  dispatch({ type: SELECT_BOOK, payload });
 };
