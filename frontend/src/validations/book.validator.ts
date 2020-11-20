@@ -53,6 +53,12 @@ const price: Yup.NumberSchema = Yup.number().min(0).required('Required');
 
 const details: Yup.StringSchema = Yup.string();
 
+const search: Yup.StringSchema = Yup.string().matches(
+  // eslint-disable-next-line
+  new RegExp(/^[a-zA-Z ]+$/),
+  'Invalid search value.'
+);
+
 export default {
   author,
   title,
@@ -63,4 +69,5 @@ export default {
   year,
   price,
   details,
+  search,
 };
