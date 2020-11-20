@@ -125,6 +125,7 @@ const AddBook: React.FC = ({ setMsg, msg, user: { id } }: any) => {
             year: validate.year,
             price: validate.price,
             state: validate.state,
+            genre: validate.genre,
             details: validate.details,
           })}
           onSubmit={onSubmit}
