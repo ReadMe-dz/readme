@@ -1,35 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as Yup from 'yup';
-import { Formik, Form } from 'formik';
-import { book as validate } from '../../validations';
-import getIcon from '../../utils/icons';
 import Image from '../../components/Image';
 import Button from '../../components/Button';
-import Input from '../../components/Input';
-import Loader from '../../components/Loader';
+import SearchBar from '../SearchBar';
 import logo from '../../assets/images/logo.png';
 import defaultAvatar from '../../assets/images/default-avatar.jpg';
 import './style.scss';
-import { searchBook } from '../../redux-store/actions/book.actions';
-
-type searchValues = {
-  search: string;
-};
 
 const { REACT_APP_BASE_URL } = process.env;
 
-const NavBar: React.FC<any> = ({ user, book, findBook, isSearch }: any) => {
-  const initialValues: searchValues = { search: '' };
-  const onSubmit = (
-    { search }: searchValues,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    setSubmitting(false);
-    findBook(search);
-  };
-
+const NavBar: React.FC<any> = ({ user, isSearch }: any) => {
   const renderProfile = () => {
     const { id, picture } = user;
     return (
@@ -47,7 +28,6 @@ const NavBar: React.FC<any> = ({ user, book, findBook, isSearch }: any) => {
             <div className="menu-wrapper">
               <Link to={`/user/${id}`}>Profile</Link>
               <Link to="/edit">Edit Profile</Link>
-              <Link to={`/settings/${id}`}>Account Settings</Link>
               <span className="separator" />
               <Link to="/logout">Sign Out</Link>
             </div>
@@ -79,41 +59,7 @@ const NavBar: React.FC<any> = ({ user, book, findBook, isSearch }: any) => {
         <img src={logo} alt="read me" />
         <h1>Read Me</h1>
       </Link>
-      {isSearch && (
-        <div className="nav-bar__search">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={Yup.object({
-              search: validate.search,
-            })}
-            onSubmit={(values, { setSubmitting }) =>
-              onSubmit(values, { setSubmitting })
-            }
-          >
-            <Form className="search-form">
-              <Input
-                name="search"
-                label=""
-                type="text"
-                className="search-input"
-                placeholder="Find your book"
-              />
-              <Button
-                className="search-button"
-                type="submit"
-                disabled={book.loading}
-                content={
-                  book.loading ? (
-                    <Loader dim={20} width={2} color="#ea4c89" />
-                  ) : (
-                    <span className="icon">{getIcon('search')}</span>
-                  )
-                }
-              />
-            </Form>
-          </Formik>
-        </div>
-      )}
+      {isSearch && <SearchBar placeholder="Search For A Book" />}
       {user.authenticated ? renderProfile() : renderLinks()}
     </div>
   );
@@ -121,11 +67,6 @@ const NavBar: React.FC<any> = ({ user, book, findBook, isSearch }: any) => {
 
 const mapStateToProps = (state: any) => ({
   user: state.user,
-  book: state.book,
 });
 
-const mapActionsToProps = {
-  findBook: searchBook,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(NavBar);
+export default connect(mapStateToProps)(NavBar);
