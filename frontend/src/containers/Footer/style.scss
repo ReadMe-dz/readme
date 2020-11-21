@@ -1,0 +1,122 @@
+@import '../../assets/scss/constants.scss';
+
+.footer {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  background-color: #f3f3f454;
+  padding-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-top: 50px;
+  border-top: 1px solid $light;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+
+    &.links {
+      .column {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        margin: 0 2.5%;
+        padding: 40px 0;
+
+        .logo {
+          width: 60px;
+          height: 60px;
+          margin-bottom: 25px;
+
+          img {
+            width: 60px;
+            height: 60px;
+          }
+        }
+
+        p {
+          color: $font;
+          line-height: 1.5;
+          font-size: 15px;
+          margin-bottom: 15px;
+
+          b {
+            font-family: $fontSerif;
+            font-weight: 700;
+            color: $pink;
+          }
+        }
+
+        .media {
+          display: flex;
+
+          li {
+            display: block;
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            transition: all 150ms ease;
+
+            span,
+            svg {
+              width: 16px;
+              height: 16px;
+            }
+
+            &.facebook:hover {
+              svg {
+                fill: #036ee4;
+              }
+            }
+
+            &.twitter:hover {
+              svg {
+                fill: #1da1f2;
+              }
+            }
+          }
+        }
+
+        h4 {
+          font-size: 17px;
+          font-weight: 700;
+          color: $black;
+          margin-bottom: 12px;
+        }
+
+        a {
+          color: $dark;
+          transition: all 150ms ease;
+          margin-top: 20px;
+
+          &:hover {
+            color: $pink;
+            text-decoration: none;
+            transform: translateX(5px);
+          }
+        }
+      }
+    }
+
+    &.rights {
+      display: flex;
+      font-size: 15px;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 15px;
+      padding: 35px 0;
+      border-top: 2px solid $light;
+      text-transform: capitalize;
+
+      p {
+        color: $font;
+      }
+
+      b {
+        font-family: $fontSerif;
+        font-weight: 700;
+        color: $pink;
+      }
+    }
+  }
+}
