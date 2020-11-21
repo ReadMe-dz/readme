@@ -71,21 +71,21 @@ const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
       {facebook && (
         <a className="facebook" href={facebook}>
           <span className="icon">{getIcon('facebook')}</span>
-          <span>{facebook}</span>
+          <span className="link">{facebook}</span>
         </a>
       )}
 
       {twitter && (
         <a className="twitter" href={twitter}>
           <span className="icon">{getIcon('twitter')}</span>
-          <span>{twitter}</span>
+          <span className="link">{twitter}</span>
         </a>
       )}
 
       {phone && (
         <div className="phone">
           <span className="icon">{getIcon('phone')}</span>
-          <span>{phone}</span>
+          <span className="link">{phone}</span>
         </div>
       )}
 
