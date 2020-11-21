@@ -1,0 +1,44 @@
+@import '../../assets/scss/constants.scss';
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  .search-form {
+    position: relative;
+
+    label {
+      display: none;
+    }
+
+    input {
+      margin: 0;
+      padding-right: 40px;
+    }
+
+    .search-button {
+      display: flex;
+      align-items: center;
+      background: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      .icon {
+        width: 18px;
+        height: 18px;
+
+        svg {
+          width: 100%;
+          height: 100%;
+          fill: $lightFont;
+        }
+      }
+
+      &:hover {
+        svg {
+          fill: $pink;
+        }
+      }
+    }
+  }
+}
