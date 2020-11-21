@@ -167,29 +167,31 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
               placeholder="Say somthing about yourself."
             />
 
-            <Input
-              name="phone"
-              label="phone"
-              type="tel"
-              className="input-phone"
-              placeholder="Your phone number"
-            />
+            <div className="links">
+              <Input
+                name="phone"
+                label="phone"
+                type="tel"
+                className="input-phone"
+                placeholder="Your phone number"
+              />
 
-            <Input
-              name="facebook"
-              label="facebook"
-              type="url"
-              className="input-facebook"
-              placeholder="https://facebook.com/username"
-            />
+              <Input
+                name="facebook"
+                label="facebook"
+                type="url"
+                className="input-facebook"
+                placeholder="https://facebook.com/username"
+              />
 
-            <Input
-              name="twitter"
-              label="twitter"
-              type="url"
-              className="input-twitter"
-              placeholder="https://twitter.com/username"
-            />
+              <Input
+                name="twitter"
+                label="twitter"
+                type="url"
+                className="input-twitter"
+                placeholder="https://twitter.com/username"
+              />
+            </div>
 
             <Button
               className="save-button"

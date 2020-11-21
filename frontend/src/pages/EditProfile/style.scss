@@ -22,6 +22,15 @@
     }
   }
 
+  .links {
+    display: flex;
+    justify-content: space-between;
+
+    .input {
+      width: 30%;
+    }
+  }
+
   .save-button {
     width: 180px;
     margin-top: 30px;
