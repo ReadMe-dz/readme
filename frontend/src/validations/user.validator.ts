@@ -45,7 +45,7 @@ const terms: Yup.BooleanSchema = Yup.boolean().oneOf(
 );
 
 const phone: Yup.StringSchema = Yup.string().matches(
-  new RegExp(/^0[2-9]{1}[0-9]{8}/),
+  new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/),
   'Invalid phone number'
 );
 

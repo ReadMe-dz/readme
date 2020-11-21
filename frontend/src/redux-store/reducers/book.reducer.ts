@@ -3,12 +3,14 @@ import {
   LOADING_BOOK,
   CLEAR_LOADING_BOOK,
   SEARCH_BOOK,
+  BOOK_COUNT,
 } from '../types';
 
 const initialState = {
   loading: false,
   search: '',
   id: '',
+  count: 0,
 };
 
 export default function (state = initialState, action: any) {
@@ -36,6 +38,12 @@ export default function (state = initialState, action: any) {
       return {
         ...state,
         loading: false,
+      };
+
+    case BOOK_COUNT:
+      return {
+        ...state,
+        count: action.payload,
       };
 
     default:
