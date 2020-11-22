@@ -12,16 +12,27 @@ module.exports = (req, res, next) => {
         next();
       } else {
         res.status(401).json({
-          message: "Authentication Failed.",
-          error: "Token Expaired.",
+          message: {
+            type: "error",
+            content: "Your token is unvalid, Please logout and relogin.",
+          },
         });
       }
     } else {
-      res
-        .status(401)
-        .json({ message: "Authentication Failed.", error: "Unvalid Token." });
+      res.status(401).json({
+        message: {
+          type: "error",
+          content: "Your token is unvalid, Please logout and relogin.",
+        },
+      });
     }
   } catch (error) {
-    res.status(401).json({ message: "Auth Failed." });
+    res.status(401).json({
+      message: {
+        type: "error",
+        content: "This is not supposed to happen, Please report this to us.",
+      },
+      error,
+    });
   }
 };
