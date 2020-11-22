@@ -10,7 +10,8 @@ const {
   loadUser,
   getAllUsers,
   verifyEmail,
-} = require('../controllers/users.controller');
+  getLinkResetPassword,
+} = require('../controllers/users');
 const uploads = require('../middleware/images-upload');
 
 const usersRouter = express.Router();
@@ -37,5 +38,7 @@ usersRouter.post('/login', loginUser);
 usersRouter.get('/verify/:verificationToken', verifyEmail);
 
 usersRouter.get('/', tokenVerification, loadUser);
+
+usersRouter.get('/g/:email', getLinkResetPassword);
 
 module.exports = usersRouter;
