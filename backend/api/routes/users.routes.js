@@ -9,6 +9,7 @@ const {
   loginUser,
   loadUser,
   getAllUsers,
+  verifyEmail,
 } = require('../controllers/users.controller');
 const uploads = require('../middleware/images-upload');
 
@@ -32,6 +33,8 @@ usersRouter.patch(
 usersRouter.delete('/:id', tokenVerification, deleteUser);
 
 usersRouter.post('/login', loginUser);
+
+usersRouter.get('/verify/:verificationToken', verifyEmail);
 
 usersRouter.get('/', tokenVerification, loadUser);
 

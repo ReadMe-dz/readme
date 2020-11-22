@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const bookSchema = mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, required: true, trim: true },
     author: { type: String, required: true, trim: true },
     publisher: { type: String, trim: true },
@@ -18,7 +18,7 @@ const bookSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-bookSchema.set("toJSON", {
+bookSchema.set('toJSON', {
   virtuals: true,
   versionKey: false,
   transform: (doc, ret) => {
@@ -26,4 +26,4 @@ bookSchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Book", bookSchema);
+module.exports = mongoose.model('Book', bookSchema);

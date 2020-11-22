@@ -12,6 +12,10 @@ booksRouter.get('/', booksController.getAllBooks);
 
 booksRouter.get('/:id', booksController.getBookById);
 
+booksRouter.get('/details/:id', booksController.getBookDetails);
+
+booksRouter.get('/user/:id', booksController.getAllBooksByUserId);
+
 booksRouter.post(
   '/',
   tokenVerification,

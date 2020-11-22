@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const fs = require("fs");
-const path = require("path");
-const mailer = require("../utils/mailer");
-const User = require("../models/user.model");
-require("dotenv").config();
+const mongoose = require('mongoose');
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
+const mailer = require('../utils/mailer');
+const User = require('../models/user.model');
+require('dotenv').config();
 
 const {
   JWT_VERFICATION_KEY,
@@ -20,7 +20,7 @@ const searchUsers = (req, res) => {
 
   User.find(find)
     .select(
-      "_id email name username wilaya moreInfo picture birthdate phone facebook twitter"
+      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
     )
     .exec()
     .then((result) =>
@@ -30,8 +30,8 @@ const searchUsers = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
@@ -40,7 +40,7 @@ const searchUsers = (req, res) => {
 const getAllUsers = (req, res) => {
   User.find()
     .select(
-      "_id email name username wilaya moreInfo picture birthdate phone facebook twitter"
+      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
     )
     .exec()
     .then((result) =>
@@ -50,8 +50,8 @@ const getAllUsers = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
@@ -60,7 +60,7 @@ const getAllUsers = (req, res) => {
 const getUserById = (req, res) => {
   User.findById(req.params.id)
     .select(
-      "_id email name username wilaya moreInfo picture birthdate phone facebook twitter"
+      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
     )
     .exec()
     .then((result) =>
@@ -68,8 +68,8 @@ const getUserById = (req, res) => {
         ? res.status(200).json(result)
         : res.status(404).json({
             message: {
-              type: "error",
-              content: "We could not find any user with the sent ID.",
+              type: 'error',
+              content: 'We could not find any user with the sent ID.',
             },
           })
     )
@@ -77,8 +77,8 @@ const getUserById = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
@@ -92,9 +92,9 @@ const addUser = (req, res) => {
       if (result.length > 0) {
         res.status(409).json({
           message: {
-            type: "error",
+            type: 'error',
             content:
-              "This email is already in use, please try with a diffrent email.",
+              'This email is already in use, please try with a diffrent email.',
           },
         });
       } else {
@@ -102,9 +102,9 @@ const addUser = (req, res) => {
           if (error) {
             res.status(500).json({
               message: {
-                type: "error",
+                type: 'error',
                 content:
-                  "This is not supposed to happen, Please report this to us.",
+                  'This is not supposed to happen, Please report this to us.',
               },
               error,
             });
@@ -123,7 +123,7 @@ const addUser = (req, res) => {
             if (req.file) {
               user.picture = req.file.path;
             } else {
-              user.picture = "api/uploads/users/0321661312364.png";
+              user.picture = 'api/uploads/users/0321661312364.png';
             }
 
             user
@@ -133,7 +133,7 @@ const addUser = (req, res) => {
                   created: userResult,
                   success: true,
                   message: {
-                    type: "success",
+                    type: 'success',
                     content: `The user @${user.username} have been created.`,
                   },
                 });
@@ -142,8 +142,8 @@ const addUser = (req, res) => {
                   HOSTNAME || req.hostname
                 }/users/verify/${jwt.sign(
                   { email },
-                  JWT_VERFICATION_KEY || "G0-p2^vPj16$vE9*Sd2+5fdG6Jsf*",
-                  { expiresIn: "365d" }
+                  JWT_VERFICATION_KEY || 'G0-p2^vPj16$vE9*Sd2+5fdG6Jsf*',
+                  { expiresIn: '365d' }
                 )}${Math.random().toString().slice(2, 7)}`;
 
                 const emailContent = `
@@ -158,14 +158,14 @@ const addUser = (req, res) => {
                     <p>The <b style="color: #ea4c89;">Read Me</b> team</p>
                   </div>
                 `;
-                mailer(email, "Read Me - Email Verification", emailContent);
+                mailer(email, 'Read Me - Email Verification', emailContent);
               })
               .catch((userError) =>
                 res.status(500).json({
                   message: {
-                    type: "error",
+                    type: 'error',
                     content:
-                      "This is not supposed to happen, Please report this to us.",
+                      'This is not supposed to happen, Please report this to us.',
                   },
                   userError,
                 })
@@ -178,8 +178,8 @@ const addUser = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
@@ -209,7 +209,7 @@ const updateUser = (req, res) => {
     twitter,
   };
 
-  const defaultPic = "api/uploads/users/0321661312364.png";
+  const defaultPic = 'api/uploads/users/0321661312364.png';
   if (req.file && req.file.path) {
     newUser.picture = req.file.path;
   }
@@ -233,8 +233,8 @@ const updateUser = (req, res) => {
             updated_id: req.params.id,
             success: true,
             message: {
-              type: "success",
-              content: "Your profile was updated successfully.",
+              type: 'success',
+              content: 'Your profile was updated successfully.',
             },
           });
         })
@@ -242,9 +242,9 @@ const updateUser = (req, res) => {
           res.status(500).json({
             error,
             message: {
-              type: "error",
+              type: 'error',
               content:
-                "This is not supposed to happen, Please report this to us.",
+                'This is not supposed to happen, Please report this to us.',
             },
           })
         );
@@ -253,8 +253,8 @@ const updateUser = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
@@ -270,8 +270,8 @@ const deleteUser = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
@@ -287,15 +287,15 @@ const loginUser = (req, res) => {
           if (error || !result)
             res.status(401).json({
               message: {
-                type: "error",
-                content: "Unvalid email address or password, Please try again.",
+                type: 'error',
+                content: 'Unvalid email address or password, Please try again.',
               },
             });
           else if (user.verified) {
             const token = jwt.sign(
               { email, _id: user._id },
-              JWT_KEY || "G0-p2^vPj1/6$vE[aK1vM3$5",
-              { expiresIn: "5d" }
+              JWT_KEY || 'G0-p2^vPj1/6$vE[aK1vM3$5',
+              { expiresIn: '5d' }
             );
             res.status(200).json({
               token,
@@ -316,9 +316,9 @@ const loginUser = (req, res) => {
           } else {
             res.status(401).json({
               message: {
-                type: "error",
+                type: 'error',
                 content:
-                  "Your account has not been activated yet, Please check your email and activate it.",
+                  'Your account has not been activated yet, Please check your email and activate it.',
               },
             });
           }
@@ -326,9 +326,9 @@ const loginUser = (req, res) => {
       } else {
         res.status(401).json({
           message: {
-            type: "error",
+            type: 'error',
             content:
-              "There is no account associated to this email address, Please sign up then retry.",
+              'There is no account associated to this email address, Please sign up then retry.',
           },
         });
       }
@@ -337,8 +337,8 @@ const loginUser = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
@@ -380,9 +380,9 @@ const loadUser = (req, res) => {
       } else {
         res.status(401).json({
           message: {
-            type: "error",
+            type: 'error',
             content:
-              "The sent token is unvalid, please logout and login again.",
+              'The sent token is unvalid, please logout and login again.',
           },
         });
       }
@@ -391,8 +391,8 @@ const loadUser = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
@@ -417,9 +417,9 @@ const verifyEmail = (req, res) => {
             res.status(500).json({
               error,
               message: {
-                type: "error",
+                type: 'error',
                 content:
-                  "This is not supposed to happen, Please report this to us.",
+                  'This is not supposed to happen, Please report this to us.',
               },
             })
           );
@@ -429,8 +429,8 @@ const verifyEmail = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: "error",
-          content: "This is not supposed to happen, Please report this to us.",
+          type: 'error',
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );

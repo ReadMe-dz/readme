@@ -1,20 +1,20 @@
-const mongoose = require("mongoose");
-const fs = require("fs");
-const path = require("path");
-const Book = require("../models/book.model");
+const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
+const Book = require('../models/book.model');
 
 const searchBooks = (req, res) => {
   const { search } = req.query;
 
   const find = {
     $or: [
-      { title: new RegExp(search, "gi") },
-      { author: new RegExp(search, "gi") },
+      { title: new RegExp(search, 'gi') },
+      { author: new RegExp(search, 'gi') },
     ],
   };
 
   Book.find(find)
-    .populate("user", "_id name picture wilaya")
+    .populate('user', '_id name picture wilaya')
     .exec()
     .then((result) =>
       res.status(200).json({ count: result.length, books: result })
@@ -24,7 +24,7 @@ const searchBooks = (req, res) => {
 
 const getAllBooks = (req, res) => {
   Book.find()
-    .populate("user", "_id name picture wilaya")
+    .populate('user', '_id name picture wilaya')
     .exec()
     .then((result) => {
       res.status(200).json({ count: result.length, books: result });
@@ -34,13 +34,13 @@ const getAllBooks = (req, res) => {
 
 const getBookById = (req, res) => {
   Book.findById(req.params.id)
-    .populate("user", "_id name username picture wilaya") // add more fields for details
+    .populate('user', '_id name username picture wilaya') // add more fields for details
     .exec()
     .then((result) => {
       if (result) {
         res.status(200).json(result);
       } else {
-        res.status(404).json({ error: { message: "Not Found" } });
+        res.status(404).json({ error: { message: 'Not Found' } });
       }
     })
     .catch((error) => res.status(500).json(error));
@@ -50,23 +50,23 @@ const getBookDetails = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id)
       .populate(
-        "user",
-        "_id email name username wilaya moreInfo picture birthdate phone facebook twitter"
+        'user',
+        '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
       )
       .exec();
     const userBooks = await Book.find({ user: book.user.id })
-      .populate("user", "_id name picture wilaya")
+      .populate('user', '_id name picture wilaya')
       .limit(5)
       .exec();
     const relatedBooks = await Book.find({
       _id: { $ne: book._id },
       $or: [
-        { author: new RegExp(book.author, "i") },
-        { title: new RegExp(book.title, "i") },
+        { author: new RegExp(book.author, 'i') },
+        { title: new RegExp(book.title, 'i') },
         { genre: book.genre, language: book.language },
       ],
     })
-      .populate("user", "_id name picture wilaya")
+      .populate('user', '_id name picture wilaya')
       .limit(10)
       .exec();
 
@@ -79,15 +79,15 @@ const getBookDetails = async (req, res) => {
 const getAllBooksByUserId = (req, res) => {
   Book.find({ user: req.params.id })
     .select(
-      "_id user title author publisher cover details language genre state price createdAt year "
+      '_id user title author publisher cover details language genre state price createdAt year '
     )
-    .populate("user", "_id name username picture wilaya") // add more fields for details
+    .populate('user', '_id name username picture wilaya') // add more fields for details
     .exec()
     .then((result) => {
       if (result) {
         res.status(200).json(result);
       } else {
-        res.status(404).json({ error: { message: "Not Found" } });
+        res.status(404).json({ error: { message: 'Not Found' } });
       }
     })
     .catch((error) => res.status(500).json(error));
@@ -125,7 +125,7 @@ const addBook = (req, res) => {
   if (req.file) {
     book.cover = req.file.path;
   } else {
-    book.cover = "api/uploads/books/0321661312364.png";
+    book.cover = 'api/uploads/books/0321661312364.png';
   }
 
   book
@@ -165,7 +165,7 @@ const updateBook = (req, res) => {
     Book.findById(req.params.id)
       .exec()
       .then(({ cover }) => {
-        if (cover && cover !== "api/uploads/users/0321661312364.png") {
+        if (cover && cover !== 'api/uploads/users/0321661312364.png') {
           fs.unlinkSync(path.join(__dirname, `../../${cover}`));
         }
         newBook.cover = req.file.path;

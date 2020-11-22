@@ -1,1 +1,1 @@
-module.exports = ["new", "used", "old"];
+module.exports = ['new', 'used', 'old'];
