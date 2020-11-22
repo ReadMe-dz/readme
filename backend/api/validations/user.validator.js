@@ -3,12 +3,12 @@ const wilayas = require('../constants/wilayas');
 
 const user = Joi.object({
   name: Joi.string()
-    .matches(new RegExp(/^[a-zA-Z ]+$/))
+    .pattern(new RegExp(/^[a-zA-Z ]+$/))
     .min(3)
     .max(15),
 
   username: Joi.string()
-    .matches(new RegExp(/^[a-zA-Z0-9_]+$/))
+    .pattern(new RegExp(/^[a-zA-Z0-9_]+$/))
     .min(3)
     .max(9),
 
@@ -18,26 +18,28 @@ const user = Joi.object({
 
   email: Joi.string().email(),
 
-  phone: Joi.string().matches(
+  phone: Joi.string().pattern(
     // eslint-disable-next-line
     new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
   ),
 
-  twitter: Joi.string().matches(
+  twitter: Joi.string().pattern(
     // eslint-disable-next-line
     new RegExp(/http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/i)
   ),
 
-  facebook: Joi.string().matches(
+  facebook: Joi.string().pattern(
     new RegExp(
       // eslint-disable-next-line
-      /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/gi
+      /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/i
     )
   ),
 
   wilaya: Joi.valid(...wilayas),
 
   terms: Joi.boolean().valid(true),
+
+  moreInfos: Joi.string(),
 });
 
 module.exports = user;

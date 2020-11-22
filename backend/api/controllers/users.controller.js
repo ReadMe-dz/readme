@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const mailer = require('../utils/mailer');
 const User = require('../models/user.model');
+const validate = require('../validations/user.validator');
 require('dotenv').config();
 
 const {
@@ -86,6 +87,7 @@ const getUserById = (req, res) => {
 
 const addUser = (req, res) => {
   const { name, email, password, username, wilaya } = req.body;
+
   User.find({ email })
     .exec()
     .then((result) => {
@@ -98,7 +100,7 @@ const addUser = (req, res) => {
           },
         });
       } else {
-        bcryptjs.hash(String(password), 7, (error, hashed) => {
+        bcryptjs.hash(String(password), 7, async (error, hashed) => {
           if (error) {
             res.status(500).json({
               message: {
@@ -109,67 +111,94 @@ const addUser = (req, res) => {
               error,
             });
           } else {
-            // add validations & error messages
+            try {
+              const validation = await validate.validateAsync({
+                name,
+                email,
+                password,
+                username,
+                wilaya,
+              });
 
-            const user = new User({
-              _id: new mongoose.Types.ObjectId(),
-              name,
-              email,
-              password: hashed,
-              username,
-              wilaya,
-              verified: false,
-            });
-            if (req.file) {
-              user.picture = req.file.path;
-            } else {
-              user.picture = 'api/uploads/users/0321661312364.png';
-            }
-
-            user
-              .save()
-              .then((userResult) => {
-                res.status(201).json({
-                  created: userResult,
-                  success: true,
-                  message: {
-                    type: 'success',
-                    content: `The user @${user.username} have been created.`,
-                  },
+              if (!validation.error) {
+                const user = new User({
+                  _id: new mongoose.Types.ObjectId(),
+                  name,
+                  email,
+                  password: hashed,
+                  username,
+                  wilaya,
+                  verified: false,
                 });
+                if (req.file) {
+                  user.picture = req.file.path;
+                } else {
+                  user.picture = 'api/uploads/users/0321661312364.png';
+                }
 
-                const verificationlink = `${
-                  HOSTNAME || req.hostname
-                }/users/verify/${jwt.sign(
-                  { email },
-                  JWT_VERFICATION_KEY || 'G0-p2^vPj16$vE9*Sd2+5fdG6Jsf*',
-                  { expiresIn: '365d' }
-                )}${Math.random().toString().slice(2, 7)}`;
+                user
+                  .save()
+                  .then((userResult) => {
+                    res.status(201).json({
+                      created: userResult,
+                      success: true,
+                      message: {
+                        type: 'success',
+                        content: `The user @${user.username} have been created.`,
+                      },
+                    });
 
-                const emailContent = `
-                  <div style="max-width: 600px; text-align: center; color: #000000; margin: 0 auto;">
-                    <img style="display: inline-block; width: 128px; height: 128px;" src="https://i.ibb.co/NsPb7kB/Untitled-1.png" />
-                    <p>Hello ${username},</p>
-                    <p>Thank you for signing up in <b style="color: #ea4c89;">ReadMe</b>.</p>
-                    <p>In order to validate your email address and activate your account, please click the following link.</p>
-                    <a style="color: #ea4c89; text-decoration: underline;" href="${verificationlink}">${verificationlink}</a>
-                    <p>After activating your account, you can log in using your email address and your chosen password.</p>
-                    <p>Best Regards</p>
-                    <p>The <b style="color: #ea4c89;">Read Me</b> team</p>
-                  </div>
-                `;
-                mailer(email, 'Read Me - Email Verification', emailContent);
-              })
-              .catch((userError) =>
-                res.status(500).json({
+                    const verificationlink = `${
+                      HOSTNAME || req.hostname
+                    }/users/verify/${jwt.sign(
+                      { email },
+                      JWT_VERFICATION_KEY || 'G0-p2^vPj16$vE9*Sd2+5fdG6Jsf*',
+                      { expiresIn: '365d' }
+                    )}${Math.random().toString().slice(2, 7)}`;
+
+                    const emailContent = `
+                      <div style="max-width: 600px; text-align: center; color: #000000; margin: 0 auto;">
+                        <img style="display: inline-block; width: 128px; height: 128px;" src="https://i.ibb.co/NsPb7kB/Untitled-1.png" />
+                        <p>Hello ${username},</p>
+                        <p>Thank you for signing up in <b style="color: #ea4c89;">ReadMe</b>.</p>
+                        <p>In order to validate your email address and activate your account, please click the following link.</p>
+                        <a style="color: #ea4c89; text-decoration: underline;" href="${verificationlink}">${verificationlink}</a>
+                        <p>After activating your account, you can log in using your email address and your chosen password.</p>
+                        <p>Best Regards</p>
+                        <p>The <b style="color: #ea4c89;">Read Me</b> team</p>
+                      </div>
+                    `;
+                    mailer(email, 'Read Me - Email Verification', emailContent);
+                  })
+                  .catch((userError) =>
+                    res.status(500).json({
+                      message: {
+                        type: 'error',
+                        content:
+                          'This is not supposed to happen, Please report this to us.',
+                      },
+                      userError,
+                    })
+                  );
+              } else {
+                res.status(401).json({
                   message: {
                     type: 'error',
                     content:
-                      'This is not supposed to happen, Please report this to us.',
+                      'Unvalid inputs, Please check you inputs and try again.',
                   },
-                  userError,
-                })
-              );
+                });
+              }
+            } catch (catchError) {
+              res.status(500).json({
+                message: {
+                  type: 'error',
+                  content:
+                    'This is not supposed to happen, Please report this to us.',
+                },
+                catchError,
+              });
+            }
           }
         });
       }
@@ -216,38 +245,70 @@ const updateUser = (req, res) => {
 
   User.findOne({ _id: req.params.id })
     .exec()
-    .then((result) => {
-      if (
-        req.file &&
-        req.file.path &&
-        result.picture &&
-        result.picture !== defaultPic
-      ) {
-        fs.unlinkSync(path.join(__dirname, `../../${result.picture}`));
-      }
+    .then(async (result) => {
+      try {
+        const validation = await validate.validateAsync({
+          email,
+          username,
+          name,
+          wilaya,
+          moreInfo,
+          birthdate,
+          phone,
+          facebook,
+          twitter,
+        });
 
-      User.updateOne({ _id: req.params.id }, { $set: newUser })
-        .exec()
-        .then(() => {
-          res.status(200).json({
-            updated_id: req.params.id,
-            success: true,
-            message: {
-              type: 'success',
-              content: 'Your profile was updated successfully.',
-            },
-          });
-        })
-        .catch((error) =>
-          res.status(500).json({
-            error,
+        if (!validation.error) {
+          if (
+            req.file &&
+            req.file.path &&
+            result.picture &&
+            result.picture !== defaultPic
+          ) {
+            fs.unlinkSync(path.join(__dirname, `../../${result.picture}`));
+          }
+
+          User.updateOne({ _id: req.params.id }, { $set: newUser })
+            .exec()
+            .then(() => {
+              res.status(200).json({
+                updated_id: req.params.id,
+                success: true,
+                message: {
+                  type: 'success',
+                  content: 'Your profile was updated successfully.',
+                },
+              });
+            })
+            .catch((error) =>
+              res.status(500).json({
+                error,
+                message: {
+                  type: 'error',
+                  content:
+                    'This is not supposed to happen, Please report this to us.',
+                },
+              })
+            );
+        } else {
+          res.status(401).json({
             message: {
               type: 'error',
-              content:
-                'This is not supposed to happen, Please report this to us.',
+              content: 'Unvalid inputs, Please check you inputs and try again.',
             },
-          })
-        );
+          });
+        }
+      } catch (catchError) {
+        res.status(500).json({
+          catchError,
+          message: {
+            type: 'error',
+            content:
+              'This is not supposed to happen, Please report this to us.',
+          },
+        });
+      }
     })
     .catch((error) =>
       res.status(500).json({
@@ -318,7 +379,7 @@ const loginUser = (req, res) => {
               message: {
                 type: 'error',
                 content:
-                  'Your account has not been activated yet, Please check your email and activate it.',
+                  'Your account has not been activated yet, we have sent you an activation email. Please check your inbox and activate it.',
               },
             });
           }
@@ -328,7 +389,7 @@ const loginUser = (req, res) => {
           message: {
             type: 'error',
             content:
-              'There is no account associated to this email address, Please sign up then retry.',
+              'We could not find any account associated to this email address, You need to sign up first.',
           },
         });
       }
