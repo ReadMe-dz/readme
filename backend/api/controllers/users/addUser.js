@@ -83,7 +83,7 @@ const addUser = (req, res) => {
                       <div style="max-width: 600px; text-align: center; color: #000000; margin: 0 auto;">
                         <img style="display: inline-block; width: 128px; height: 128px;" src="https://i.ibb.co/NsPb7kB/Untitled-1.png" />
                         <p>Hello ${username},</p>
-                        <p>Thank you for signing up in <b style="color: #ea4c89;">ReadMe</b>.</p>
+                        <p>Thank you for signing up in <b style="color: #ea4c89;">Read Me</b>.</p>
                         <p>In order to validate your email address and activate your account, please click the following link.</p>
                         <a style="color: #ea4c89; text-decoration: underline;" href="${verificationlink}">${verificationlink}</a>
                         <p>After activating your account, you can log in using your email address and your chosen password.</p>
