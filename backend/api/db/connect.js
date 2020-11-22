@@ -10,6 +10,8 @@ module.exports = () => {
     {
       useUnifiedTopology: true,
       useNewUrlParser: true,
+      useCreateIndex: true,
+      autoIndex: true,
     },
     () => console.log("[+] connected to the database ...")
   );
