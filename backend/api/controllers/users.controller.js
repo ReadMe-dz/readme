@@ -1,9 +1,18 @@
-const mongoose = require('mongoose');
-const bcryptjs = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
-const path = require('path');
-const User = require('../models/user.model');
+const mongoose = require("mongoose");
+const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const path = require("path");
+const mailer = require("../utils/mailer");
+const User = require("../models/user.model");
+require("dotenv").config();
+
+const {
+  JWT_VERFICATION_KEY,
+  JWT_KEY,
+  HOSTNAME,
+  FRONTEND_HOSTNAME,
+} = process.env;
 
 const searchUsers = (req, res) => {
   const { username, wilaya } = req.query;
@@ -11,56 +20,94 @@ const searchUsers = (req, res) => {
 
   User.find(find)
     .select(
-      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
+      "_id email name username wilaya moreInfo picture birthdate phone facebook twitter"
     )
     .exec()
     .then((result) =>
       res.status(200).json({ count: result.length, users: result })
     )
-    .catch((error) => res.status(500).json(error));
+    .catch((error) =>
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
+    );
 };
 
 const getAllUsers = (req, res) => {
   User.find()
     .select(
-      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
+      "_id email name username wilaya moreInfo picture birthdate phone facebook twitter"
     )
     .exec()
     .then((result) =>
       res.status(200).json({ count: result.length, users: result })
     )
-    .catch((error) => res.status(500).json(error));
+    .catch((error) =>
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
+    );
 };
 
 const getUserById = (req, res) => {
   User.findById(req.params.id)
     .select(
-      '_id email name username wilaya moreInfo picture birthdate phone facebook twitter'
+      "_id email name username wilaya moreInfo picture birthdate phone facebook twitter"
     )
     .exec()
     .then((result) =>
       result
         ? res.status(200).json(result)
-        : res.status(404).json({ error: { message: 'Not Found' } })
+        : res.status(404).json({
+            message: {
+              type: "error",
+              content: "We could not find any user with the sent ID.",
+            },
+          })
     )
-    .catch((error) => res.status(500).json(error));
+    .catch((error) =>
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
+    );
 };
 
 const addUser = (req, res) => {
   const { name, email, password, username, wilaya } = req.body;
-
   User.find({ email })
     .exec()
     .then((result) => {
       if (result.length > 0) {
-        if (req.file) {
-          fs.unlinkSync(path.join(__dirname, `../../${req.file.path}`));
-        }
-        res.status(409).json({ message: 'Email already exists.' });
+        res.status(409).json({
+          message: {
+            type: "error",
+            content:
+              "This email is already in use, please try with a diffrent email.",
+          },
+        });
       } else {
         bcryptjs.hash(String(password), 7, (error, hashed) => {
           if (error) {
-            res.status(500).json({ error });
+            res.status(500).json({
+              message: {
+                type: "error",
+                content:
+                  "This is not supposed to happen, Please report this to us.",
+              },
+              error,
+            });
           } else {
             // add validations & error messages
 
@@ -71,25 +118,71 @@ const addUser = (req, res) => {
               password: hashed,
               username,
               wilaya,
+              verified: false,
             });
-
             if (req.file) {
               user.picture = req.file.path;
             } else {
-              user.picture = 'api/uploads/users/0321661312364.png';
+              user.picture = "api/uploads/users/0321661312364.png";
             }
 
             user
               .save()
-              .then((userResult) =>
-                res.status(201).json({ created: userResult, success: true })
-              )
-              .catch((userError) => res.status(500).json({ userError }));
+              .then((userResult) => {
+                res.status(201).json({
+                  created: userResult,
+                  success: true,
+                  message: {
+                    type: "success",
+                    content: `The user @${user.username} have been created.`,
+                  },
+                });
+
+                const verificationlink = `${
+                  HOSTNAME || req.hostname
+                }/users/verify/${jwt.sign(
+                  { email },
+                  JWT_VERFICATION_KEY || "G0-p2^vPj16$vE9*Sd2+5fdG6Jsf*",
+                  { expiresIn: "365d" }
+                )}${Math.random().toString().slice(2, 7)}`;
+
+                const emailContent = `
+                  <div style="max-width: 600px; text-align: center; color: #000000; margin: 0 auto;">
+                    <img style="display: inline-block; width: 128px; height: 128px;" src="https://i.ibb.co/NsPb7kB/Untitled-1.png" />
+                    <p>Hello ${username},</p>
+                    <p>Thank you for signing up in <b style="color: #ea4c89;">ReadMe</b>.</p>
+                    <p>In order to validate your email address and activate your account, please click the following link.</p>
+                    <a style="color: #ea4c89; text-decoration: underline;" href="${verificationlink}">${verificationlink}</a>
+                    <p>After activating your account, you can log in using your email address and your chosen password.</p>
+                    <p>Best Regards</p>
+                    <p>The <b style="color: #ea4c89;">Read Me</b> team</p>
+                  </div>
+                `;
+                mailer(email, "Read Me - Email Verification", emailContent);
+              })
+              .catch((userError) =>
+                res.status(500).json({
+                  message: {
+                    type: "error",
+                    content:
+                      "This is not supposed to happen, Please report this to us.",
+                  },
+                  userError,
+                })
+              );
           }
         });
       }
     })
-    .catch((error) => res.status(500).json(error));
+    .catch((error) =>
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
+    );
 };
 
 const updateUser = (req, res) => {
@@ -116,7 +209,7 @@ const updateUser = (req, res) => {
     twitter,
   };
 
-  const defaultPic = 'api/uploads/users/0321661312364.png';
+  const defaultPic = "api/uploads/users/0321661312364.png";
   if (req.file && req.file.path) {
     newUser.picture = req.file.path;
   }
@@ -135,13 +228,36 @@ const updateUser = (req, res) => {
 
       User.updateOne({ _id: req.params.id }, { $set: newUser })
         .exec()
-        .then((result) => {
-          console.log(result);
-          res.status(200).json({ updated_id: req.params.id, success: true });
+        .then(() => {
+          res.status(200).json({
+            updated_id: req.params.id,
+            success: true,
+            message: {
+              type: "success",
+              content: "Your profile was updated successfully.",
+            },
+          });
         })
-        .catch((error) => res.status(500).json(error));
+        .catch((error) =>
+          res.status(500).json({
+            error,
+            message: {
+              type: "error",
+              content:
+                "This is not supposed to happen, Please report this to us.",
+            },
+          })
+        );
     })
-    .catch((error) => res.status(500).json(error));
+    .catch((error) =>
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
+    );
 };
 
 const deleteUser = (req, res) => {
@@ -150,7 +266,15 @@ const deleteUser = (req, res) => {
     .then(() =>
       res.status(200).json({ deletedId: req.params.id, success: true })
     )
-    .catch((error) => res.status(500).json(error));
+    .catch((error) =>
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
+    );
 };
 
 const loginUser = (req, res) => {
@@ -161,15 +285,19 @@ const loginUser = (req, res) => {
       if (user) {
         bcryptjs.compare(String(password), user.password, (error, result) => {
           if (error || !result)
-            res.status(401).json({ message: 'Auth Failed.' });
-          else {
+            res.status(401).json({
+              message: {
+                type: "error",
+                content: "Unvalid email address or password, Please try again.",
+              },
+            });
+          else if (user.verified) {
             const token = jwt.sign(
               { email, _id: user._id },
-              process.env.JWT_KEY || 'G0-p2^vPj1/6$vE[aK1vM3$5',
-              { expiresIn: '5d' }
+              JWT_KEY || "G0-p2^vPj1/6$vE[aK1vM3$5",
+              { expiresIn: "5d" }
             );
             res.status(200).json({
-              message: 'Logged In.',
               token,
               user: {
                 id: user._id,
@@ -185,14 +313,34 @@ const loginUser = (req, res) => {
                 twitter: user.twitter,
               },
             });
+          } else {
+            res.status(401).json({
+              message: {
+                type: "error",
+                content:
+                  "Your account has not been activated yet, Please check your email and activate it.",
+              },
+            });
           }
         });
       } else {
-        res.status(401).json({ message: 'Auth Failed.' });
+        res.status(401).json({
+          message: {
+            type: "error",
+            content:
+              "There is no account associated to this email address, Please sign up then retry.",
+          },
+        });
       }
     })
     .catch((error) =>
-      res.status(500).json({ error, message: 'there was an error' })
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
     );
 };
 
@@ -204,7 +352,6 @@ const loadUser = (req, res) => {
       if (data) {
         const {
           id,
-          email,
           username,
           wilaya,
           name,
@@ -231,11 +378,61 @@ const loadUser = (req, res) => {
           },
         });
       } else {
-        res.status(401).json({ message: 'Auth Failed.' });
+        res.status(401).json({
+          message: {
+            type: "error",
+            content:
+              "The sent token is unvalid, please logout and login again.",
+          },
+        });
       }
     })
     .catch((error) =>
-      res.status(500).json({ error, message: 'there was an error' })
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
+    );
+};
+
+const verifyEmail = (req, res) => {
+  const token = req.params.verificationToken.slice(0, -5);
+  const { email } = jwt.verify(token, JWT_VERFICATION_KEY);
+
+  User.findOne({ email })
+    .exec()
+    .then(({ verified }) => {
+      if (verified) {
+        res.redirect(`${FRONTEND_HOSTNAME}/login`);
+      } else {
+        User.updateOne({ email }, { $set: { verified: true } })
+          .exec()
+          .then(() => {
+            res.redirect(`${FRONTEND_HOSTNAME}/login`);
+          })
+          .catch((error) =>
+            res.status(500).json({
+              error,
+              message: {
+                type: "error",
+                content:
+                  "This is not supposed to happen, Please report this to us.",
+              },
+            })
+          );
+      }
+    })
+    .catch((error) =>
+      res.status(500).json({
+        error,
+        message: {
+          type: "error",
+          content: "This is not supposed to happen, Please report this to us.",
+        },
+      })
     );
 };
 
@@ -248,4 +445,5 @@ module.exports = {
   loginUser,
   loadUser,
   getAllUsers,
+  verifyEmail,
 };
