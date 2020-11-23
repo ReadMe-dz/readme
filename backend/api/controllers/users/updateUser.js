@@ -90,7 +90,7 @@ const updateUser = (req, res) => {
         }
       } catch (catchError) {
         res.status(500).json({
-          catchError,
+          error: catchError,
           message: {
             type: 'error',
             content:

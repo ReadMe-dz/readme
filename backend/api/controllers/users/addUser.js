@@ -100,7 +100,7 @@ const addUser = (req, res) => {
                         content:
                           'This is not supposed to happen, Please report this to us.',
                       },
-                      userError,
+                      error: userError,
                     })
                   );
               } else {
@@ -119,7 +119,7 @@ const addUser = (req, res) => {
                   content:
                     'This is not supposed to happen, Please report this to us.',
                 },
-                catchError,
+                error: catchError,
               });
             }
           }

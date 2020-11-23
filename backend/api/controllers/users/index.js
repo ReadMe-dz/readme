@@ -8,6 +8,8 @@ const loadUser = require('./loadUser');
 const getAllUsers = require('./getAllUsers');
 const verifyEmail = require('./verifyEmail');
 const getResetPasswordLink = require('./getResetPasswordLink');
+const getResetPassword = require('./getResetPassword');
+const changePassword = require('./changePassword');
 
 module.exports = {
   searchUsers,
@@ -20,4 +22,6 @@ module.exports = {
   getAllUsers,
   verifyEmail,
   getResetPasswordLink,
+  getResetPassword,
+  changePassword,
 };
