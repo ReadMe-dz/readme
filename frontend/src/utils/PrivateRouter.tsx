@@ -1,7 +1,7 @@
 import React from 'react';
-import { Route, RouteProps } from 'react-router-dom';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Geust from '../pages/Geust';
+import Home from '../pages/Home';
 import Loader from '../components/Loader';
 import NavBar from '../containers/NavBar';
 
@@ -18,18 +18,37 @@ const PrivateRoute: React.FC<MyRouteProps> = ({
   ...rest
 }: any) => {
   const token = localStorage.getItem('token');
-  if (loading || (token && !authenticated)) {
-    return <Loader />;
-  }
-  return (
-    <>
-      <NavBar />
+
+  const renderGeustPage = () => {
+    return <Home geust />;
+  };
+
+  const renderPrivateRoutes = () => {
+    return (
       <Route
         {...rest}
         render={(props) =>
-          authenticated ? <Component {...props} /> : <Geust />
+          authenticated ? <Component {...props} /> : <Redirect to="/login" />
         }
       />
+    );
+  };
+
+  if (loading || (token && !authenticated)) {
+    return (
+      <>
+        <NavBar />
+        <Loader />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <NavBar isSearch={rest.exact && rest.path === '/' && !authenticated} />
+      {rest.exact && rest.path === '/' && !authenticated
+        ? renderGeustPage()
+        : renderPrivateRoutes()}
     </>
   );
 };
