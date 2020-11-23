@@ -26,6 +26,11 @@ const password: Yup.StringSchema = Yup.string()
   .max(20, 'Must be 20 characters or less')
   .required('Required');
 
+const passwordConfirmation: Yup.StringSchema = Yup.string().oneOf(
+  [Yup.ref('password')],
+  'Passwords must match'
+);
+
 const email: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
@@ -73,4 +78,5 @@ export default {
   twitter,
   facebook,
   terms,
+  passwordConfirmation,
 };
