@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { user as validate } from '../../validations';
+import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
@@ -16,7 +18,9 @@ type forgetValues = {
   email: string;
 };
 
-const ForgetPassword: React.FC<any> = ({ msg }: any) => {
+const { REACT_APP_BASE_URL } = process.env;
+
+const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
   const initialValues: forgetValues = {
     email: '',
@@ -27,13 +31,20 @@ const ForgetPassword: React.FC<any> = ({ msg }: any) => {
   }, [msg]);
 
   const onSubmit = (
-    values: forgetValues,
+    { email }: forgetValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     setSubmitting(false);
     setLoading(true);
-    console.log(values);
-    // use axios.
+
+    Axios.post(`${REACT_APP_BASE_URL}/users/reset`, { email })
+      .then((res) => {
+        setMsg(res.data.message);
+      })
+      .catch((err) => {
+        console.dir(err);
+        setMsg(err.response.data.message);
+      });
   };
 
   return (
@@ -115,4 +126,9 @@ const ForgetPassword: React.FC<any> = ({ msg }: any) => {
 const mapStateToProps = (state: any) => ({
   msg: state.msg,
 });
-export default connect(mapStateToProps)(ForgetPassword);
+
+const mapActionsToProps = {
+  setMsg: setMessage,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(ForgetPassword);
