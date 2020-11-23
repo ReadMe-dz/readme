@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { generateMessage, msgTypes } from '../../utils/msgs';
 import {
   SET_USER,
   SET_MSG,
@@ -25,13 +24,15 @@ export const loginUser = (userData: any, history: any) => (dispatch: any) => {
       history.push('/');
     })
     .catch((err) => {
-      const { response } = err;
-      const payload = generateMessage(
-        response && response.data ? msgTypes.AUTH_FAILED : msgTypes.NETWORK
-      );
+      const {
+        response: {
+          data: { message },
+        },
+      } = err;
+
       dispatch({
         type: SET_MSG,
-        payload,
+        payload: message,
       });
     });
 };
@@ -48,7 +49,16 @@ export const getUser = (): any => (dispatch: any) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const {
+        response: {
+          data: { message },
+        },
+      } = err;
+
+      dispatch({
+        type: SET_MSG,
+        payload: message,
+      });
     });
 };
 
