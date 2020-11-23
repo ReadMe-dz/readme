@@ -6,7 +6,6 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
-import { generateMessage, msgTypes } from '../../utils/msgs';
 import getIcon from '../../utils/icons';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
@@ -52,23 +51,11 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
     setLoading(true);
     Axios.post(`${BASE_URL}/users`, values)
       .then(({ data }) => {
-        if (data && data.success) {
-          setMsg({
-            type: 'success',
-            content: `@${values.username} has been created.`,
-          });
-          setLoading(false);
-        } else {
-          setMsg(generateMessage(msgTypes.SERVER));
-        }
+        setMsg(data.message);
+        setLoading(false);
       })
       .catch((err) => {
-        setMsg(
-          err.response.data.message ||
-            generateMessage(
-              err.response.status === 409 ? msgTypes.CONFLICT : msgTypes.SERVER
-            )
-        );
+        setMsg(err.response.data.message);
       });
   };
 
