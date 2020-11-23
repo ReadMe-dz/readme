@@ -10,7 +10,13 @@ type props = {
 
 const Loader: React.FC<props> = ({ dim, width, color }) => {
   return (
-    <div className="loader">
+    <div
+      className="loader"
+      style={{
+        width: dim,
+        height: dim,
+      }}
+    >
       <span
         style={{
           width: dim,
