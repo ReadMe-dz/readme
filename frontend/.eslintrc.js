@@ -42,6 +42,8 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': [1],
     'react/jsx-props-no-spreading': 0,
     'react/forbid-prop-types': 0,
+    'no-useless-escape': 0,
+    'no-lonely-if': 0,
   },
   overrides: [
     {
