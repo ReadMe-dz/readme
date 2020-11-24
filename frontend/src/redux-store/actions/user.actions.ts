@@ -1,40 +1,14 @@
 import axios from 'axios';
-import {
-  SET_USER,
-  SET_MSG,
-  LOADING,
-  CLEAR_MSG,
-  SET_UNAUTHENTICATED,
-  LOADING_USER,
-} from '../types';
+import { SET_USER, SET_MSG, SET_UNAUTHENTICATED, LOADING_USER } from '../types';
 
 const { REACT_APP_BASE_URL } = process.env;
 
-export const loginUser = (userData: any, history: any) => (dispatch: any) => {
-  dispatch({ type: LOADING });
+export const loadingUser = (): any => (dispatch: any) => {
+  dispatch({ type: LOADING_USER });
+};
 
-  axios
-    .post(`${REACT_APP_BASE_URL}/users/login`, userData)
-    .then((res) => {
-      const { user, token } = res.data;
-      localStorage.setItem('token', `Bearer ${token}`);
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      dispatch({ type: SET_USER, payload: user });
-      dispatch({ type: CLEAR_MSG });
-      history.push('/');
-    })
-    .catch((err) => {
-      const {
-        response: {
-          data: { message },
-        },
-      } = err;
-
-      dispatch({
-        type: SET_MSG,
-        payload: message,
-      });
-    });
+export const loginUser = (user: any) => (dispatch: any) => {
+  dispatch({ type: SET_USER, payload: user });
 };
 
 export const getUser = (): any => (dispatch: any) => {
