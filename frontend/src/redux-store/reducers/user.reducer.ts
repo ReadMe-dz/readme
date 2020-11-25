@@ -9,6 +9,7 @@ const initialState = {
   authenticated: false,
   credentials: {},
   loading: false,
+  complete: false,
 };
 
 export default function (state = initialState, action: any) {
