@@ -2,9 +2,13 @@
 
 .message {
   position: fixed;
+  width: calc(100% - 40px);
+  max-width: 600px;
+  top: 10px;
+  left: 10px;
   z-index: 1000;
   display: flex;
-  width: 100%;
+  border-radius: 8px;
   padding: 10px;
   overflow: hidden;
   text-align: center;
@@ -27,6 +31,22 @@
     line-height: 20px;
     transform: translateY(-100px);
     animation: show 400ms ease 200ms forwards running;
+  }
+
+  button {
+    background: transparent;
+    padding: 0px 10px;
+    line-height: 0;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: $light;
+    }
+
+    &:focus {
+      background: transparent;
+    }
   }
 }
 
