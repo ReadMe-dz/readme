@@ -14,32 +14,38 @@ const user = Joi.object({
 
   password: Joi.string().min(8).max(20),
 
-  birthdate: Joi.number().integer().min(1900).max(2013),
+  birthdate: Joi.date().raw().required(),
 
   email: Joi.string().email(),
 
-  phone: Joi.string().pattern(
-    // eslint-disable-next-line
-    new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
-  ),
-
-  twitter: Joi.string().pattern(
-    // eslint-disable-next-line
-    new RegExp(/http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/i)
-  ),
-
-  facebook: Joi.string().pattern(
-    new RegExp(
+  phone: Joi.string()
+    .pattern(
       // eslint-disable-next-line
-      /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/i
+      new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
     )
-  ),
+    .allow(''),
+
+  twitter: Joi.string()
+    .pattern(
+      // eslint-disable-next-line
+      new RegExp(/http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/i)
+    )
+    .allow(''),
+
+  facebook: Joi.string()
+    .pattern(
+      new RegExp(
+        // eslint-disable-next-line
+        /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/i
+      )
+    )
+    .allow(''),
 
   wilaya: Joi.valid(...wilayas),
 
   terms: Joi.boolean().valid(true),
 
-  moreInfos: Joi.string(),
+  moreInfo: Joi.string().allow(''),
 });
 
 module.exports = user;
