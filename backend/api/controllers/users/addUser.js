@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const mailer = require('../../utils/mailer');
 const User = require('../../models/user.model');
 const validate = require('../../validations/user.validator');
+const { makeRandStr } = require('../../utils/helpers');
 require('dotenv').config();
 
 const { JWT_VERFICATION_KEY, HOSTNAME } = process.env;
@@ -19,7 +20,7 @@ const addUser = (req, res) => {
           message: {
             type: 'error',
             content:
-              'This email is already in use, please try with a diffrent email.',
+              'This email is already in use. You need just to simply login.',
           },
         });
       } else {
@@ -52,6 +53,7 @@ const addUser = (req, res) => {
                   username,
                   wilaya,
                   verified: false,
+                  complete: true,
                 });
                 if (req.file) {
                   user.picture = req.file.path;
@@ -77,7 +79,7 @@ const addUser = (req, res) => {
                       { email },
                       JWT_VERFICATION_KEY || 'G0-p2^vPj16$vE9*Sd2+5fdG6Jsf*',
                       { expiresIn: '365d' }
-                    )}${Math.random().toString().slice(2, 7)}`;
+                    )}${makeRandStr(5)}`;
 
                     const emailContent = `
                       <div style="max-width: 600px; text-align: center; color: #000000; margin: 0 auto;">
