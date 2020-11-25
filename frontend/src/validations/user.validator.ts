@@ -26,10 +26,9 @@ const password: Yup.StringSchema = Yup.string()
   .max(20, 'Must be 20 characters or less')
   .required('Required');
 
-const passwordConfirmation: Yup.StringSchema = Yup.string().oneOf(
-  [Yup.ref('password')],
-  'Passwords must match'
-);
+const passwordConfirmation: Yup.StringSchema = Yup.string()
+  .oneOf([Yup.ref('password')], 'Passwords must match')
+  .required('Required');
 
 const email: Yup.StringSchema = Yup.string()
   .matches(
@@ -68,6 +67,10 @@ const facebook: Yup.StringSchema = Yup.string().matches(
   'Invalid facebook profile link'
 );
 
+const birthdate: Yup.StringSchema = Yup.string().required('Required');
+
+const moreInfo: Yup.StringSchema = Yup.string();
+
 export default {
   name,
   username,
@@ -78,5 +81,7 @@ export default {
   twitter,
   facebook,
   terms,
+  moreInfo,
+  birthdate,
   passwordConfirmation,
 };
