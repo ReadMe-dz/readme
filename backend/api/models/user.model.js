@@ -15,6 +15,7 @@ const userSchema = mongoose.Schema(
     facebook: { type: String, trim: true },
     twitter: { type: String, trim: true },
     verified: { type: Boolean },
+    complete: { type: Boolean },
   },
   { timestamps: true }
 );

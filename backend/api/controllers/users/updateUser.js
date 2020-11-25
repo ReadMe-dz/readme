@@ -1,4 +1,5 @@
 const fs = require('fs');
+const bcryptjs = require('bcryptjs');
 const path = require('path');
 const User = require('../../models/user.model');
 const validate = require('../../validations/user.validator');
@@ -14,7 +15,9 @@ const updateUser = (req, res) => {
     phone,
     facebook,
     twitter,
+    password,
   } = req.body;
+
   const newUser = {
     email,
     username,
@@ -25,6 +28,7 @@ const updateUser = (req, res) => {
     phone,
     facebook,
     twitter,
+    complete: true,
   };
 
   const defaultPic = 'api/uploads/users/0321661312364.png';
@@ -58,6 +62,11 @@ const updateUser = (req, res) => {
             fs.unlinkSync(path.join(__dirname, `../../../${result.picture}`));
           }
 
+          if (password) {
+            const hashed = await bcryptjs.hash(password, 7);
+            newUser.password = hashed;
+          }
+
           User.updateOne({ _id: req.params.id }, { $set: newUser })
             .exec()
             .then(() => {
@@ -70,7 +79,8 @@ const updateUser = (req, res) => {
                 },
               });
             })
-            .catch((error) =>
+            .catch((error) => {
+              console.log(error);
               res.status(500).json({
                 error,
                 message: {
@@ -78,8 +88,8 @@ const updateUser = (req, res) => {
                   content:
                     'This is not supposed to happen, Please report this to us.',
                 },
-              })
-            );
+              });
+            });
         } else {
           res.status(401).json({
             message: {
@@ -99,15 +109,15 @@ const updateUser = (req, res) => {
         });
       }
     })
-    .catch((error) =>
+    .catch((error) => {
       res.status(500).json({
         error,
         message: {
           type: 'error',
           content: 'This is not supposed to happen, Please report this to us.',
         },
-      })
-    );
+      });
+    });
 };
 
 module.exports = updateUser;
