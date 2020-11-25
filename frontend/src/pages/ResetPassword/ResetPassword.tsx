@@ -122,7 +122,7 @@ const ResetPassword: React.FC<any> = ({
                 disabled={msg.content}
                 content={
                   loading ? (
-                    <Loader dim={20} width={2} color="#212121" />
+                    <Loader dim={20} width={2} />
                   ) : (
                     <span>Reset Password</span>
                   )

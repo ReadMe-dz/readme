@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-// import TwitterLogin from 'react-twitter-auth';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-// import { GoogleLogin } from 'react-google-login';
 import { loginUser } from '../../redux-store/actions/user.actions';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { user as validate } from '../../validations';
@@ -48,6 +46,7 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
         Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         setLoading(false);
         login(user);
+        history.push('/');
       })
       .catch((err) => {
         const {
@@ -55,11 +54,8 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
             data: { message },
           },
         } = err;
-
+        setLoading(false);
         setMsg(message);
-      })
-      .finally(() => {
-        history.push('/');
       });
   };
 
@@ -71,7 +67,6 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
         localStorage.setItem('token', `Bearer ${token}`);
         Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         login(user);
-        history.push('/');
       })
       .catch((err) => {
         const {
@@ -179,11 +174,7 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
                 type="submit"
                 disabled={msg.content}
                 content={
-                  loading ? (
-                    <Loader dim={20} width={2} color="#212121" />
-                  ) : (
-                    <span>Login</span>
-                  )
+                  loading ? <Loader dim={20} width={2} /> : <span>Login</span>
                 }
               />
             </Form>

@@ -113,6 +113,7 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
             phone: validate.phone,
             twitter: validate.twitter,
             facebook: validate.facebook,
+            moreInfo: validate.moreInfo,
           })}
           onSubmit={onSubmit}
         >
@@ -189,11 +190,7 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
               type="submit"
               disabled={msg.content}
               content={
-                loading ? (
-                  <Loader dim={20} width={2} color="#212121" />
-                ) : (
-                  <span>Save</span>
-                )
+                loading ? <Loader dim={20} width={2} /> : <span>Save</span>
               }
             />
           </Form>

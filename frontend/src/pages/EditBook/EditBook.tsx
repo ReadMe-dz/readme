@@ -244,11 +244,7 @@ const EditBook: React.FC = ({ setMsg, msg, user: { id }, match }: any) => {
               type="submit"
               disabled={msg.content}
               content={
-                loading ? (
-                  <Loader dim={20} width={2} color="#212121" />
-                ) : (
-                  <span>Edit Book</span>
-                )
+                loading ? <Loader dim={20} width={2} /> : <span>Edit Book</span>
               }
             />
           </Form>

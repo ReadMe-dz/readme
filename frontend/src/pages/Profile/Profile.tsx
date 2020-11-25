@@ -105,7 +105,7 @@ const Profile: React.FC<any> = ({
               deleteBook={deleteBook}
               noBookMsg={
                 isOwner
-                  ? 'You does not have any book yet.'
+                  ? 'You do not have any book yet.'
                   : 'This user does not have any book yet.'
               }
             />

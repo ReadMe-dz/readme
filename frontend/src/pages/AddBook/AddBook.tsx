@@ -209,11 +209,7 @@ const AddBook: React.FC = ({ setMsg, msg, user: { id } }: any) => {
               type="submit"
               disabled={msg.content}
               content={
-                loading ? (
-                  <Loader dim={20} width={2} color="#212121" />
-                ) : (
-                  <span>Save Book</span>
-                )
+                loading ? <Loader dim={20} width={2} /> : <span>Save Book</span>
               }
             />
           </Form>
