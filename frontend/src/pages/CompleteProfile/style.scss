@@ -1,0 +1,47 @@
+.complete-profile {
+  padding: 50px 10%;
+
+  h1 {
+    font-size: 45px;
+    margin-bottom: 65px;
+  }
+
+  .form-head {
+    display: flex;
+    padding: 10px 0;
+
+    .left {
+      padding: 20px;
+    }
+
+    .right {
+      width: calc(100% - 230px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
+  .passwords {
+    display: flex;
+    justify-content: space-between;
+
+    .input {
+      width: 45%;
+    }
+  }
+
+  .links {
+    display: flex;
+    justify-content: space-between;
+
+    .input {
+      width: 30%;
+    }
+  }
+
+  .save-button {
+    width: 180px;
+    margin-top: 30px;
+  }
+}
