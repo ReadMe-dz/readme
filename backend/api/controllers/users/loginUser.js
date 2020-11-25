@@ -39,6 +39,8 @@ const loginUser = (req, res) => {
                 phone: user.phone,
                 facebook: user.facebook,
                 twitter: user.twitter,
+                verified: user.verified,
+                complete: user.complete,
               },
             });
           } else {
@@ -52,7 +54,7 @@ const loginUser = (req, res) => {
           }
         });
       } else {
-        res.status(401).json({
+        res.status(404).json({
           message: {
             type: 'error',
             content:

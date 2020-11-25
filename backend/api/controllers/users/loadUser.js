@@ -17,6 +17,8 @@ const loadUser = (req, res) => {
           phone,
           facebook,
           twitter,
+          verified,
+          complete,
         } = data;
         res.status(200).json({
           user: {
@@ -31,6 +33,8 @@ const loadUser = (req, res) => {
             phone,
             facebook,
             twitter,
+            verified,
+            complete,
           },
         });
       } else {

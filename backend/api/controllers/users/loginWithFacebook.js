@@ -1,8 +1,10 @@
+const mongoose = require('mongoose');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/user.model');
+const { makeRandStr } = require('../../utils/helpers');
 
-const { JWT_KEY } = process.env;
+const { JWT_KEY, FRONTEND_HOSTNAME } = process.env;
 
 const loginWithFacebook = (req, res) => {
   const { accessToken } = req.body;
@@ -36,6 +38,8 @@ const loginWithFacebook = (req, res) => {
                   phone: user.phone,
                   facebook: user.facebook,
                   twitter: user.twitter,
+                  verified: user.verified,
+                  complete: user.complete,
                 },
               });
             } else {
@@ -48,24 +52,52 @@ const loginWithFacebook = (req, res) => {
               });
             }
           } else {
-            res.status(404).json({
-              message: {
-                type: 'error',
-                content:
-                  "We could not find any account associated to this Facebook account's email address, You need to sign up first.",
-              },
+            const { name } = response.data;
+            const password = makeRandStr(12);
+
+            const newUser = new User({
+              _id: new mongoose.Types.ObjectId(),
+              name: name.toLowerCase(),
+              email,
+              password,
+              username: name.split(' ')[0],
+              wilaya: 'adrar',
+              verified: true,
+              picture: 'api/uploads/users/0321661312364.png',
+              complete: false,
             });
+
+            const token = jwt.sign(
+              { email, _id: newUser._id },
+              JWT_KEY || 'G0-p2^vPj1/6$vE[aK1vM3$5',
+              { expiresIn: '5d' }
+            );
+
+            newUser
+              .save()
+              .then((userResult) => {
+                res.status(201).json({
+                  token,
+                  user: newUser,
+                  created: userResult,
+                  success: true,
+                  message: {
+                    type: 'success',
+                    content: `Welcome aboard @${name}. Please complete your informations.`,
+                  },
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+                res.status(500).json({
+                  message: {
+                    type: 'error',
+                    content:
+                      'Apologies, This is not supposed to happen, Please report this to us.',
+                  },
+                });
+              });
           }
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(500).json({
-            message: {
-              type: 'error',
-              content:
-                'Apologies, This is not supposed to happen, Please report this to us.',
-            },
-          });
         });
     })
     .catch((error) => {
