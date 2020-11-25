@@ -13,6 +13,8 @@ const {
   getResetPasswordLink,
   getResetPassword,
   changePassword,
+  loginWithFacebook,
+  registerWithFacebook,
 } = require('../controllers/users');
 
 const uploads = require('../middleware/images-upload');
@@ -27,6 +29,8 @@ usersRouter.get('/:id', getUserById);
 
 usersRouter.post('/', uploads.single('picture'), addUser);
 
+usersRouter.post('/register/facebook', registerWithFacebook);
+
 usersRouter.patch(
   '/:id',
   tokenVerification,
@@ -35,6 +39,8 @@ usersRouter.patch(
 );
 
 usersRouter.delete('/:id', tokenVerification, deleteUser);
+
+usersRouter.post('/login/facebook', loginWithFacebook);
 
 usersRouter.post('/login', loginUser);
 
