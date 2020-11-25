@@ -4,6 +4,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import getIcon from '../../utils/icons';
@@ -26,10 +27,11 @@ type subscribeValues = {
   terms: boolean;
 };
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3300';
+const { REACT_APP_BASE_URL, REACT_APP_FACEBOOK_APP_ID } = process.env;
 
 const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
+  const [fbLoading, setFbLoading] = useState(false);
   const initialValues: subscribeValues = {
     name: '',
     username: '',
@@ -49,7 +51,7 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
   ) => {
     setSubmitting(false);
     setLoading(true);
-    Axios.post(`${BASE_URL}/users`, values)
+    Axios.post(`${REACT_APP_BASE_URL}/users`, values)
       .then(({ data }) => {
         setMsg(data.message);
         setLoading(false);
@@ -57,6 +59,27 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
       .catch((err) => {
         setMsg(err.response.data.message);
       });
+  };
+
+  const registerWithFacebook = (data: any) => {
+    setFbLoading(true);
+    Axios.post(`${REACT_APP_BASE_URL}/users/register/facebook`, data)
+      .then((res: any) => {
+        const {
+          data: { message },
+        } = res;
+        setMsg(message);
+      })
+      .catch((err) => {
+        const {
+          response: {
+            data: { message },
+          },
+        } = err;
+        setMsg(message);
+        console.dir(err);
+      })
+      .finally(() => setFbLoading(false));
   };
 
   return (
@@ -90,28 +113,35 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
           <h2>Sign up to Read Me</h2>
 
           <div className="subscribe-with">
-            <Button
-              className="facebook-button"
-              onClick={() => console.log('to be handeled later.')}
-              type="button"
-              content={
-                <>
-                  <span className="icon">{getIcon('facebook')}</span>
-                  <span>with Facebook</span>
-                </>
-              }
+            <FacebookLogin
+              appId={REACT_APP_FACEBOOK_APP_ID}
+              autoLoad={false}
+              fields="name,email"
+              callback={registerWithFacebook}
+              render={(renderProps: any) => (
+                <Button
+                  className="facebook-button"
+                  onClick={renderProps.onClick}
+                  type="button"
+                  disabled={fbLoading}
+                  content={
+                    fbLoading ? (
+                      <Loader dim={20} width={2} color="#2a75f3" />
+                    ) : (
+                      <>
+                        <span className="icon">{getIcon('facebook')}</span>
+                        <span>With Facebook</span>
+                      </>
+                    )
+                  }
+                />
+              )}
             />
             <Button
               className="google-button"
               onClick={() => console.log('to be handeled later.')}
               type="button"
               content={<span className="icon">{getIcon('google')}</span>}
-            />
-            <Button
-              className="twitter-button"
-              onClick={() => console.log('to be handeled later.')}
-              type="button"
-              content={<span className="icon">{getIcon('twitter')}</span>}
             />
           </div>
           <div className="subscribe-separator">
@@ -180,7 +210,7 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
                 disabled={msg.content}
                 content={
                   loading ? (
-                    <Loader dim={20} width={2} color="#212121" />
+                    <Loader dim={20} width={2} />
                   ) : (
                     <span>Subscribe</span>
                   )
