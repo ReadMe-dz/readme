@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import GoogleLogin from 'react-google-login';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import getIcon from '../../utils/icons';
@@ -27,11 +28,16 @@ type subscribeValues = {
   terms: boolean;
 };
 
-const { REACT_APP_BASE_URL, REACT_APP_FACEBOOK_APP_ID } = process.env;
+const {
+  REACT_APP_BASE_URL,
+  REACT_APP_FACEBOOK_APP_ID,
+  REACT_APP_GOOGLE_APP_ID,
+} = process.env;
 
 const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
   const [fbLoading, setFbLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const initialValues: subscribeValues = {
     name: '',
     username: '',
@@ -53,11 +59,20 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
     setLoading(true);
     Axios.post(`${REACT_APP_BASE_URL}/users`, values)
       .then(({ data }) => {
-        setMsg(data.message);
+        const { message } = data;
+
         setLoading(false);
+        setMsg(message);
       })
       .catch((err) => {
-        setMsg(err.response.data.message);
+        const {
+          response: {
+            data: { message },
+          },
+        } = err;
+
+        setLoading(false);
+        setMsg(message);
       });
   };
 
@@ -68,6 +83,8 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
         const {
           data: { message },
         } = res;
+
+        setFbLoading(false);
         setMsg(message);
       })
       .catch((err) => {
@@ -76,10 +93,48 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
             data: { message },
           },
         } = err;
+
+        setFbLoading(false);
         setMsg(message);
-        console.dir(err);
-      })
-      .finally(() => setFbLoading(false));
+      });
+  };
+
+  const registerWithGoogle = (response: any) => {
+    const { tokenId } = response;
+    if (tokenId) {
+      Axios.post(`${REACT_APP_BASE_URL}/users/register/google`, { tokenId })
+        .then((res) => {
+          const {
+            data: { message },
+          } = res;
+
+          setGoogleLoading(false);
+          setMsg(message);
+        })
+        .catch((err) => {
+          const {
+            response: {
+              data: { message },
+            },
+          } = err;
+
+          setGoogleLoading(false);
+          setMsg(message);
+        });
+    } else {
+      setGoogleLoading(false);
+    }
+  };
+
+  const onGoogleLoginFail = ({ error }: any) => {
+    setGoogleLoading(false);
+    if (error !== 'popup_closed_by_user') {
+      setMsg({
+        type: 'error',
+        content:
+          'Apologies. We could not sing in with google, Please refresh and try again.',
+      });
+    }
   };
 
   return (
@@ -137,11 +192,30 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
                 />
               )}
             />
-            <Button
-              className="google-button"
-              onClick={() => console.log('to be handeled later.')}
-              type="button"
-              content={<span className="icon">{getIcon('google')}</span>}
+
+            <GoogleLogin
+              clientId={REACT_APP_GOOGLE_APP_ID || ''}
+              render={(renderProps) => (
+                <Button
+                  className="google-button"
+                  onClick={() => {
+                    renderProps.onClick();
+                    setGoogleLoading(true);
+                  }}
+                  type="button"
+                  disabled={renderProps.disabled}
+                  content={
+                    googleLoading ? (
+                      <Loader dim={20} width={2} color="#333333" />
+                    ) : (
+                      <span className="icon">{getIcon('google')}</span>
+                    )
+                  }
+                />
+              )}
+              disabled={googleLoading}
+              onSuccess={registerWithGoogle}
+              onFailure={onGoogleLoginFail}
             />
           </div>
           <div className="subscribe-separator">
