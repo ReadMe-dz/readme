@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { loginUser } from '../../redux-store/actions/user.actions';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { user as validate } from '../../validations';
@@ -26,12 +27,14 @@ const {
   REACT_APP_FACEBOOK_APP_ID,
   REACT_APP_BASE_URL,
   REACT_APP_GOOGLE_APP_ID,
+  REACT_APP_RECAPTCHA_SITE_KEY,
 } = process.env;
 
 const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
   const [fbLoading, setFbLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [isHuman, setIsHuman] = useState<boolean | null>(null);
   const initialValues: loginValues = { email: '', password: '' };
 
   useEffect(() => {
@@ -43,26 +46,27 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     setSubmitting(false);
-    setLoading(true);
-
-    Axios.post(`${REACT_APP_BASE_URL}/users/login`, userData)
-      .then((res) => {
-        const { user, token } = res.data;
-        localStorage.setItem('token', `Bearer ${token}`);
-        Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-        setLoading(false);
-        login(user);
-        history.push('/');
-      })
-      .catch((err) => {
-        const {
-          response: {
-            data: { message },
-          },
-        } = err;
-        setLoading(false);
-        setMsg(message);
-      });
+    if (isHuman) {
+      setLoading(true);
+      Axios.post(`${REACT_APP_BASE_URL}/users/login`, userData)
+        .then((res) => {
+          const { user, token } = res.data;
+          localStorage.setItem('token', `Bearer ${token}`);
+          Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+          setLoading(false);
+          login(user);
+          history.push('/');
+        })
+        .catch((err) => {
+          const {
+            response: {
+              data: { message },
+            },
+          } = err;
+          setLoading(false);
+          setMsg(message);
+        });
+    }
   };
 
   const loginWithFacebook = (data: any) => {
@@ -113,12 +117,20 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
 
   const onGoogleLoginFail = ({ error }: any) => {
     setGoogleLoading(false);
-    if (error !== 'popup_closed_by_user') {
+    if (error && error !== 'popup_closed_by_user') {
       setMsg({
         type: 'error',
         content:
           'Apologies. We could not sing in with google, Please refresh and try again.',
       });
+    }
+  };
+
+  const onReCaptcha = (data: any) => {
+    if (data) {
+      setIsHuman(true);
+    } else {
+      setIsHuman(false);
     }
   };
 
@@ -228,6 +240,14 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
               <Link className="login-link" to="/forget-password">
                 <b>Forgot your password?</b>
               </Link>
+
+              <ReCAPTCHA
+                sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
+                onChange={onReCaptcha}
+              />
+              {isHuman !== null && !isHuman && (
+                <p className="error-message">You are not a human.</p>
+              )}
 
               <Button
                 className="login-button"

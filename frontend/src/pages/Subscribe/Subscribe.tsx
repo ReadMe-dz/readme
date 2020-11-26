@@ -6,6 +6,7 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import getIcon from '../../utils/icons';
@@ -32,12 +33,14 @@ const {
   REACT_APP_BASE_URL,
   REACT_APP_FACEBOOK_APP_ID,
   REACT_APP_GOOGLE_APP_ID,
+  REACT_APP_RECAPTCHA_SITE_KEY,
 } = process.env;
 
 const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
   const [fbLoading, setFbLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [isHuman, setIsHuman] = useState<boolean | null>(null);
   const initialValues: subscribeValues = {
     name: '',
     username: '',
@@ -56,24 +59,26 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     setSubmitting(false);
-    setLoading(true);
-    Axios.post(`${REACT_APP_BASE_URL}/users`, values)
-      .then(({ data }) => {
-        const { message } = data;
+    if (isHuman) {
+      setLoading(true);
+      Axios.post(`${REACT_APP_BASE_URL}/users`, values)
+        .then(({ data }) => {
+          const { message } = data;
 
-        setLoading(false);
-        setMsg(message);
-      })
-      .catch((err) => {
-        const {
-          response: {
-            data: { message },
-          },
-        } = err;
+          setLoading(false);
+          setMsg(message);
+        })
+        .catch((err) => {
+          const {
+            response: {
+              data: { message },
+            },
+          } = err;
 
-        setLoading(false);
-        setMsg(message);
-      });
+          setLoading(false);
+          setMsg(message);
+        });
+    }
   };
 
   const registerWithFacebook = (data: any) => {
@@ -134,6 +139,14 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
         content:
           'Apologies. We could not sing in with google, Please refresh and try again.',
       });
+    }
+  };
+
+  const onReCaptcha = (data: any) => {
+    if (data) {
+      setIsHuman(true);
+    } else {
+      setIsHuman(false);
     }
   };
 
@@ -277,6 +290,14 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
                 label="Accept our Terms of Service and Privacy Policy."
                 className="checkbox-terms"
               />
+
+              <ReCAPTCHA
+                sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
+                onChange={onReCaptcha}
+              />
+              {isHuman !== null && !isHuman && (
+                <p className="error-message">You are not a human.</p>
+              )}
 
               <Button
                 className="subscribe-button"

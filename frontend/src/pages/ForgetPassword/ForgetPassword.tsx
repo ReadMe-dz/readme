@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import Input from '../../components/Input';
@@ -18,10 +19,12 @@ type forgetValues = {
   email: string;
 };
 
-const { REACT_APP_BASE_URL } = process.env;
+const { REACT_APP_BASE_URL, REACT_APP_RECAPTCHA_SITE_KEY } = process.env;
 
 const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
+  const [isHuman, setIsHuman] = useState<boolean | null>(null);
+
   const initialValues: forgetValues = {
     email: '',
   };
@@ -35,16 +38,26 @@ const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     setSubmitting(false);
-    setLoading(true);
+    if (isHuman) {
+      setLoading(true);
 
-    Axios.post(`${REACT_APP_BASE_URL}/users/reset`, { email })
-      .then((res) => {
-        setMsg(res.data.message);
-      })
-      .catch((err) => {
-        console.dir(err);
-        setMsg(err.response.data.message);
-      });
+      Axios.post(`${REACT_APP_BASE_URL}/users/reset`, { email })
+        .then((res) => {
+          setMsg(res.data.message);
+        })
+        .catch((err) => {
+          console.dir(err);
+          setMsg(err.response.data.message);
+        });
+    }
+  };
+
+  const onReCaptcha = (data: any) => {
+    if (data) {
+      setIsHuman(true);
+    } else {
+      setIsHuman(false);
+    }
   };
 
   return (
@@ -84,8 +97,8 @@ const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
               you instructions to reset your password.
             </p>
             <p>
-              For security reasons, we do NOT store your password. So rest
-              assured that we will never send your password via email.
+              For security reasons, we do NOT store your password, and this
+              restoration link is valid for 2 hours only.
             </p>
           </div>
           <Formik
@@ -102,6 +115,14 @@ const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
                 type="email"
                 className="input-email"
               />
+
+              <ReCAPTCHA
+                sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
+                onChange={onReCaptcha}
+              />
+              {isHuman !== null && !isHuman && (
+                <p className="error-message">You are not a human.</p>
+              )}
 
               <Button
                 className="forget-password-button"
