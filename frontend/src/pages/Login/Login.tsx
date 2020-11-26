@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { GoogleLogin } from 'react-google-login';
 import { loginUser } from '../../redux-store/actions/user.actions';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { user as validate } from '../../validations';
@@ -21,11 +22,16 @@ type loginValues = {
   password: string;
 };
 
-const { REACT_APP_FACEBOOK_APP_ID, REACT_APP_BASE_URL } = process.env;
+const {
+  REACT_APP_FACEBOOK_APP_ID,
+  REACT_APP_BASE_URL,
+  REACT_APP_GOOGLE_APP_ID,
+} = process.env;
 
 const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
   const [fbLoading, setFbLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const initialValues: loginValues = { email: '', password: '' };
 
   useEffect(() => {
@@ -66,6 +72,7 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
         const { user, token } = res.data;
         localStorage.setItem('token', `Bearer ${token}`);
         Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        setFbLoading(false);
         login(user);
       })
       .catch((err) => {
@@ -74,10 +81,45 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
             data: { message },
           },
         } = err;
-
+        setFbLoading(false);
         setMsg(message);
-      })
-      .finally(() => setFbLoading(false));
+      });
+  };
+
+  const loginWithGoogle = (response: any) => {
+    const { tokenId } = response;
+    if (tokenId) {
+      Axios.post(`${REACT_APP_BASE_URL}/users/login/google`, { tokenId })
+        .then((res) => {
+          const { user, token } = res.data;
+          localStorage.setItem('token', `Bearer ${token}`);
+          Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+          setGoogleLoading(false);
+          login(user);
+        })
+        .catch((err) => {
+          const {
+            response: {
+              data: { message },
+            },
+          } = err;
+          setGoogleLoading(false);
+          setMsg(message);
+        });
+    } else {
+      setGoogleLoading(false);
+    }
+  };
+
+  const onGoogleLoginFail = ({ error }: any) => {
+    setGoogleLoading(false);
+    if (error !== 'popup_closed_by_user') {
+      setMsg({
+        type: 'error',
+        content:
+          'Apologies. We could not sing in with google, Please refresh and try again.',
+      });
+    }
   };
 
   return (
@@ -134,11 +176,29 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
                 />
               )}
             />
-            <Button
-              className="google-button"
-              onClick={() => console.log('to be handeled later.')}
-              type="button"
-              content={<span className="icon">{getIcon('google')}</span>}
+            <GoogleLogin
+              clientId={REACT_APP_GOOGLE_APP_ID || ''}
+              render={(renderProps) => (
+                <Button
+                  className="google-button"
+                  onClick={() => {
+                    renderProps.onClick();
+                    setGoogleLoading(true);
+                  }}
+                  type="button"
+                  disabled={renderProps.disabled}
+                  content={
+                    googleLoading ? (
+                      <Loader dim={20} width={2} color="#333333" />
+                    ) : (
+                      <span className="icon">{getIcon('google')}</span>
+                    )
+                  }
+                />
+              )}
+              disabled={googleLoading}
+              onSuccess={loginWithGoogle}
+              onFailure={onGoogleLoginFail}
             />
           </div>
           <div className="login-separator">
