@@ -45,11 +45,16 @@ const PrivateRoute: React.FC<MyRouteProps> = ({
     );
   }
 
-  if (!complete && rest.path !== '/logout' && rest.path !== '/complete') {
+  if (
+    authenticated &&
+    !complete &&
+    rest.path !== '/logout' &&
+    rest.path !== '/complete'
+  ) {
     return <Redirect to="/complete" />;
   }
 
-  if (complete && rest.path === '/complete') {
+  if (authenticated && complete && rest.path === '/complete') {
     return <Redirect to="/" />;
   }
 
