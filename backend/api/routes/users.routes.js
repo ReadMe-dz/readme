@@ -15,6 +15,8 @@ const {
   changePassword,
   loginWithFacebook,
   registerWithFacebook,
+  loginWithGoogle,
+  registerWithGoogle,
 } = require('../controllers/users');
 
 const uploads = require('../middleware/images-upload');
@@ -31,6 +33,8 @@ usersRouter.post('/', uploads.single('picture'), addUser);
 
 usersRouter.post('/register/facebook', registerWithFacebook);
 
+usersRouter.post('/register/google', registerWithGoogle);
+
 usersRouter.patch(
   '/:id',
   tokenVerification,
@@ -41,6 +45,8 @@ usersRouter.patch(
 usersRouter.delete('/:id', tokenVerification, deleteUser);
 
 usersRouter.post('/login/facebook', loginWithFacebook);
+
+usersRouter.post('/login/google', loginWithGoogle);
 
 usersRouter.post('/login', loginUser);
 

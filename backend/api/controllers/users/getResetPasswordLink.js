@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-const mailer = require('../../utils/mailer');
 const User = require('../../models/user.model');
+const mailer = require('../../utils/mailer');
+const { makeRandStr } = require('../../utils/helpers');
 require('dotenv').config();
 
 const { JWT_VERFICATION_KEY, HOSTNAME } = process.env;
@@ -18,7 +19,7 @@ const getResetPasswordLink = (req, res) => {
           { email },
           JWT_VERFICATION_KEY || 'G0-p2^vPj16$vE9*Sd2+5fdG6Jsf*',
           { expiresIn: 60 * 60 * 2 }
-        )}${Math.random().toString().slice(2, 7)}`;
+        )}${makeRandStr(5)}`;
 
         const emailContent = `
           <div style="max-width: 600px; text-align: center; color: #000000; margin: 0 auto;">

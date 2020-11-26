@@ -12,6 +12,8 @@ const getResetPassword = require('./getResetPassword');
 const changePassword = require('./changePassword');
 const loginWithFacebook = require('./loginWithFacebook');
 const registerWithFacebook = require('./registerWithFacebook');
+const loginWithGoogle = require('./loginWithGoogle');
+const registerWithGoogle = require('./registerWithGoogle');
 
 module.exports = {
   searchUsers,
@@ -28,4 +30,6 @@ module.exports = {
   changePassword,
   loginWithFacebook,
   registerWithFacebook,
+  loginWithGoogle,
+  registerWithGoogle,
 };
