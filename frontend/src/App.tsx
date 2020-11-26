@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { clearMsg } from './redux-store/actions/msg.actions';
 import { selectBook } from './redux-store/actions/book.actions';
+import { clearMsg } from './redux-store/actions/msg.actions';
 import CheckAuthentication from './utils/CheckAuthentication';
 import GuestRoute from './utils/GeustRoute';
 import PrivateRoute from './utils/PrivateRouter';
@@ -18,19 +18,20 @@ import EditProfile from './pages/EditProfile';
 import AddBook from './pages/AddBook';
 import EditBook from './pages/EditBook';
 import NotFound from './pages/NotFound';
-import ResetPassword from './pages/resetPassword';
+import ResetPassword from './pages/ResetPassword';
+import CompleteProfile from './pages/CompleteProfile';
 
-const App: React.FC<any> = ({ msg, clear, book, selectedBook }: any) => {
+const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
   useEffect(() => {
     CheckAuthentication();
   }, []);
 
   useEffect(() => {
-    if (msg.content) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (msg.content) {
         clear();
-      }, 6000);
-    }
+      }
+    }, 12000);
   }, [msg]);
 
   return (
@@ -44,6 +45,7 @@ const App: React.FC<any> = ({ msg, clear, book, selectedBook }: any) => {
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute path="/user/:id" component={Profile} />
           <PrivateRoute path="/edit" component={EditProfile} />
+          <PrivateRoute path="/complete" component={CompleteProfile} />
           <PrivateRoute path="/add-book" component={AddBook} />
           <PrivateRoute path="/book/:id" component={EditBook} />
           <GuestRoute path="/login" component={Login} />
@@ -65,7 +67,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapActionsToProps = {
-  clear: clearMsg,
   selectedBook: selectBook,
+  clear: clearMsg,
 };
 export default connect(mapStateToProps, mapActionsToProps)(App);
