@@ -49,6 +49,11 @@ const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
           console.dir(err);
           setMsg(err.response.data.message);
         });
+    } else {
+      setMsg({
+        type: 'error',
+        content: 'Please make sure to validate the reCaptcha.',
+      });
     }
   };
 

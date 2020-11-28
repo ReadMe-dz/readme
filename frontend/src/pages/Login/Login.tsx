@@ -66,6 +66,11 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
           setLoading(false);
           setMsg(message);
         });
+    } else {
+      setMsg({
+        type: 'error',
+        content: 'Please make sure to validate the reCaptcha.',
+      });
     }
   };
 

@@ -52,8 +52,10 @@
 
     &.aside-right {
       display: flex;
-      flex: 1;
+      flex: 1 1;
       flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
 
       .head {
         margin: 40px;

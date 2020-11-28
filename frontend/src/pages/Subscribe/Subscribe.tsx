@@ -78,6 +78,11 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
           setLoading(false);
           setMsg(message);
         });
+    } else {
+      setMsg({
+        type: 'error',
+        content: 'Please make sure to validate the reCaptcha.',
+      });
     }
   };
 
