@@ -29,6 +29,8 @@ const NavBar: React.FC<any> = ({ user, isSearch }: any) => {
               <Link to={`/user/${id}`}>Profile</Link>
               <Link to="/edit">Edit Profile</Link>
               <span className="separator" />
+              <Link to="/settings">Account Settings</Link>
+              <span className="separator" />
               <Link to="/logout">Sign Out</Link>
             </div>
           </div>
@@ -59,7 +61,9 @@ const NavBar: React.FC<any> = ({ user, isSearch }: any) => {
         <img src={logo} alt="read me" />
         <h1>Read Me</h1>
       </Link>
-      {isSearch && <SearchBar placeholder="Search For A Book" />}
+      {isSearch && (
+        <SearchBar placeholder="Search by book's title or author's name" />
+      )}
       {user.authenticated ? renderProfile() : renderLinks()}
     </div>
   );

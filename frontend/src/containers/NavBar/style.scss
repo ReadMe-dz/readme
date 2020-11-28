@@ -29,14 +29,27 @@
     }
   }
 
-  .links {
-    a {
-      margin-left: 15px;
+  .search-bar {
+    margin: 0 30px;
+
+    input {
+      height: 45px;
     }
 
+    .search-button {
+      top: 4px;
+    }
+  }
+
+  .links {
     .singin {
       color: $font;
       background: none;
+      margin-right: 15px;
+
+      &:hover {
+        background: $transparentDark;
+      }
     }
   }
 
