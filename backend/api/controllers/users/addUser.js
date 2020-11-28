@@ -42,6 +42,7 @@ const addUser = (req, res) => {
                 password,
                 username,
                 wilaya,
+                birthdate: '01-01-1990',
               });
 
               if (!validation.error) {
@@ -100,7 +101,7 @@ const addUser = (req, res) => {
                       message: {
                         type: 'error',
                         content:
-                          'This is not supposed to happen, Please report this to us.',
+                          'This is not supposed to happen, Please report this to us. 1',
                       },
                       error: userError,
                     })
@@ -115,11 +116,12 @@ const addUser = (req, res) => {
                 });
               }
             } catch (catchError) {
+              console.log(catchError);
               res.status(500).json({
                 message: {
                   type: 'error',
                   content:
-                    'This is not supposed to happen, Please report this to us.',
+                    'This is not supposed to happen, Please report this to us. 2',
                 },
                 error: catchError,
               });
@@ -133,7 +135,8 @@ const addUser = (req, res) => {
         error,
         message: {
           type: 'error',
-          content: 'This is not supposed to happen, Please report this to us.',
+          content:
+            'This is not supposed to happen, Please report this to us. 3',
         },
       })
     );

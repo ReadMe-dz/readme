@@ -36,7 +36,7 @@ const updateUser = (req, res) => {
     newUser.picture = req.file.path;
   }
 
-  User.findOne({ _id: req.params.id })
+  User.findOne({ _id: req.params.id, email: req.verifiedToken })
     .exec()
     .then(async (result) => {
       try {
