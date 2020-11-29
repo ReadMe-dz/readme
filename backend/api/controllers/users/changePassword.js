@@ -1,56 +1,88 @@
-const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const User = require('../../models/user.model');
-require('dotenv').config();
-
-const { JWT_VERFICATION_KEY } = process.env;
 
 const changePassword = (req, res) => {
-  const { resetToken, password } = req.body;
-  const { email, exp } = jwt.verify(
-    resetToken.slice(0, -5),
-    JWT_VERFICATION_KEY
-  );
-
-  if (exp > Date.now() / 1000) {
+  const { currentPassword, password } = req.body;
+  const { email } = req.verifiedToken;
+  if (email) {
     User.findOne({ email })
       .exec()
-      .then(() => {
-        bcryptjs.hash(String(password), 7, async (error, hashed) => {
-          if (error) {
-            res.status(500).json({
-              message: {
-                type: 'error',
-                content:
-                  'This is not supposed to happen, Please report this to us.',
-              },
-              error,
-            });
-          } else {
-            User.updateOne({ email }, { password: hashed })
-              .exec()
-              .then(() => {
-                res.status(200).json({
-                  updated_id: req.params.id,
-                  success: true,
-                  message: {
-                    type: 'success',
-                    content: 'Your password was updated successfully.',
-                  },
-                });
-              })
-              .catch((updateError) =>
-                res.status(500).json({
-                  error: updateError,
+      .then((user) => {
+        if (user) {
+          bcryptjs.compare(
+            String(currentPassword),
+            user.password,
+            (compareError, result) => {
+              if (compareError || !result) {
+                res.status(401).json({
                   message: {
                     type: 'error',
                     content:
-                      'This is not supposed to happen, Please report this to us.',
+                      "Unvalid 'current password'. Please make sure to enter the right 'current password' and retry again.",
                   },
-                })
-              );
-          }
-        });
+                  compareError,
+                });
+              } else if (password !== currentPassword) {
+                bcryptjs.hash(
+                  String(password),
+                  7,
+                  async (hashError, hashed) => {
+                    if (hashError) {
+                      res.status(500).json({
+                        message: {
+                          type: 'error',
+                          content:
+                            'This is not supposed to happen, Please report this to us.2',
+                        },
+                        hashError,
+                      });
+                    } else {
+                      User.updateOne({ email }, { password: hashed })
+                        .exec()
+                        .then(() => {
+                          res.status(200).json({
+                            updated_id: req.params.id,
+                            success: true,
+                            message: {
+                              type: 'success',
+                              content:
+                                'Your password was changed successfully.',
+                            },
+                          });
+                        })
+                        .catch((updateError) =>
+                          res.status(500).json({
+                            error: updateError,
+                            message: {
+                              type: 'error',
+                              content:
+                                'This is not supposed to happen, Please report this to us.3',
+                            },
+                          })
+                        );
+                    }
+                  }
+                );
+              } else {
+                res.status(401).json({
+                  message: {
+                    type: 'error',
+                    content:
+                      'The new password can not be the same as the old one.',
+                  },
+                });
+              }
+            }
+          );
+        } else {
+          res.status(404).json({
+            message: {
+              type: 'error',
+              content:
+                'We could not find any account associated to this email address, You need to sign up first.',
+            },
+          });
+        }
       })
       .catch((findError) =>
         res.status(500).json({
@@ -58,7 +90,7 @@ const changePassword = (req, res) => {
           message: {
             type: 'error',
             content:
-              'This is not supposed to happen, Please report this to us.',
+              'This is not supposed to happen, Please report this to us.4',
           },
         })
       );
@@ -66,8 +98,7 @@ const changePassword = (req, res) => {
     res.status(401).json({
       message: {
         type: 'error',
-        content:
-          'Your reset password link has expired, Please request a new one.',
+        content: 'Please make sure your are logged in, and retry.',
       },
     });
   }

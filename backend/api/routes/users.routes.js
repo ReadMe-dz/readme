@@ -12,6 +12,7 @@ const {
   verifyEmail,
   getResetPasswordLink,
   getResetPassword,
+  resetPassword,
   changePassword,
   loginWithFacebook,
   registerWithFacebook,
@@ -58,6 +59,8 @@ usersRouter.post('/reset', getResetPasswordLink);
 
 usersRouter.get('/reset/:resetToken', getResetPassword);
 
-usersRouter.post('/change', changePassword);
+usersRouter.post('/reset-password', resetPassword);
+
+usersRouter.post('/change-password', tokenVerification, changePassword);
 
 module.exports = usersRouter;
