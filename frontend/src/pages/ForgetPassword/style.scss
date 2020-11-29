@@ -1,0 +1,147 @@
+@import '../../assets/scss/constants.scss';
+
+.forget-password {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  position: relative;
+  min-height: 100vh;
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+
+    &.aside-left {
+      width: 420px;
+      background: $purple;
+      padding: 40px;
+
+      .logo {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 30px;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .intro {
+        h2 {
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 1.4;
+          color: $darkPurple;
+
+          b {
+            font-size: 14px;
+            font-style: italic;
+          }
+        }
+      }
+
+      .artwork {
+        display: flex;
+        flex: 1;
+        margin-top: 40px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    &.aside-right {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+
+      .head {
+        margin: 40px;
+
+        p {
+          text-align: right;
+          color: $lightFont;
+          font-size: 14px;
+
+          a {
+            margin-left: 5px;
+          }
+        }
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+        max-width: 420px;
+        width: 100%;
+        padding: 0 20px;
+        margin: auto;
+        padding-bottom: 25px;
+
+        h2 {
+          font-size: 27px;
+          margin-bottom: 20px;
+        }
+
+        .instructions {
+          p {
+            font-size: 14px;
+            color: $lightFont;
+            margin-bottom: 20px;
+            line-height: 1.6;
+          }
+        }
+
+        .forget-password-form {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 25px;
+
+          .input {
+            margin-bottom: 15px;
+          }
+
+          .forget-password-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            margin-top: 15px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 780px) {
+    .aside {
+      &.aside-left {
+        display: none;
+      }
+
+      &.aside-right {
+        .main {
+          .forget-password-form {
+            .forget-password-button {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 320px) {
+    .aside {
+      &.aside-right {
+        .head {
+          margin: 40px 20px;
+        }
+      }
+    }
+  }
+}

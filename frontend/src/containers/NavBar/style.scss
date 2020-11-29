@@ -1,0 +1,159 @@
+@import '../../assets/scss/constants.scss';
+
+.navbar {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  padding: 0 30px;
+  background-color: $white;
+  box-shadow: inset 0px -1px 0px $light;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+
+    img {
+      width: 35px;
+      height: 35px;
+    }
+
+    h1 {
+      margin-left: 7px;
+      font-size: 19px;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .search-bar {
+    margin: 0 30px;
+
+    input {
+      height: 45px;
+    }
+
+    .search-button {
+      top: 4px;
+    }
+  }
+
+  .links {
+    .singin {
+      color: $font;
+      background: none;
+      margin-right: 15px;
+
+      &:hover {
+        background: $transparentDark;
+      }
+    }
+  }
+
+  .profile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-width: 45px;
+    max-width: 45px;
+    min-height: 45px;
+    max-height: 45px;
+    margin-left: 15px;
+    margin-right: 15px;
+    cursor: pointer;
+
+    .picture {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      overflow: hidden;
+      transition: all 250ms ease;
+
+      span {
+        width: 45px;
+        height: 45px;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    .manu-list {
+      display: flex;
+      appearance: none;
+      opacity: 0;
+      pointer-events: none;
+      width: 200px;
+      position: absolute;
+      top: 100%;
+      right: -75px;
+      padding-top: 15px;
+      transition: all 250ms ease;
+      z-index: 100;
+
+      .caret {
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 8px;
+        right: calc(50% - 9px);
+        border-left: 9px solid transparent;
+        border-right: 9px solid transparent;
+        border-bottom: 9px solid $white;
+      }
+
+      .menu-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 20px 0px;
+        background: $white;
+        border-radius: 8px;
+        box-shadow: 0 0 15px 0 $lightGrey;
+
+        a {
+          display: block;
+          padding: 12px 32px;
+          font-size: 14px;
+          font-weight: normal;
+          background: none;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+          color: $lightFont;
+          text-decoration: none;
+          font-variation-settings: 'wght' 350;
+          transition: all 150ms ease;
+
+          &:hover {
+            background-color: $light;
+            color: $pink;
+          }
+        }
+
+        .separator {
+          border-bottom: 1px solid $lightGrey;
+          margin: 13px 32px;
+          width: auto;
+        }
+      }
+    }
+
+    &:hover {
+      .manu-list {
+        display: flex;
+        appearance: initial;
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .picture {
+        box-shadow: 0 0 9px 0px $lightGrey;
+      }
+    }
+  }
+}

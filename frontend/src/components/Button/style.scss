@@ -1,0 +1,45 @@
+@import '../../assets/scss/constants.scss';
+
+button.button {
+  display: inline-block;
+  padding: 10px 16px;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  background: $pink;
+  color: $light;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+  border-radius: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: relative;
+  outline: none;
+  font-family: $fontSansSerif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center;
+
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+
+  &:active {
+    background-color: $darkPink;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  .icon {
+    position: relative;
+    height: 70%;
+    fill: $light;
+  }
+}

@@ -1,0 +1,210 @@
+@import '../../assets/scss/constants.scss';
+
+.search {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 40px;
+
+  .search-bar__title {
+    font-size: 35px;
+    text-align: center;
+    color: $pink;
+    font-weight: 700;
+    margin-top: 50px;
+    margin-bottom: 25px;
+  }
+
+  .search-bar {
+    margin: 0px auto 100px auto;
+
+    .search-form {
+      input {
+        margin: 0;
+        padding-right: 60px;
+        height: 60px;
+        width: 550px;
+        font-size: 21px;
+        border-radius: 30px;
+      }
+
+      .search-button {
+        transform: scale(1.2);
+        top: 10px;
+        right: 8px;
+      }
+
+      .input {
+        .error-message {
+          position: absolute;
+          font-weight: 700;
+          right: 0;
+          bottom: -20px;
+        }
+      }
+    }
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .head {
+      display: flex;
+      width: 100%;
+
+      b {
+        font-weight: 700;
+        align-self: center;
+        margin-right: 15px;
+        text-transform: capitalize;
+      }
+
+      .genres {
+        display: block;
+        max-width: calc(100% - 160px);
+        margin-right: auto;
+        height: 42px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        cursor: col-resize;
+
+        .genres-wrapper {
+          display: flex;
+          flex-wrap: nowrap;
+
+          button {
+            display: inline-block;
+            white-space: nowrap;
+            padding: 10px 16px;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            background: $light;
+            color: $lightFont;
+            transition: all 200ms ease;
+            border-radius: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            outline: none;
+            font-family: -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI',
+              'Fira Sans', 'Droid Sans', Ubuntu, 'Helvetica Neue', Helvetica,
+              Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            margin-right: 10px;
+            text-transform: capitalize;
+
+            &.active {
+              background-color: $pink;
+              color: $white;
+            }
+          }
+        }
+      }
+
+      .filter-button {
+        display: flex;
+
+        .button {
+          height: 40px;
+          background-color: $lightPink;
+
+          svg {
+            width: 14px;
+            height: 14px;
+            fill: $white;
+          }
+
+          &.active {
+            background-color: $pink;
+          }
+        }
+      }
+    }
+
+    .inputs {
+      display: flex;
+      margin-top: 25px;
+      animation: fadeInInputs 250ms ease running;
+
+      .filter-input {
+        display: flex;
+        margin-right: 25px;
+
+        label {
+          display: flex;
+          align-items: center;
+
+          span {
+            font-weight: 700;
+            align-self: center;
+            margin-right: 15px;
+            text-transform: capitalize;
+          }
+
+          input,
+          select {
+            font-family: $fontSansSerif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 20px;
+            text-transform: capitalize;
+            width: 150px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            height: 40px;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            outline: none;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            -webkit-transition: background-color 200ms ease, outline 200ms ease,
+              color 200ms ease, -webkit-box-shadow 200ms ease;
+            transition: background-color 200ms ease, outline 200ms ease,
+              color 200ms ease, -webkit-box-shadow 200ms ease;
+            transition: background-color 200ms ease, outline 200ms ease,
+              color 200ms ease, box-shadow 200ms ease;
+            transition: background-color 200ms ease, outline 200ms ease,
+              color 200ms ease, box-shadow 200ms ease,
+              -webkit-box-shadow 200ms ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            color: $dark;
+            background-color: $light;
+
+            &:hover,
+            &:focus {
+              background-color: $white;
+              border-color: $lighterPink;
+              -webkit-box-shadow: 0 0 0 3px $fadePink;
+              box-shadow: 0 0 0 3px $fadePink;
+            }
+          }
+
+          input[type='number'] {
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeInInputs {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

@@ -1,0 +1,51 @@
+@import '../../assets/scss/constants.scss';
+
+.geust {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 160px);
+
+  h2 {
+    font-size: 32px;
+    color: $darkFont;
+    margin-bottom: 15px;
+  }
+
+  p {
+    text-align: center;
+    line-height: 1.5;
+    font-size: 18px;
+    margin: 20px 0;
+    color: $darkFont;
+
+    b {
+      font-weight: 700;
+      color: $pink;
+    }
+  }
+
+  .auth {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 25px;
+
+    a {
+      text-decoration: none;
+
+      button {
+        border: 2px solid $pink;
+      }
+
+      &.subscribe-button {
+        margin-left: 15px;
+        button {
+          background: transparent;
+          color: $pink;
+        }
+      }
+    }
+  }
+}

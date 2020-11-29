@@ -1,27 +1,56 @@
 {
   "name": "books-exchange-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "The server application for the book exchange platform.",
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb",
+    "server",
+    "mongoose"
+  ],
+  "author": "AM-77",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "eslint . --ignore-path ./.eslintignore --color",
+    "lint:fix": "eslint . --ignore-path ./.eslintignore --color --fix",
+    "format": "prettier . --write --ignore-path ./.prettierignore"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": [
+      "yarn lint:fix"
+    ]
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "config": "^3.1.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.15",
     "multer": "^1.4.2",
-    "validation": "0.0.1"
+    "nodemailer": "^6.4.16"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.2",
+    "nodemon": "^1.19.1",
+    "prettier": "^2.1.2"
   }
 }

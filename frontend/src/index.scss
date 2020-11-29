@@ -1,0 +1,60 @@
+@import './assets/scss/reset.scss';
+@import './assets/scss/constants.scss';
+@import './assets/scss/fonts.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root,
+.app {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
+  font-family: $fontSansSerif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variation-settings: 'wght' 360;
+  font-size: 16px;
+  color: $font;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $fontSerif;
+  font-weight: 700;
+  color: $darkFont;
+}
+
+input,
+select,
+button,
+textarea,
+label {
+  font-variation-settings: 'wght' 330;
+  font-family: $fontSansSerif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a {
+  font-size: 14px;
+  color: $link;
+  text-decoration: none;
+  transition: opacity 100ms ease-out;
+
+  &:hover {
+    text-decoration: underline;
+    color: $lightLink;
+  }
+}

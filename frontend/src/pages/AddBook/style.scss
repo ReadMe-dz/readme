@@ -1,0 +1,76 @@
+.add-book {
+  padding: 50px 10%;
+
+  h1 {
+    font-size: 45px;
+    margin-bottom: 65px;
+  }
+
+  .input,
+  .select {
+    width: 100%;
+  }
+
+  .form-head {
+    display: flex;
+    padding: 10px 0;
+
+    .left {
+      padding-top: 20px;
+      padding-right: 20px;
+    }
+
+    .right {
+      width: calc(100% - 230px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .row {
+        display: flex;
+
+        & > div {
+          margin: 0 10px;
+        }
+
+        & > div:first-child {
+          margin-left: 0;
+        }
+
+        & > div:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .book-cover {
+      .preview {
+        height: 280px;
+
+        .preview-img {
+          height: 280px;
+          border-radius: 8px;
+
+          span {
+            height: 280px;
+            border-radius: 8px;
+          }
+        }
+
+        .upload-icon {
+          left: 5px;
+          top: calc(100% - 30px);
+        }
+      }
+
+      label {
+        margin-top: 25px;
+      }
+    }
+  }
+
+  .save-button {
+    width: 180px;
+    margin-top: 30px;
+  }
+}

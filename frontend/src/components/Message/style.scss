@@ -1,0 +1,62 @@
+@import '../../assets/scss/constants.scss';
+
+.message {
+  position: fixed;
+  max-width: 600px;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  display: flex;
+  border-radius: 8px;
+  padding: 10px;
+  overflow: hidden;
+  text-align: center;
+  animation: show 400ms ease forwards running;
+
+  &.error {
+    background-color: $red;
+  }
+
+  &.success {
+    background-color: $green;
+  }
+
+  p {
+    margin: 0 auto;
+    text-align: center;
+    font-family: $fontSansSerif;
+    font-size: 14px;
+    color: $light;
+    line-height: 20px;
+    transform: translateY(-100px);
+    animation: show 400ms ease 200ms forwards running;
+  }
+
+  button {
+    background: transparent;
+    padding: 0px 10px;
+    line-height: 0;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: $light;
+    }
+
+    &:focus {
+      background: transparent;
+    }
+  }
+}
+
+@keyframes show {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

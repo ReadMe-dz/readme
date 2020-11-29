@@ -1,0 +1,115 @@
+@import '../../assets/scss/constants.scss';
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(21, 21, 21, 0.5);
+
+  .modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 750px;
+    max-width: 95%;
+    max-height: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 25px;
+    border-radius: 8px;
+    background-color: $white;
+    box-shadow: 0 0 3px $lightFont;
+
+    .head {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+
+      .title {
+        font-size: 21px;
+        text-transform: capitalize;
+        color: $pink;
+      }
+
+      .button {
+        margin-left: auto;
+        background-color: transparent;
+        display: flex;
+        padding: 10px;
+
+        &:focus {
+          background-color: transparent;
+        }
+
+        &:hover {
+          background: $transparentDark;
+        }
+
+        svg {
+          fill: $lightFont;
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+
+    .content {
+      p {
+        line-height: 1.7;
+      }
+
+      b {
+        font-weight: 700;
+        font-family: $fontSerif;
+      }
+    }
+
+    .foot {
+      display: flex;
+      margin-top: 25px;
+
+      .button {
+        display: flex;
+        align-items: center;
+        text-transform: capitalize;
+        padding: 8px 12px;
+        background: transparent;
+        opacity: 0.85;
+        font-size: 13px;
+
+        svg {
+          width: 14px;
+          height: 14px;
+          margin-right: 4px;
+        }
+
+        &:hover {
+          background: $transparentDark;
+          opacity: 1;
+        }
+
+        &.confirm-button {
+          color: $darkGreen;
+          margin-right: 15px;
+
+          svg {
+            fill: $light;
+          }
+        }
+
+        &.cancel-button {
+          color: $darkRed;
+
+          svg {
+            fill: $light;
+          }
+        }
+      }
+    }
+  }
+}

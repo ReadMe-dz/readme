@@ -1,0 +1,32 @@
+@import '../../assets/scss/constants.scss';
+
+.profile__page {
+  display: flex;
+  flex: 1;
+
+  .profile__card {
+    display: flex;
+    justify-content: center;
+    margin-left: 40px;
+    margin-top: 25px;
+    width: 250px;
+  }
+
+  .profile__books {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 275px);
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    margin-left: auto;
+
+    .head-title {
+      font-size: 27px;
+      font-weight: 700;
+      color: $pink;
+      margin: 20px;
+      margin-bottom: 10px;
+      text-transform: capitalize;
+    }
+  }
+}

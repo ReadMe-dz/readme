@@ -1,22 +1,63 @@
-const express = require("express")
-const users_router = express.Router()
+const express = require('express');
+const tokenVerification = require('../middleware/token-verification');
+const {
+  searchUsers,
+  getUserById,
+  addUser,
+  updateUser,
+  deleteUser,
+  loginUser,
+  loadUser,
+  getAllUsers,
+  verifyEmail,
+  getResetPasswordLink,
+  getResetPassword,
+  changePassword,
+  loginWithFacebook,
+  registerWithFacebook,
+  loginWithGoogle,
+  registerWithGoogle,
+} = require('../controllers/users');
 
-const token_verification = require("../middleware/token-verification")
-const { search_users, get_user_by_id, add_user, update_user, delete_user, login_user, load_user } = require("../controllers/users.controller")
-const uploads = require("../middleware/images-upload")
+const uploads = require('../middleware/images-upload');
 
-users_router.get("/search", search_users)
+const usersRouter = express.Router();
 
-users_router.get("/:id", get_user_by_id)
+usersRouter.get('/all', getAllUsers);
 
-users_router.post("/", uploads.single("picture"), add_user)
+usersRouter.get('/search', searchUsers);
 
-users_router.patch("/:id", token_verification, uploads.single("picture"), update_user)
+usersRouter.get('/:id', getUserById);
 
-users_router.delete("/:id", token_verification, delete_user)
+usersRouter.post('/', uploads.single('picture'), addUser);
 
-users_router.post("/login", login_user)
+usersRouter.post('/register/facebook', registerWithFacebook);
 
-users_router.get("/", token_verification, load_user)
+usersRouter.post('/register/google', registerWithGoogle);
 
-module.exports = users_router
+usersRouter.patch(
+  '/:id',
+  tokenVerification,
+  uploads.single('picture'),
+  updateUser
+);
+
+usersRouter.delete('/:id', tokenVerification, deleteUser);
+
+usersRouter.post('/login/facebook', loginWithFacebook);
+
+usersRouter.post('/login/google', loginWithGoogle);
+
+usersRouter.post('/login', loginUser);
+
+usersRouter.get('/verify/:verificationToken', verifyEmail);
+
+usersRouter.get('/', tokenVerification, loadUser);
+
+usersRouter.post('/reset', getResetPasswordLink);
+
+usersRouter.get('/reset/:resetToken', getResetPassword);
+
+usersRouter.post('/change', changePassword);
+
+module.exports = usersRouter;
