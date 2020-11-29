@@ -1,0 +1,99 @@
+@import '../../assets/scss/constants.scss';
+
+.settings {
+  padding: 50px 10%;
+
+  h1 {
+    font-size: 45px;
+    margin-bottom: 65px;
+  }
+
+  h2 {
+    font-size: 30px;
+    margin-bottom: 25px;
+    color: $pink;
+  }
+
+  .change-password {
+    margin-bottom: 45px;
+
+    .content {
+      font-size: 16px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      text-indent: 25px;
+
+      b {
+        font-family: $fontSerif;
+        color: $pink;
+        font-weight: 700;
+      }
+    }
+
+    .tips {
+      li {
+        font-size: 16px;
+        margin-bottom: 15px;
+        line-height: 1.5;
+        text-indent: 45px;
+        list-style: disc;
+      }
+    }
+
+    .change-password-form {
+      margin: 15px 0;
+      .row {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0;
+
+        .input-password {
+          width: 30%;
+        }
+      }
+
+      .error-message {
+        text-align: right;
+        font-size: 12px;
+        color: $red;
+
+        &.reCaptcha {
+          width: 300px;
+        }
+      }
+
+      .change-password-button {
+        margin-top: 15px;
+        width: 150px;
+      }
+    }
+  }
+
+  .remove-account {
+    .content {
+      font-size: 16px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      text-indent: 25px;
+
+      b {
+        font-family: $fontSerif;
+        color: $pink;
+        font-weight: 700;
+      }
+    }
+
+    .delete-button {
+      background: $darkRed;
+      width: 150px;
+
+      &:focus {
+        background: $darkRed;
+      }
+    }
+  }
+
+  .danger {
+    color: $darkRed;
+  }
+}

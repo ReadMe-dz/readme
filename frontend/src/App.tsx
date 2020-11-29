@@ -18,6 +18,7 @@ import EditProfile from './pages/EditProfile';
 import AddBook from './pages/AddBook';
 import EditBook from './pages/EditBook';
 import NotFound from './pages/NotFound';
+import Settings from './pages/Settings';
 import ResetPassword from './pages/ResetPassword';
 import CompleteProfile from './pages/CompleteProfile';
 
@@ -47,6 +48,7 @@ const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
           <PrivateRoute path="/edit" component={EditProfile} />
           <PrivateRoute path="/complete" component={CompleteProfile} />
           <PrivateRoute path="/add-book" component={AddBook} />
+          <PrivateRoute path="/settings" component={Settings} />
           <PrivateRoute path="/book/:id" component={EditBook} />
           <GuestRoute path="/login" component={Login} />
           <GuestRoute path="/subscribe" component={Subscribe} />
