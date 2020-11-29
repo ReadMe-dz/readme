@@ -9,6 +9,7 @@ const getAllUsers = require('./getAllUsers');
 const verifyEmail = require('./verifyEmail');
 const getResetPasswordLink = require('./getResetPasswordLink');
 const getResetPassword = require('./getResetPassword');
+const resetPassword = require('./resetPassword');
 const changePassword = require('./changePassword');
 const loginWithFacebook = require('./loginWithFacebook');
 const registerWithFacebook = require('./registerWithFacebook');
@@ -27,6 +28,7 @@ module.exports = {
   verifyEmail,
   getResetPasswordLink,
   getResetPassword,
+  resetPassword,
   changePassword,
   loginWithFacebook,
   registerWithFacebook,
