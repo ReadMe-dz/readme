@@ -1,35 +1,38 @@
 const express = require('express');
+const tokenVerification = require('../middleware/token-verification');
+const uploads = require('../middleware/images-upload');
+const {
+  addBook,
+  deleteBook,
+  getAllBooksByUserId,
+  getAllBooks,
+  getBookById,
+  getBookDetails,
+  searchBooks,
+  updateBook,
+} = require('../controllers/books');
 
 const booksRouter = express.Router();
 
-const tokenVerification = require('../middleware/token-verification');
-const booksController = require('../controllers/books.controller');
-const uploads = require('../middleware/images-upload');
+booksRouter.get('/search', searchBooks);
 
-booksRouter.get('/search', booksController.searchBooks);
+booksRouter.get('/', getAllBooks);
 
-booksRouter.get('/', booksController.getAllBooks);
+booksRouter.get('/:id', getBookById);
 
-booksRouter.get('/:id', booksController.getBookById);
+booksRouter.get('/details/:id', getBookDetails);
 
-booksRouter.get('/details/:id', booksController.getBookDetails);
+booksRouter.get('/user/:id', getAllBooksByUserId);
 
-booksRouter.get('/user/:id', booksController.getAllBooksByUserId);
-
-booksRouter.post(
-  '/',
-  tokenVerification,
-  uploads.single('cover'),
-  booksController.addBook
-);
+booksRouter.post('/', tokenVerification, uploads.single('cover'), addBook);
 
 booksRouter.patch(
   '/:id',
   tokenVerification,
   uploads.single('cover'),
-  booksController.updateBook
+  updateBook
 );
 
-booksRouter.delete('/:id', tokenVerification, booksController.deleteBook);
+booksRouter.delete('/:id', tokenVerification, deleteBook);
 
 module.exports = booksRouter;
