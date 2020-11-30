@@ -1,5 +1,6 @@
 const bcryptjs = require('bcryptjs');
 const User = require('../../models/user.model');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
 const changePassword = (req, res) => {
   const { currentPassword, password } = req.body;
@@ -16,7 +17,7 @@ const changePassword = (req, res) => {
               if (compareError || !result) {
                 res.status(401).json({
                   message: {
-                    type: 'error',
+                    type: ERROR,
                     content:
                       "Unvalid 'current password'. Please make sure to enter the right 'current password' and retry again.",
                   },
@@ -30,9 +31,9 @@ const changePassword = (req, res) => {
                     if (hashError) {
                       res.status(500).json({
                         message: {
-                          type: 'error',
+                          type: ERROR,
                           content:
-                            'This is not supposed to happen, Please report this to us.2',
+                            'This is not supposed to happen, Please report this to us.',
                         },
                         hashError,
                       });
@@ -44,7 +45,7 @@ const changePassword = (req, res) => {
                             updated_id: req.params.id,
                             success: true,
                             message: {
-                              type: 'success',
+                              type: SUCCESS,
                               content:
                                 'Your password was changed successfully.',
                             },
@@ -54,9 +55,9 @@ const changePassword = (req, res) => {
                           res.status(500).json({
                             error: updateError,
                             message: {
-                              type: 'error',
+                              type: ERROR,
                               content:
-                                'This is not supposed to happen, Please report this to us.3',
+                                'This is not supposed to happen, Please report this to us.',
                             },
                           })
                         );
@@ -66,7 +67,7 @@ const changePassword = (req, res) => {
               } else {
                 res.status(401).json({
                   message: {
-                    type: 'error',
+                    type: ERROR,
                     content:
                       'The new password can not be the same as the old one.',
                   },
@@ -77,7 +78,7 @@ const changePassword = (req, res) => {
         } else {
           res.status(404).json({
             message: {
-              type: 'error',
+              type: ERROR,
               content:
                 'We could not find any account associated to this email address, You need to sign up first.',
             },
@@ -88,16 +89,16 @@ const changePassword = (req, res) => {
         res.status(500).json({
           error: findError,
           message: {
-            type: 'error',
+            type: ERROR,
             content:
-              'This is not supposed to happen, Please report this to us.4',
+              'This is not supposed to happen, Please report this to us.',
           },
         })
       );
   } else {
     res.status(401).json({
       message: {
-        type: 'error',
+        type: ERROR,
         content: 'Please make sure your are logged in, and retry.',
       },
     });

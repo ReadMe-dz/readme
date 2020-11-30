@@ -4,6 +4,7 @@ const axios = require('axios');
 const mailer = require('../../utils/mailer');
 const User = require('../../models/user.model');
 const { makeRandStr } = require('../../utils/helpers');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
 const registerWithFacebook = (req, res) => {
   const { accessToken } = req.body;
@@ -19,7 +20,7 @@ const registerWithFacebook = (req, res) => {
           if (user) {
             res.status(401).json({
               message: {
-                type: 'error',
+                type: ERROR,
                 content:
                   "This Facebook account's email address is already in use.",
               },
@@ -32,7 +33,7 @@ const registerWithFacebook = (req, res) => {
               if (error) {
                 res.status(500).json({
                   message: {
-                    type: 'error',
+                    type: ERROR,
                     content:
                       'Apologies, this is not supposed to happen, Please report this to us.',
                   },
@@ -58,7 +59,7 @@ const registerWithFacebook = (req, res) => {
                       created: userResult,
                       success: true,
                       message: {
-                        type: 'success',
+                        type: SUCCESS,
                         content: `Welcome aboard @${name}, we have created an account for you, and emailed your password. You can now sign in with Facebook or with your email & password.`,
                       },
                     });
@@ -79,7 +80,7 @@ const registerWithFacebook = (req, res) => {
                   .catch((userError) =>
                     res.status(500).json({
                       message: {
-                        type: 'error',
+                        type: ERROR,
                         content:
                           'Apologies, this is not supposed to happen, Please report this to us.',
                       },
@@ -94,7 +95,7 @@ const registerWithFacebook = (req, res) => {
           console.log(error);
           res.status(500).json({
             message: {
-              type: 'error',
+              type: ERROR,
               content:
                 'Apologies, this is not supposed to happen, Please report this to us.',
             },
@@ -105,7 +106,7 @@ const registerWithFacebook = (req, res) => {
       console.log(error);
       res.status(500).json({
         message: {
-          type: 'error',
+          type: ERROR,
           content:
             'Apologies, we could not login with Facebook. Please refrech the page and try again. 4',
         },

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../models/user.model');
+const { ERROR } = require('../../utils/msgTypes');
 require('dotenv').config();
 
 const { JWT_VERFICATION_KEY, FRONTEND_HOSTNAME } = process.env;
@@ -21,7 +22,7 @@ const getResetPassword = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: 'error',
+          type: ERROR,
           content: 'This is not supposed to happen, Please report this to us.',
         },
       })

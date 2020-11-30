@@ -4,6 +4,7 @@ const axios = require('axios');
 const mailer = require('../../utils/mailer');
 const User = require('../../models/user.model');
 const { makeRandStr } = require('../../utils/helpers');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
 const registerWithGoogle = (req, res) => {
   const { tokenId } = req.body;
@@ -17,7 +18,7 @@ const registerWithGoogle = (req, res) => {
           if (user) {
             res.status(401).json({
               message: {
-                type: 'error',
+                type: ERROR,
                 content:
                   "This Google account's email address is already in use.",
               },
@@ -30,7 +31,7 @@ const registerWithGoogle = (req, res) => {
               if (error) {
                 res.status(500).json({
                   message: {
-                    type: 'error',
+                    type: ERROR,
                     content:
                       'Apologies, this is not supposed to happen, Please report this to us.',
                   },
@@ -56,7 +57,7 @@ const registerWithGoogle = (req, res) => {
                       created: userResult,
                       success: true,
                       message: {
-                        type: 'success',
+                        type: SUCCESS,
                         content: `Welcome aboard @${name}, we have created an account for you, and emailed your password. You can now sign in with Google or with your email & password.`,
                       },
                     });
@@ -77,7 +78,7 @@ const registerWithGoogle = (req, res) => {
                   .catch((userError) =>
                     res.status(500).json({
                       message: {
-                        type: 'error',
+                        type: ERROR,
                         content:
                           'Apologies, this is not supposed to happen, Please report this to us.',
                       },
@@ -92,7 +93,7 @@ const registerWithGoogle = (req, res) => {
           console.log(error);
           res.status(500).json({
             message: {
-              type: 'error',
+              type: ERROR,
               content:
                 'Apologies, this is not supposed to happen, Please report this to us.',
             },
@@ -103,7 +104,7 @@ const registerWithGoogle = (req, res) => {
       console.log(error);
       res.status(500).json({
         message: {
-          type: 'error',
+          type: ERROR,
           content:
             'Apologies, we could not login with Google. Please refrech the page and try again. 4',
         },

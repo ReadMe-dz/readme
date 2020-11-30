@@ -1,4 +1,5 @@
 const User = require('../../models/user.model');
+const { ERROR } = require('../../utils/msgTypes');
 
 const getUserById = (req, res) => {
   User.findById(req.params.id)
@@ -11,7 +12,7 @@ const getUserById = (req, res) => {
         ? res.status(200).json(result)
         : res.status(404).json({
             message: {
-              type: 'error',
+              type: ERROR,
               content: 'We could not find any user with the sent ID.',
             },
           })
@@ -20,7 +21,7 @@ const getUserById = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: 'error',
+          type: ERROR,
           content: 'This is not supposed to happen, Please report this to us.',
         },
       })

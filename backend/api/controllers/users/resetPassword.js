@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const User = require('../../models/user.model');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 require('dotenv').config();
 
 const { JWT_VERFICATION_KEY } = process.env;
@@ -20,7 +21,7 @@ const resetPassword = (req, res) => {
           if (error) {
             res.status(500).json({
               message: {
-                type: 'error',
+                type: ERROR,
                 content:
                   'This is not supposed to happen, Please report this to us.',
               },
@@ -34,7 +35,7 @@ const resetPassword = (req, res) => {
                   updated_id: req.params.id,
                   success: true,
                   message: {
-                    type: 'success',
+                    type: SUCCESS,
                     content: 'Your password was updated successfully.',
                   },
                 });
@@ -43,7 +44,7 @@ const resetPassword = (req, res) => {
                 res.status(500).json({
                   error: updateError,
                   message: {
-                    type: 'error',
+                    type: ERROR,
                     content:
                       'This is not supposed to happen, Please report this to us.',
                   },
@@ -56,7 +57,7 @@ const resetPassword = (req, res) => {
         res.status(500).json({
           error: findError,
           message: {
-            type: 'error',
+            type: ERROR,
             content:
               'This is not supposed to happen, Please report this to us.',
           },
@@ -65,7 +66,7 @@ const resetPassword = (req, res) => {
   } else {
     res.status(401).json({
       message: {
-        type: 'error',
+        type: ERROR,
         content:
           'Your reset password link has expired, Please request a new one.',
       },

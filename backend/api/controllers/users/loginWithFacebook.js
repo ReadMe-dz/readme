@@ -3,6 +3,7 @@ const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/user.model');
 const { makeRandStr } = require('../../utils/helpers');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
 const { JWT_KEY } = process.env;
 
@@ -45,7 +46,7 @@ const loginWithFacebook = (req, res) => {
             } else {
               res.status(401).json({
                 message: {
-                  type: 'error',
+                  type: ERROR,
                   content:
                     'Your account has not been activated yet, we have sent you an activation email. Please check your inbox and activate it.',
                 },
@@ -82,7 +83,7 @@ const loginWithFacebook = (req, res) => {
                   created: userResult,
                   success: true,
                   message: {
-                    type: 'success',
+                    type: SUCCESS,
                     content: `Welcome aboard @${name}. Please complete your informations.`,
                   },
                 });
@@ -91,7 +92,7 @@ const loginWithFacebook = (req, res) => {
                 console.log(error);
                 res.status(500).json({
                   message: {
-                    type: 'error',
+                    type: ERROR,
                     content:
                       'Apologies, This is not supposed to happen, Please report this to us.',
                   },
@@ -104,7 +105,7 @@ const loginWithFacebook = (req, res) => {
       console.log(error);
       res.status(500).json({
         message: {
-          type: 'error',
+          type: ERROR,
           content:
             'Apologies, We could not login with Facebook. Please refrech the page and try again.',
         },
