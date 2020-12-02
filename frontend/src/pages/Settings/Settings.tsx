@@ -4,17 +4,17 @@ import * as Yup from 'yup';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form, Formik } from 'formik';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { user as validate } from '../../validations';
-import Modal from '../../components/Modal/Modal';
+import Modal from '../../components/Modal';
+import ReCaptcha from '../../components/ReCaptcha';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 
 import './style.scss';
 
-const { REACT_APP_BASE_URL, REACT_APP_RECAPTCHA_SITE_KEY } = process.env;
+const { REACT_APP_BASE_URL } = process.env;
 
 type changePasswordValues = {
   currentPassword: string;
@@ -67,14 +67,6 @@ const Settings: React.FC = ({ setMsg, user }: any) => {
   const onClose = () => {
     setConfirmed(false);
     setOpenModal(false);
-  };
-
-  const onReCaptcha = (data: any) => {
-    if (data) {
-      setIsHuman(true);
-    } else {
-      setIsHuman(false);
-    }
   };
 
   const onSubmitChangePassword = (
@@ -193,13 +185,7 @@ const Settings: React.FC = ({ setMsg, user }: any) => {
               />
             </div>
 
-            <ReCAPTCHA
-              sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
-              onChange={onReCaptcha}
-            />
-            {isHuman !== null && !isHuman && (
-              <p className="reCaptcha error-message">You are not a human.</p>
-            )}
+            <ReCaptcha setIsHuman={setIsHuman} />
 
             <Button
               className="change-password-button"

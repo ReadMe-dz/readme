@@ -6,18 +6,18 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
-import getIcon from '../../utils/icons';
+import ReCaptcha from '../../components/ReCaptcha';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import Checkbox from '../../components/Checkbox';
+import wilayas from '../../constants/wilayas';
+import getIcon from '../../utils/icons';
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork2.svg';
-import wilayas from '../../constants/wilayas';
 import './style.scss';
 
 type subscribeValues = {
@@ -33,7 +33,6 @@ const {
   REACT_APP_BASE_URL,
   REACT_APP_FACEBOOK_APP_ID,
   REACT_APP_GOOGLE_APP_ID,
-  REACT_APP_RECAPTCHA_SITE_KEY,
 } = process.env;
 
 const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
@@ -144,14 +143,6 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
         content:
           'Apologies. We could not sing in with google, Please refresh and try again.',
       });
-    }
-  };
-
-  const onReCaptcha = (data: any) => {
-    if (data) {
-      setIsHuman(true);
-    } else {
-      setIsHuman(false);
     }
   };
 
@@ -296,13 +287,7 @@ const Subscribe: React.FC<any> = ({ msg, setMsg }: any) => {
                 className="checkbox-terms"
               />
 
-              <ReCAPTCHA
-                sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
-                onChange={onReCaptcha}
-              />
-              {isHuman !== null && !isHuman && (
-                <p className="error-message">You are not a human.</p>
-              )}
+              <ReCaptcha setIsHuman={setIsHuman} />
 
               <Button
                 className="subscribe-button"
