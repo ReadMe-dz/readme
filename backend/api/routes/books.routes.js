@@ -2,19 +2,19 @@ const express = require('express');
 const tokenVerification = require('../middleware/token-verification');
 const uploads = require('../middleware/images-upload');
 const {
-  addBook,
+  postBook,
   deleteBook,
   getAllBooksByUserId,
   getAllBooks,
   getBookById,
   getBookDetails,
-  searchBooks,
-  updateBook,
+  getSearchBooks,
+  patchBook,
 } = require('../controllers/books');
 
 const booksRouter = express.Router();
 
-booksRouter.get('/search', searchBooks);
+booksRouter.get('/search', getSearchBooks);
 
 booksRouter.get('/', getAllBooks);
 
@@ -24,13 +24,13 @@ booksRouter.get('/details/:id', getBookDetails);
 
 booksRouter.get('/user/:id', getAllBooksByUserId);
 
-booksRouter.post('/', tokenVerification, uploads.single('cover'), addBook);
+booksRouter.post('/', tokenVerification, uploads.single('cover'), postBook);
 
 booksRouter.patch(
   '/:id',
   tokenVerification,
   uploads.single('cover'),
-  updateBook
+  patchBook
 );
 
 booksRouter.delete('/:id', tokenVerification, deleteBook);

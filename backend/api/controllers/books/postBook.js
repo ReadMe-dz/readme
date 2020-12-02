@@ -3,7 +3,7 @@ const Book = require('../../models/book.model');
 const validate = require('../../validations/book.validator');
 const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
-const addBook = async (req, res) => {
+const postBook = async (req, res) => {
   const {
     title,
     author,
@@ -83,4 +83,4 @@ const addBook = async (req, res) => {
   }
 };
 
-module.exports = addBook;
+module.exports = postBook;

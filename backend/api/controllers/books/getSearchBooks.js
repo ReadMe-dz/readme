@@ -1,7 +1,7 @@
 const Book = require('../../models/book.model');
 const { ERROR } = require('../../utils/msgTypes');
 
-const searchBooks = (req, res) => {
+const getSearchBooks = (req, res) => {
   const { search } = req.query;
 
   const find = {
@@ -28,4 +28,4 @@ const searchBooks = (req, res) => {
     );
 };
 
-module.exports = searchBooks;
+module.exports = getSearchBooks;

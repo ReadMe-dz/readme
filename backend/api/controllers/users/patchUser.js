@@ -5,7 +5,7 @@ const User = require('../../models/user.model');
 const validate = require('../../validations/user.validator');
 const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
-const updateUser = (req, res) => {
+const patchUser = (req, res) => {
   const {
     email,
     username,
@@ -121,4 +121,4 @@ const updateUser = (req, res) => {
     });
 };
 
-module.exports = updateUser;
+module.exports = patchUser;

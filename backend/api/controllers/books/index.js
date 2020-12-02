@@ -1,19 +1,19 @@
-const addBook = require('./addBook');
+const postBook = require('./postBook');
 const deleteBook = require('./deleteBook');
 const getAllBooksByUserId = require('./getAllBooksByUserId');
 const getAllBooks = require('./getAllBooks');
 const getBookById = require('./getBookById');
 const getBookDetails = require('./getBookDetails');
-const searchBooks = require('./searchBooks');
-const updateBook = require('./updateBook');
+const getSearchBooks = require('./getSearchBooks');
+const patchBook = require('./patchBook');
 
 module.exports = {
-  addBook,
+  postBook,
   deleteBook,
   getAllBooksByUserId,
   getAllBooks,
   getBookById,
   getBookDetails,
-  searchBooks,
-  updateBook,
+  getSearchBooks,
+  patchBook,
 };

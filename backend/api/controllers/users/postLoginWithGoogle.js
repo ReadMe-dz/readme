@@ -7,12 +7,10 @@ const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
 const { JWT_KEY } = process.env;
 
-const loginWithFacebook = (req, res) => {
-  const { accessToken } = req.body;
+const postLoginWithGoogle = async (req, res) => {
+  const { tokenId } = req.body;
   axios
-    .get(
-      `https://graph.facebook.com/v8.0/me?access_token=${accessToken}&fields=name,email`
-    )
+    .get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${tokenId}`)
     .then((response) => {
       const { email } = response.data;
       User.findOne({ email })
@@ -55,7 +53,6 @@ const loginWithFacebook = (req, res) => {
           } else {
             const { name } = response.data;
             const password = makeRandStr(12);
-
             const newUser = new User({
               _id: new mongoose.Types.ObjectId(),
               name: name.toLowerCase(),
@@ -67,13 +64,11 @@ const loginWithFacebook = (req, res) => {
               picture: 'api/uploads/users/0321661312364.png',
               complete: false,
             });
-
             const token = jwt.sign(
               { email, _id: newUser._id },
               JWT_KEY || 'G0-p2^vPj1/6$vE[aK1vM3$5',
               { expiresIn: '5d' }
             );
-
             newUser
               .save()
               .then((userResult) => {
@@ -107,10 +102,10 @@ const loginWithFacebook = (req, res) => {
         message: {
           type: ERROR,
           content:
-            'Apologies, We could not login with Facebook. Please refrech the page and try again.',
+            'Apologies, We could not login with Google. Please refrech the page and try again.',
         },
       });
     });
 };
 
-module.exports = loginWithFacebook;
+module.exports = postLoginWithGoogle;

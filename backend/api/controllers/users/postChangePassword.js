@@ -2,7 +2,7 @@ const bcryptjs = require('bcryptjs');
 const User = require('../../models/user.model');
 const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
-const changePassword = (req, res) => {
+const postChangePassword = (req, res) => {
   const { currentPassword, password } = req.body;
   const { email } = req.verifiedToken;
   if (email) {
@@ -105,4 +105,4 @@ const changePassword = (req, res) => {
   }
 };
 
-module.exports = changePassword;
+module.exports = postChangePassword;

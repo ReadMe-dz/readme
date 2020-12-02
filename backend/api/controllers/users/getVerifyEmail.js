@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const { JWT_VERFICATION_KEY, FRONTEND_HOSTNAME } = process.env;
 
-const verifyEmail = (req, res) => {
+const getVerifyEmail = (req, res) => {
   const token = req.params.verificationToken.slice(0, -5);
   const { email } = jwt.verify(token, JWT_VERFICATION_KEY);
 
@@ -53,4 +53,4 @@ const verifyEmail = (req, res) => {
     );
 };
 
-module.exports = verifyEmail;
+module.exports = getVerifyEmail;

@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const { JWT_VERFICATION_KEY } = process.env;
 
-const resetPassword = (req, res) => {
+const postResetPassword = (req, res) => {
   const { resetToken, password } = req.body;
   const { email, exp } = jwt.verify(
     resetToken.slice(0, -5),
@@ -74,4 +74,4 @@ const resetPassword = (req, res) => {
   }
 };
 
-module.exports = resetPassword;
+module.exports = postResetPassword;

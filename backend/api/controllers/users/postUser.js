@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const { JWT_VERFICATION_KEY, HOSTNAME } = process.env;
 
-const addUser = (req, res) => {
+const postUser = (req, res) => {
   const { name, email, password, username, wilaya } = req.body;
 
   User.find({ email })
@@ -141,4 +141,4 @@ const addUser = (req, res) => {
     );
 };
 
-module.exports = addUser;
+module.exports = postUser;

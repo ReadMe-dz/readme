@@ -1,7 +1,7 @@
 const User = require('../../models/user.model');
 const { ERROR } = require('../../utils/msgTypes');
 
-const loadUser = (req, res) => {
+const getLoadUser = (req, res) => {
   const { email } = req.verifiedToken;
   User.findOne({ email })
     .exec()
@@ -59,4 +59,4 @@ const loadUser = (req, res) => {
     );
 };
 
-module.exports = loadUser;
+module.exports = getLoadUser;

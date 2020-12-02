@@ -6,12 +6,10 @@ const User = require('../../models/user.model');
 const { makeRandStr } = require('../../utils/helpers');
 const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
-const registerWithFacebook = (req, res) => {
-  const { accessToken } = req.body;
+const postRegisterWithGoogle = (req, res) => {
+  const { tokenId } = req.body;
   axios
-    .get(
-      `https://graph.facebook.com/v8.0/me?access_token=${accessToken}&fields=name,email`
-    )
+    .get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${tokenId}`)
     .then((response) => {
       const { email } = response.data;
       User.findOne({ email })
@@ -22,7 +20,7 @@ const registerWithFacebook = (req, res) => {
               message: {
                 type: ERROR,
                 content:
-                  "This Facebook account's email address is already in use.",
+                  "This Google account's email address is already in use.",
               },
             });
           } else {
@@ -60,7 +58,7 @@ const registerWithFacebook = (req, res) => {
                       success: true,
                       message: {
                         type: SUCCESS,
-                        content: `Welcome aboard @${name}, we have created an account for you, and emailed your password. You can now sign in with Facebook or with your email & password.`,
+                        content: `Welcome aboard @${name}, we have created an account for you, and emailed your password. You can now sign in with Google or with your email & password.`,
                       },
                     });
                     const emailContent = `
@@ -68,8 +66,8 @@ const registerWithFacebook = (req, res) => {
                         <img style="display: inline-block; width: 128px; height: 128px;" src="https://i.ibb.co/NsPb7kB/Untitled-1.png" />
                         <p>Hello ${name},</p>
                         <p>Thank you for joining <b style="color: #ea4c89;">Read Me</b>.</p>
-                        <p>After your singing up with Facebook, we have created an account for you, and set up this password <b>${password}</b> for you.</p>
-                        <p>You can sing in with your Facebook or with your email & password.</p>
+                        <p>After your singing up with Google, we have created an account for you, and set up this password <b>${password}</b> for you.</p>
+                        <p>You can sing in with your Google or with your email & password.</p>
                         <br />
                         <p>Best Regards</p>
                         <p>The <b style="color: #ea4c89;">Read Me</b> team</p>
@@ -108,10 +106,10 @@ const registerWithFacebook = (req, res) => {
         message: {
           type: ERROR,
           content:
-            'Apologies, we could not login with Facebook. Please refrech the page and try again. 4',
+            'Apologies, we could not login with Google. Please refrech the page and try again. 4',
         },
       });
     });
 };
 
-module.exports = registerWithFacebook;
+module.exports = postRegisterWithGoogle;

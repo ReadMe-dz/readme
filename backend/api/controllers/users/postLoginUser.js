@@ -6,21 +6,21 @@ require('dotenv').config();
 
 const { JWT_KEY } = process.env;
 
-const loginUser = (req, res) => {
+const postLoginUser = (req, res) => {
   const { email, password } = req.body;
   User.findOne({ email })
     .exec()
     .then((user) => {
       if (user) {
         bcryptjs.compare(String(password), user.password, (error, result) => {
-          if (error || !result)
+          if (error || !result) {
             res.status(401).json({
               message: {
                 type: ERROR,
                 content: 'Unvalid email address or password, Please try again.',
               },
             });
-          else if (user.verified) {
+          } else if (user.verified) {
             const token = jwt.sign(
               { email, _id: user._id },
               JWT_KEY || 'G0-p2^vPj1/6$vE[aK1vM3$5',
@@ -75,4 +75,4 @@ const loginUser = (req, res) => {
     );
 };
 
-module.exports = loginUser;
+module.exports = postLoginUser;

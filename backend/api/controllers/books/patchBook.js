@@ -4,7 +4,7 @@ const Book = require('../../models/book.model');
 const validate = require('../../validations/book.validator');
 const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
-const updateBook = async (req, res) => {
+const patchBook = async (req, res) => {
   const {
     title,
     author,
@@ -120,4 +120,4 @@ const updateBook = async (req, res) => {
   }
 };
 
-module.exports = updateBook;
+module.exports = patchBook;
