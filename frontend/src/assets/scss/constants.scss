@@ -2,6 +2,7 @@ $black: #000000;
 $white: #ffffff;
 $dark: #121212;
 $light: #f3f3f4;
+$transparentDark: rgba(21, 21, 21, 0.05);
 
 $lightGrey: #e5e5e5;
 $font: #31302c;
@@ -13,8 +14,8 @@ $tiger: #ff6145;
 $sandstone: #ffdc9f;
 $taupe: #dda797;
 $green: #3d9776;
-$lightGreen: #a1dac4;
-$darkGreen: #0d422e;
+$lightGreen: #dcf5eb;
+$darkGreen: #358455;
 $heather: #827f86;
 $purple: #e8d9f1;
 $darkPurple: #3e1554;
@@ -28,8 +29,11 @@ $lightPink: #f082ac;
 $lighterPink: #f1cdd7;
 $fadePink: #f1cdd788;
 $red: #ff5555;
+$darkRed: #f14141;
 $darkYellow: #5f4916;
 $lightYellow: #f5da9a;
+$indigo: #271d5a;
+$lightIndigo: #dfd9ff;
 
 $fontSansSerif: -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI',
   'Fira Sans', 'Droid Sans', Ubuntu, 'Helvetica Neue', Helvetica, Arial,
