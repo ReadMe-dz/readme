@@ -7,7 +7,7 @@ const author: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
     new RegExp(/^[a-zA-Z ]+$/),
-    'Invalid author name.'
+    'Invalid author name, only a...z characters and spaces are allowed'
   )
   .min(3, 'Must be 3 characters or more')
   .max(50, 'Must be 50 characters or less')
@@ -17,7 +17,7 @@ const title: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
     new RegExp(/^[a-zA-Z0-9_ ]+$/),
-    'Invalid title, only ( a...z _ ) characters are allowed'
+    'Invalid title, only a...z characters, 0...9 digits, _ and spaces are allowed'
   )
   .min(3, 'Must be 4 characters or more')
   .max(50, 'Must be 50 characters or less')
@@ -27,7 +27,7 @@ const publisher: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
     new RegExp(/^[a-zA-Z0-9_ ]+$/),
-    'Invalid publisher, only ( a...z _ ) characters are allowed'
+    'Invalid publisher, only a...z characters, 0...9 digits, _ and spaces are allowed'
   )
   .min(3, 'Must be 4 characters or more')
   .max(50, 'Must be 50 characters or less');
@@ -56,7 +56,7 @@ const details: Yup.StringSchema = Yup.string();
 const search: Yup.StringSchema = Yup.string().matches(
   // eslint-disable-next-line
   new RegExp(/^[a-zA-Z ]+$/),
-  'Invalid search value.'
+  'Invalid search value, only a...z characters and spaces are allowed'
 );
 
 export default {
