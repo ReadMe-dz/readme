@@ -21,6 +21,7 @@ import NotFound from './pages/NotFound';
 import Settings from './pages/Settings';
 import ResetPassword from './pages/ResetPassword';
 import CompleteProfile from './pages/CompleteProfile';
+import Report from './pages/Report';
 
 const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
   useEffect(() => {
@@ -50,6 +51,7 @@ const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
           <PrivateRoute path="/add-book" component={AddBook} />
           <PrivateRoute path="/settings" component={Settings} />
           <PrivateRoute path="/book/:id" component={EditBook} />
+          <GuestRoute path="/report" component={Report} />
           <GuestRoute path="/login" component={Login} />
           <GuestRoute path="/subscribe" component={Subscribe} />
           <GuestRoute path="/forget-password" component={ForgetPassword} />
