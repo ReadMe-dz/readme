@@ -12,8 +12,7 @@
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 0 9px 0px $lightGrey;
-    margin-right: 40px;
-    margin-top: 10px;
+    margin: 10px auto;
 
     span {
       width: 100%;
@@ -35,6 +34,7 @@
     line-height: 38px;
     text-transform: capitalize;
     color: $font;
+    text-align: center;
   }
 
   .username {
@@ -43,6 +43,7 @@
     color: $lightFont;
     font-weight: bold;
     font-family: $fontSansSerif;
+    text-align: center;
   }
 
   .separator {
