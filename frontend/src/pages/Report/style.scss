@@ -14,7 +14,7 @@
 
     &.aside-left {
       width: 420px;
-      background: $lightGreen;
+      background: $lightIndigo;
       padding: 40px;
 
       .logo {
@@ -33,7 +33,7 @@
           font-size: 20px;
           font-weight: 700;
           line-height: 1.4;
-          color: $darkGreen;
+          color: $indigo;
 
           b {
             font-size: 14px;
@@ -60,6 +60,32 @@
       flex: 1;
       flex-direction: column;
       overflow-y: auto;
+
+      .report-form {
+        display: flex;
+        flex-direction: column;
+        max-width: 420px;
+        width: 100%;
+        padding: 0 20px;
+        margin: 25px auto;
+
+        h2 {
+          font-size: 32px;
+          margin: 20px 0;
+          text-transform: capitalize;
+        }
+
+        .details {
+          textarea {
+            max-width: 100%;
+            min-width: 100%;
+          }
+        }
+
+        .send-button {
+          width: 150px;
+        }
+      }
     }
   }
 
@@ -70,11 +96,9 @@
       }
 
       &.aside-right {
-        .main {
-          .reset-password-form {
-            .reset-password-button {
-              width: 100%;
-            }
+        .report-form {
+          .send-button {
+            width: 100%;
           }
         }
       }

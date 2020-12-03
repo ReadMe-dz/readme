@@ -40,17 +40,17 @@ const Report: React.FC = ({ setMsg }: any) => {
     values: reportValues,
     {
       setSubmitting,
+      resetForm,
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void }
   ) => {
     setSubmitting(false);
     if (isHuman) {
       setLoading(true);
-
       Axios.post(`${REACT_APP_BASE_URL}/reports`, values)
         .then(() => {
           setMsg({
             type: 'success',
-            content: 'The type was sent successfully.',
+            content: 'The report was sent successfully.',
           });
         })
         .catch((err) => {
@@ -58,10 +58,13 @@ const Report: React.FC = ({ setMsg }: any) => {
           setMsg({
             type: 'error',
             content:
-              'Sorry! an error occured while sending the report. Please check your internet connection and try again.',
+              'Sorry! an error occured while sending your report. Please check your internet connection and try again.',
           });
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+          resetForm();
+        });
     }
   };
 
@@ -75,9 +78,9 @@ const Report: React.FC = ({ setMsg }: any) => {
         </div>
         <div className="intro">
           <h2>
-            &ldquo; Weak passwords are a crook&apos;s best friend.&rdquo;
+            &ldquo;A problem well stated is a problem half solved.&rdquo;
             <br />
-            <b>Jean Chatzky</b>
+            <b>Charles Kettering</b>
           </h2>
         </div>
         <div className="artwork">
@@ -86,6 +89,8 @@ const Report: React.FC = ({ setMsg }: any) => {
       </div>
       <div className="aside aside-right">
         <div className="report-form">
+          <h2>Send A Report</h2>
+
           <Formik
             enableReinitialize
             initialValues={initVal}
@@ -105,7 +110,7 @@ const Report: React.FC = ({ setMsg }: any) => {
                 placeholder="ex: page not loading"
               />
               <Select
-                label="The report type"
+                label="The Report Type"
                 name="type"
                 options={reports}
                 className="select-type"

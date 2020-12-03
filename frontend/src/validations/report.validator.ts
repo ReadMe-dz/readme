@@ -4,7 +4,7 @@ import reports from '../constants/reports';
 const title: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
-    new RegExp(/^[a-zA-Z ]+$/),
+    new RegExp(/^[a-zA-Z0-9 ]+$/),
     'Invalid title, only a...z characters and spaces are allowed'
   )
   .min(3, 'Must be 4 characters or more')
