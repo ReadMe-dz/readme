@@ -12,6 +12,29 @@ import './style.scss';
 
 const { REACT_APP_BASE_URL } = process.env;
 
+type bookOwner = {
+  id: string;
+  picture: string;
+  name: string;
+  wilaya: string;
+};
+
+interface Ibook {
+  id: string;
+  title: string;
+  author: string;
+  publisher?: string | null;
+  language?: string | null;
+  year?: number | null;
+  price: number;
+  state?: string | null;
+  details?: string | null;
+  hearts: string[];
+  cover: string;
+  genre: string;
+  user: bookOwner;
+}
+
 const Profile: React.FC = ({
   match: {
     params: { id },
@@ -20,13 +43,15 @@ const Profile: React.FC = ({
   setMsg,
 }: any) => {
   const [user, setUser] = useState(logged);
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Ibook[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingBooks, setLoadingBooks] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [bookToDelete, setBookToDelete] = useState('');
   const [notFound, setNotFound] = useState(false);
+
+  console.log(books);
 
   useEffect(() => {
     if (logged.id !== id) {

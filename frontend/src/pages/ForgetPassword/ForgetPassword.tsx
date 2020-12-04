@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
+import ReCaptcha from '../../components/ReCaptcha';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork3.svg';
 import './style.scss';
@@ -19,7 +18,7 @@ type forgetValues = {
   email: string;
 };
 
-const { REACT_APP_BASE_URL, REACT_APP_RECAPTCHA_SITE_KEY } = process.env;
+const { REACT_APP_BASE_URL } = process.env;
 
 const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
   const [loading, setLoading] = useState(false);
@@ -57,14 +56,6 @@ const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
     }
   };
 
-  const onReCaptcha = (data: any) => {
-    if (data) {
-      setIsHuman(true);
-    } else {
-      setIsHuman(false);
-    }
-  };
-
   return (
     <div className="forget-password">
       <div className="aside aside-left">
@@ -98,12 +89,11 @@ const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
           <h2>Forgot Password?</h2>
           <div className="instructions">
             <p>
-              Enter the email address you used when you joined and we’ll send
-              you instructions to reset your password.
+              For security reasons, we do <b>NOT</b> store your password.
             </p>
             <p>
-              For security reasons, we do NOT store your password, and this
-              restoration link is valid for 2 hours only.
+              Enter the email address assocaited to your account and we’ll send
+              you the instructions to reset your password.
             </p>
           </div>
           <Formik
@@ -121,13 +111,7 @@ const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
                 className="input-email"
               />
 
-              <ReCAPTCHA
-                sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
-                onChange={onReCaptcha}
-              />
-              {isHuman !== null && !isHuman && (
-                <p className="error-message">You are not a human.</p>
-              )}
+              <ReCaptcha setIsHuman={setIsHuman} />
 
               <Button
                 className="forget-password-button"

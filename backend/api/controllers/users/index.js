@@ -1,35 +1,37 @@
-const searchUsers = require('./searchUsers');
+const getSearchUsers = require('./getSearchUsers');
 const getUserById = require('./getUserById');
-const addUser = require('./addUser');
-const updateUser = require('./updateUser');
+const postUser = require('./postUser');
+const patchUser = require('./patchUser');
 const deleteUser = require('./deleteUser');
-const loginUser = require('./loginUser');
-const loadUser = require('./loadUser');
+const postLoginUser = require('./postLoginUser');
+const getLoadUser = require('./getLoadUser');
 const getAllUsers = require('./getAllUsers');
-const verifyEmail = require('./verifyEmail');
+const getVerifyEmail = require('./getVerifyEmail');
 const getResetPasswordLink = require('./getResetPasswordLink');
 const getResetPassword = require('./getResetPassword');
-const changePassword = require('./changePassword');
-const loginWithFacebook = require('./loginWithFacebook');
-const registerWithFacebook = require('./registerWithFacebook');
-const loginWithGoogle = require('./loginWithGoogle');
-const registerWithGoogle = require('./registerWithGoogle');
+const postResetPassword = require('./postResetPassword');
+const postChangePassword = require('./postChangePassword');
+const postLoginWithFacebook = require('./postLoginWithFacebook');
+const postRegisterWithFacebook = require('./postRegisterWithFacebook');
+const postLoginWithGoogle = require('./postLoginWithGoogle');
+const postRegisterWithGoogle = require('./postRegisterWithGoogle');
 
 module.exports = {
-  searchUsers,
+  getSearchUsers,
   getUserById,
-  addUser,
-  updateUser,
+  postUser,
+  patchUser,
   deleteUser,
-  loginUser,
-  loadUser,
+  postLoginUser,
+  getLoadUser,
   getAllUsers,
-  verifyEmail,
+  getVerifyEmail,
   getResetPasswordLink,
   getResetPassword,
-  changePassword,
-  loginWithFacebook,
-  registerWithFacebook,
-  loginWithGoogle,
-  registerWithGoogle,
+  postResetPassword,
+  postChangePassword,
+  postLoginWithFacebook,
+  postRegisterWithFacebook,
+  postLoginWithGoogle,
+  postRegisterWithGoogle,
 };

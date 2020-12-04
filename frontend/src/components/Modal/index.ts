@@ -1,3 +1,3 @@
-import Model from './Modal';
+import Modal from './Modal';
 
-export default Model;
+export default Modal;

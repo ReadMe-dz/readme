@@ -5,11 +5,12 @@ const mailer = require('../../utils/mailer');
 const User = require('../../models/user.model');
 const validate = require('../../validations/user.validator');
 const { makeRandStr } = require('../../utils/helpers');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 require('dotenv').config();
 
 const { JWT_VERFICATION_KEY, HOSTNAME } = process.env;
 
-const addUser = (req, res) => {
+const postUser = (req, res) => {
   const { name, email, password, username, wilaya } = req.body;
 
   User.find({ email })
@@ -18,7 +19,7 @@ const addUser = (req, res) => {
       if (result.length > 0) {
         res.status(409).json({
           message: {
-            type: 'error',
+            type: ERROR,
             content:
               'This email is already in use. You need just to simply login.',
           },
@@ -28,7 +29,7 @@ const addUser = (req, res) => {
           if (error) {
             res.status(500).json({
               message: {
-                type: 'error',
+                type: ERROR,
                 content:
                   'This is not supposed to happen, Please report this to us.',
               },
@@ -69,7 +70,7 @@ const addUser = (req, res) => {
                       created: userResult,
                       success: true,
                       message: {
-                        type: 'success',
+                        type: SUCCESS,
                         content: `The user @${user.username} have been created.`,
                       },
                     });
@@ -99,9 +100,9 @@ const addUser = (req, res) => {
                   .catch((userError) =>
                     res.status(500).json({
                       message: {
-                        type: 'error',
+                        type: ERROR,
                         content:
-                          'This is not supposed to happen, Please report this to us. 1',
+                          'This is not supposed to happen, Please report this to us.',
                       },
                       error: userError,
                     })
@@ -109,19 +110,18 @@ const addUser = (req, res) => {
               } else {
                 res.status(401).json({
                   message: {
-                    type: 'error',
+                    type: ERROR,
                     content:
                       'Unvalid inputs, Please check you inputs and try again.',
                   },
                 });
               }
             } catch (catchError) {
-              console.log(catchError);
               res.status(500).json({
                 message: {
-                  type: 'error',
+                  type: ERROR,
                   content:
-                    'This is not supposed to happen, Please report this to us. 2',
+                    'This is not supposed to happen, Please report this to us.',
                 },
                 error: catchError,
               });
@@ -134,12 +134,11 @@ const addUser = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: 'error',
-          content:
-            'This is not supposed to happen, Please report this to us. 3',
+          type: ERROR,
+          content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
 };
 
-module.exports = addUser;
+module.exports = postUser;

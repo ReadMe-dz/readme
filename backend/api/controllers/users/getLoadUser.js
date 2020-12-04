@@ -1,6 +1,7 @@
 const User = require('../../models/user.model');
+const { ERROR } = require('../../utils/msgTypes');
 
-const loadUser = (req, res) => {
+const getLoadUser = (req, res) => {
   const { email } = req.verifiedToken;
   User.findOne({ email })
     .exec()
@@ -40,7 +41,7 @@ const loadUser = (req, res) => {
       } else {
         res.status(401).json({
           message: {
-            type: 'error',
+            type: ERROR,
             content:
               'The sent token is unvalid, please logout and login again.',
           },
@@ -51,11 +52,11 @@ const loadUser = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: 'error',
+          type: ERROR,
           content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
 };
 
-module.exports = loadUser;
+module.exports = getLoadUser;

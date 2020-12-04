@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../models/user.model');
+const { ERROR } = require('../../utils/msgTypes');
 require('dotenv').config();
 
 const { JWT_VERFICATION_KEY, FRONTEND_HOSTNAME } = process.env;
 
-const verifyEmail = (req, res) => {
+const getVerifyEmail = (req, res) => {
   const token = req.params.verificationToken.slice(0, -5);
   const { email } = jwt.verify(token, JWT_VERFICATION_KEY);
 
@@ -24,7 +25,7 @@ const verifyEmail = (req, res) => {
               res.status(500).json({
                 error,
                 message: {
-                  type: 'error',
+                  type: ERROR,
                   content:
                     'This is not supposed to happen, Please report this to us.',
                 },
@@ -34,7 +35,7 @@ const verifyEmail = (req, res) => {
       } else {
         res.status(404).json({
           message: {
-            type: 'error',
+            type: ERROR,
             content:
               'We could not find any account associated to this email address',
           },
@@ -45,11 +46,11 @@ const verifyEmail = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: 'error',
+          type: ERROR,
           content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
 };
 
-module.exports = verifyEmail;
+module.exports = getVerifyEmail;

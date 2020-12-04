@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { loginUser } from '../../redux-store/actions/user.actions';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { user as validate } from '../../validations';
-import getIcon from '../../utils/icons';
+import ReCaptcha from '../../components/ReCaptcha';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
+import getIcon from '../../utils/icons';
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork.svg';
 import './style.scss';
@@ -27,7 +27,6 @@ const {
   REACT_APP_FACEBOOK_APP_ID,
   REACT_APP_BASE_URL,
   REACT_APP_GOOGLE_APP_ID,
-  REACT_APP_RECAPTCHA_SITE_KEY,
 } = process.env;
 
 const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
@@ -128,14 +127,6 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
         content:
           'Apologies. We could not sing in with google, Please refresh and try again.',
       });
-    }
-  };
-
-  const onReCaptcha = (data: any) => {
-    if (data) {
-      setIsHuman(true);
-    } else {
-      setIsHuman(false);
     }
   };
 
@@ -246,13 +237,7 @@ const Login: React.FC<any> = ({ history, login, msg, setMsg }: any) => {
                 <b>Forgot your password?</b>
               </Link>
 
-              <ReCAPTCHA
-                sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
-                onChange={onReCaptcha}
-              />
-              {isHuman !== null && !isHuman && (
-                <p className="error-message">You are not a human.</p>
-              )}
+              <ReCaptcha setIsHuman={setIsHuman} />
 
               <Button
                 className="login-button"

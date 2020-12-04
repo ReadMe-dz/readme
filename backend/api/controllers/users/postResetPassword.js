@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const User = require('../../models/user.model');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 require('dotenv').config();
 
 const { JWT_VERFICATION_KEY } = process.env;
 
-const changePassword = (req, res) => {
+const postResetPassword = (req, res) => {
   const { resetToken, password } = req.body;
   const { email, exp } = jwt.verify(
     resetToken.slice(0, -5),
@@ -20,7 +21,7 @@ const changePassword = (req, res) => {
           if (error) {
             res.status(500).json({
               message: {
-                type: 'error',
+                type: ERROR,
                 content:
                   'This is not supposed to happen, Please report this to us.',
               },
@@ -34,7 +35,7 @@ const changePassword = (req, res) => {
                   updated_id: req.params.id,
                   success: true,
                   message: {
-                    type: 'success',
+                    type: SUCCESS,
                     content: 'Your password was updated successfully.',
                   },
                 });
@@ -43,7 +44,7 @@ const changePassword = (req, res) => {
                 res.status(500).json({
                   error: updateError,
                   message: {
-                    type: 'error',
+                    type: ERROR,
                     content:
                       'This is not supposed to happen, Please report this to us.',
                   },
@@ -56,7 +57,7 @@ const changePassword = (req, res) => {
         res.status(500).json({
           error: findError,
           message: {
-            type: 'error',
+            type: ERROR,
             content:
               'This is not supposed to happen, Please report this to us.',
           },
@@ -65,7 +66,7 @@ const changePassword = (req, res) => {
   } else {
     res.status(401).json({
       message: {
-        type: 'error',
+        type: ERROR,
         content:
           'Your reset password link has expired, Please request a new one.',
       },
@@ -73,4 +74,4 @@ const changePassword = (req, res) => {
   }
 };
 
-module.exports = changePassword;
+module.exports = postResetPassword;

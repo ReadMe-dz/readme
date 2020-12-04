@@ -5,7 +5,7 @@ const name: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
     new RegExp(/^[a-zA-Z ]+$/),
-    'Invalid name, only ( a...z ) characters are allowed'
+    'Invalid name, only alphabet characters and spaces are allowed'
   )
   .min(3, 'Must be 3 characters or more')
   .max(15, 'Must be 15 characters or less')
@@ -15,7 +15,7 @@ const username: Yup.StringSchema = Yup.string()
   .matches(
     // eslint-disable-next-line
     new RegExp(/^[a-zA-Z0-9_]+$/),
-    'Invalid username, only ( a...z _ ) characters are allowed'
+    'Invalid username, only alpha-numeric characters, _ and spaces are allowed'
   )
   .min(3, 'Must be 4 characters or more')
   .max(9, 'Must be 9 characters or less')

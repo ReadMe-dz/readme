@@ -10,6 +10,7 @@
   .aside {
     display: flex;
     flex-direction: column;
+    height: 100vh;
 
     &.aside-left {
       width: 420px;
@@ -58,6 +59,7 @@
       display: flex;
       flex: 1;
       flex-direction: column;
+      overflow-y: auto;
 
       .head {
         margin: 40px;
@@ -87,6 +89,29 @@
           margin-bottom: 20px;
         }
 
+        .content {
+          font-size: 16px;
+          margin-bottom: 15px;
+          line-height: 1.5;
+          text-indent: 25px;
+
+          b {
+            font-family: $fontSerif;
+            color: $pink;
+            font-weight: 700;
+          }
+        }
+
+        .tips {
+          li {
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            text-indent: 45px;
+            list-style: disc;
+          }
+        }
+
         .instructions {
           p {
             font-size: 14px;
@@ -101,15 +126,12 @@
           flex-direction: column;
           margin-bottom: 25px;
 
-          .input {
-            margin-bottom: 15px;
-          }
-
           .reset-password-button {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 200px;
+            margin-top: 15px;
           }
         }
       }

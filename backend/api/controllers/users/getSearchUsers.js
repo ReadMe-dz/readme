@@ -1,6 +1,7 @@
 const User = require('../../models/user.model');
+const { ERROR } = require('../../utils/msgTypes');
 
-const searchUsers = (req, res) => {
+const getSearchUsers = (req, res) => {
   const { username, wilaya } = req.query;
   const find = { username, wilaya };
 
@@ -16,11 +17,11 @@ const searchUsers = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: 'error',
+          type: ERROR,
           content: 'This is not supposed to happen, Please report this to us.',
         },
       })
     );
 };
 
-module.exports = searchUsers;
+module.exports = getSearchUsers;

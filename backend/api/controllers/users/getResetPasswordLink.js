@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/user.model');
 const mailer = require('../../utils/mailer');
 const { makeRandStr } = require('../../utils/helpers');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 require('dotenv').config();
 
 const { JWT_VERFICATION_KEY, HOSTNAME } = process.env;
@@ -28,7 +29,8 @@ const getResetPasswordLink = (req, res) => {
             <br />
             <p>Someone (hopefully you) has requested a password reset for your <b style="color: #ea4c89;">Read Me</b> account. Follow the link below to set a new password:</p>
             <a style="color: #ea4c89; text-decoration: underline;" href="${verificationlink}">${verificationlink}</a>
-            <p>If you don't wish to reset your password, disregard this email and no action will be taken and the link will expired in 2 hours.</p>
+            <p>If you don't wish to reset your password, disregard this email and no action will be taken.</p>
+            <p>This link will be expired in 2 hours.</p>
             <br />
             <p>Best Regards</p>
             <p>The <b style="color: #ea4c89;">Read Me</b> team</p>
@@ -38,7 +40,7 @@ const getResetPasswordLink = (req, res) => {
 
         res.status(200).json({
           message: {
-            type: 'success',
+            type: SUCCESS,
             content:
               'We have sent you instructions to reset your password to your email address.',
           },
@@ -46,7 +48,7 @@ const getResetPasswordLink = (req, res) => {
       } else {
         res.status(404).json({
           message: {
-            type: 'error',
+            type: ERROR,
             content:
               'We could not find any account associated to this email address.',
           },
@@ -57,7 +59,7 @@ const getResetPasswordLink = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: 'error',
+          type: ERROR,
           content: 'This is not supposed to happen, Please report this to us.',
         },
       })

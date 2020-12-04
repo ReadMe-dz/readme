@@ -3,8 +3,9 @@ const bcryptjs = require('bcryptjs');
 const path = require('path');
 const User = require('../../models/user.model');
 const validate = require('../../validations/user.validator');
+const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
-const updateUser = (req, res) => {
+const patchUser = (req, res) => {
   const {
     email,
     username,
@@ -36,7 +37,7 @@ const updateUser = (req, res) => {
     newUser.picture = req.file.path;
   }
 
-  User.findOne({ _id: req.params.id, email: req.verifiedToken })
+  User.findOne({ _id: req.params.id, email: req.verifiedToken.email })
     .exec()
     .then(async (result) => {
       try {
@@ -74,7 +75,7 @@ const updateUser = (req, res) => {
                 updated_id: req.params.id,
                 success: true,
                 message: {
-                  type: 'success',
+                  type: SUCCESS,
                   content: 'Your profile was updated successfully.',
                 },
               });
@@ -84,7 +85,7 @@ const updateUser = (req, res) => {
               res.status(500).json({
                 error,
                 message: {
-                  type: 'error',
+                  type: ERROR,
                   content:
                     'This is not supposed to happen, Please report this to us.',
                 },
@@ -93,7 +94,7 @@ const updateUser = (req, res) => {
         } else {
           res.status(401).json({
             message: {
-              type: 'error',
+              type: ERROR,
               content: 'Unvalid inputs, Please check you inputs and try again.',
             },
           });
@@ -102,7 +103,7 @@ const updateUser = (req, res) => {
         res.status(500).json({
           error: catchError,
           message: {
-            type: 'error',
+            type: ERROR,
             content:
               'This is not supposed to happen, Please report this to us.',
           },
@@ -113,11 +114,11 @@ const updateUser = (req, res) => {
       res.status(500).json({
         error,
         message: {
-          type: 'error',
+          type: ERROR,
           content: 'This is not supposed to happen, Please report this to us.',
         },
       });
     });
 };
 
-module.exports = updateUser;
+module.exports = patchUser;

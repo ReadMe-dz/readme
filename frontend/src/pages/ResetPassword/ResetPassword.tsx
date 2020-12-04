@@ -6,10 +6,10 @@ import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
+import ReCaptcha from '../../components/ReCaptcha';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-
 import logo from '../../assets/images/logo.png';
 import artwork from '../../assets/images/artwork4.svg';
 import './style.scss';
@@ -29,6 +29,8 @@ const ResetPassword: React.FC<any> = ({
   },
 }: any) => {
   const [loading, setLoading] = useState(false);
+  const [isHuman, setIsHuman] = useState<boolean | null>(null);
+
   const initialValues: forgetValues = {
     password: '',
     passwordConfirmation: '',
@@ -43,22 +45,32 @@ const ResetPassword: React.FC<any> = ({
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     setSubmitting(false);
-    setLoading(true);
-    if (password === passwordConfirmation) {
-      Axios.post(`${REACT_APP_BASE_URL}/users/change`, {
-        password,
-        resetToken,
-      })
-        .then((res) => {
-          setMsg(res.data.message);
+    if (isHuman) {
+      setLoading(true);
+      if (password === passwordConfirmation) {
+        Axios.post(`${REACT_APP_BASE_URL}/users/reset-password`, {
+          password,
+          resetToken,
         })
-        .catch((err) => {
-          setMsg(err.response.data.message);
+          .then((res) => {
+            setMsg(res.data.message);
+          })
+          .catch((err) => {
+            setMsg(err.response.data.message);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } else {
+        setMsg({
+          type: 'error',
+          content: 'Password and confirmation must match.',
         });
+      }
     } else {
       setMsg({
         type: 'error',
-        content: 'Password and confirmation must match.',
+        content: 'Please make sure to validate the reCaptcha.',
       });
     }
   };
@@ -85,14 +97,25 @@ const ResetPassword: React.FC<any> = ({
       <div className="aside aside-right">
         <div className="head">
           <p>
-            Not a member?
-            <Link className="subscribe-link" to="/subscribe">
-              Sign Up
+            Got your memory back?
+            <Link className="login-link" to="/login">
+              Sign In
             </Link>
           </p>
         </div>
         <div className="main">
           <h2>Rest Your Password</h2>
+          <p className="content">
+            In order to protect your <b>Read Me</b> account, make sure your
+            password:
+          </p>
+          <ul className="tips">
+            <li>Is 8 characters or longer.</li>
+            <li>Does not match or contain your username or name.</li>
+            <li>Does containt at least one capital letter.</li>
+            <li>Does containt at least one digit.</li>
+            <li>Does containt at least one special character.</li>
+          </ul>
           <Formik
             initialValues={initialValues}
             validationSchema={Yup.object({
@@ -115,6 +138,8 @@ const ResetPassword: React.FC<any> = ({
                 type="password"
                 className="input-password"
               />
+
+              <ReCaptcha setIsHuman={setIsHuman} />
 
               <Button
                 className="reset-password-button"

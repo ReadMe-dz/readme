@@ -38,6 +38,7 @@ interface Ibook {
   price: number;
   state?: string | null;
   details?: string | null;
+  hearts: string[];
   cover: string;
   genre: string;
   user: bookOwner;

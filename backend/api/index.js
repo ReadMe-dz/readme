@@ -8,6 +8,7 @@ connect();
 
 const booksRouter = require('./routes/books.routes');
 const usersRouter = require('./routes/users.routes');
+const reportsRouter = require('./routes/reports.routes');
 const errorsRouter = require('./routes/errors.routes');
 
 app.use('/api/uploads', express.static(path.join(__dirname, '/uploads')));
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/books', booksRouter);
 app.use('/users', usersRouter);
+app.use('/reports', reportsRouter);
 app.use(errorsRouter);
 
 module.exports = app;
