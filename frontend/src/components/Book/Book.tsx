@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectBook } from '../../redux-store/actions/book.actions';
 import Image from '../Image';
-
-import './style.scss';
 import Button from '../Button';
 import getIcon from '../../utils/icons';
+import './style.scss';
 
 type bookOwner = {
   id: string;
@@ -27,6 +27,7 @@ type book = {
   state?: string | null;
   details?: string | null;
   cover: string;
+  createdAt: string;
   hearts: string[];
   user: bookOwner;
 };
@@ -42,7 +43,7 @@ type props = {
 
 const { REACT_APP_BASE_URL } = process.env;
 const Book: React.FC<props> = ({
-  book: { id, title, cover, author, price, user, hearts },
+  book: { id, title, cover, author, price, user, hearts, createdAt },
   isOwner,
   isHearted,
   deleteBook,
@@ -66,6 +67,7 @@ const Book: React.FC<props> = ({
         </div>
         <div className="book-infos">
           <div className="book-head">
+            <b className="time">{moment(createdAt).fromNow()}</b>
             <b className="price">{price} DZD</b>
           </div>
           <div className="book-foot">
@@ -142,6 +144,7 @@ Book.propTypes = {
     price: PropTypes.number.isRequired,
     details: PropTypes.string,
     cover: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
     hearts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     user: PropTypes.shape({
       id: PropTypes.string.isRequired,

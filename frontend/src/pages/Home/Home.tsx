@@ -41,6 +41,7 @@ interface Ibook {
   hearts: string[];
   cover: string;
   genre: string;
+  createdAt: string;
   user: bookOwner;
 }
 
