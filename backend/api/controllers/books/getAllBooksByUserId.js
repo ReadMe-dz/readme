@@ -3,9 +3,6 @@ const { ERROR } = require('../../utils/msgTypes');
 
 const getAllBooksByUserId = (req, res) => {
   Book.find({ user: req.params.id })
-    .select(
-      '_id user title author publisher cover details language genre state price createdAt year '
-    )
     .populate('user', '_id name username picture wilaya')
     .exec()
     .then((result) => {

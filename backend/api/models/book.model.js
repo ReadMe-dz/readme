@@ -14,6 +14,7 @@ const bookSchema = mongoose.Schema(
     language: { type: String, trim: true },
     price: { type: Number, trim: true },
     year: { type: Number, trim: true },
+    hearts: { type: Array },
   },
   { timestamps: true }
 );

@@ -3,7 +3,7 @@ const { ERROR } = require('../../utils/msgTypes');
 
 const getBookById = (req, res) => {
   Book.findById(req.params.id)
-    .populate('user', '_id name username picture wilaya') // add more fields for details
+    .populate('user', '_id name username picture wilaya')
     .exec()
     .then((result) => {
       if (result) {

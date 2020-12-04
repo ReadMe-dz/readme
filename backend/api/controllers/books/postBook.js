@@ -28,6 +28,7 @@ const postBook = async (req, res) => {
     state,
     price,
     year,
+    hearts: [],
   });
 
   if (!validation.error) {
@@ -43,6 +44,7 @@ const postBook = async (req, res) => {
       state,
       price,
       year,
+      hearts: [],
     });
 
     if (req.file) {

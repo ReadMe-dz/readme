@@ -6,6 +6,7 @@ const getBookById = require('./getBookById');
 const getBookDetails = require('./getBookDetails');
 const getSearchBooks = require('./getSearchBooks');
 const patchBook = require('./patchBook');
+const postHeartBook = require('./postHeartBook');
 
 module.exports = {
   postBook,
@@ -16,4 +17,5 @@ module.exports = {
   getBookDetails,
   getSearchBooks,
   patchBook,
+  postHeartBook,
 };

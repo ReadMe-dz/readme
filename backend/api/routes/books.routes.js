@@ -10,6 +10,7 @@ const {
   getBookDetails,
   getSearchBooks,
   patchBook,
+  postHeartBook,
 } = require('../controllers/books');
 
 const booksRouter = express.Router();
@@ -34,5 +35,7 @@ booksRouter.patch(
 );
 
 booksRouter.delete('/:id', tokenVerification, deleteBook);
+
+booksRouter.post('/heart', tokenVerification, postHeartBook);
 
 module.exports = booksRouter;
