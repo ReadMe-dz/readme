@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Switch,
+  Route,
+} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectBook } from './redux-store/actions/book.actions';
 import { clearMsg } from './redux-store/actions/msg.actions';
@@ -51,7 +56,7 @@ const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
           <PrivateRoute path="/add-book" component={AddBook} />
           <PrivateRoute path="/settings" component={Settings} />
           <PrivateRoute path="/book/:id" component={EditBook} />
-          <GuestRoute path="/report" component={Report} />
+          <Route path="/report" component={Report} />
           <GuestRoute path="/login" component={Login} />
           <GuestRoute path="/subscribe" component={Subscribe} />
           <GuestRoute path="/forget-password" component={ForgetPassword} />
