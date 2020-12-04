@@ -53,6 +53,8 @@ const price: Yup.NumberSchema = Yup.number().min(0).required('Required');
 
 const details: Yup.StringSchema = Yup.string();
 
+const hearts = Yup.array().of(Yup.string());
+
 const search: Yup.StringSchema = Yup.string().matches(
   // eslint-disable-next-line
   new RegExp(/^[a-zA-Z ]+$/),
@@ -70,4 +72,5 @@ export default {
   price,
   details,
   search,
+  hearts,
 };

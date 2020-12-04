@@ -27,22 +27,27 @@ type book = {
   state?: string | null;
   details?: string | null;
   cover: string;
+  hearts: string[];
   user: bookOwner;
 };
 
 type props = {
   book: book;
   isOwner: boolean;
+  isHearted: boolean;
   deleteBook?: (id: string) => void;
   selectedBook: (id: string) => void;
+  heartBook?: (id: string) => void;
 };
 
 const { REACT_APP_BASE_URL } = process.env;
 const Book: React.FC<props> = ({
-  book: { id, title, cover, author, price, user },
+  book: { id, title, cover, author, price, user, hearts },
   isOwner,
+  isHearted,
   deleteBook,
   selectedBook,
+  heartBook,
 }) => {
   return (
     <div className="book">
@@ -101,6 +106,23 @@ const Book: React.FC<props> = ({
                 <b className="wilaya">{user.wilaya}</b>
               </div>
             </Link>
+
+            <div className="interact">
+              <div className="hearts">
+                <Button
+                  className={`heart-button ${isHearted && 'hearted'}`}
+                  type="button"
+                  onClick={() => heartBook && heartBook(id)}
+                  disabled={!heartBook}
+                  content={
+                    <>
+                      {getIcon('heart')}
+                      <span className="counter">{hearts.length}</span>
+                    </>
+                  }
+                />
+              </div>
+            </div>
           </>
         )}
       </div>
@@ -120,6 +142,7 @@ Book.propTypes = {
     price: PropTypes.number.isRequired,
     details: PropTypes.string,
     cover: PropTypes.string.isRequired,
+    hearts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     user: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
@@ -130,10 +153,13 @@ Book.propTypes = {
   isOwner: PropTypes.bool.isRequired,
   deleteBook: PropTypes.func,
   selectedBook: PropTypes.func.isRequired,
+  heartBook: PropTypes.func,
+  isHearted: PropTypes.bool.isRequired,
 };
 
 Book.defaultProps = {
   deleteBook: () => null,
+  heartBook: () => null,
 };
 
 const mapActionsToProps = {
