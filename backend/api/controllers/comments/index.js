@@ -1,5 +1,5 @@
-const commentsWS = require('./commentsWS');
+const WSComments = require('./WSComments');
 const postComment = require('./postComment');
 const getCommentsByBookId = require('./getCommentsByBookId');
 
-module.exports = { commentsWS, postComment, getCommentsByBookId };
+module.exports = { WSComments, postComment, getCommentsByBookId };

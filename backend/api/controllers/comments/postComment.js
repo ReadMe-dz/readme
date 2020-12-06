@@ -4,19 +4,21 @@ const validate = require('../../validations/comment.validator');
 const { ERROR, SUCCESS } = require('../../utils/msgTypes');
 
 const postComment = async (req, res) => {
-  const { user, bookId, content } = req.body;
+  const { username, bookId, userId, content } = req.body;
 
   const validation = await validate.validateAsync({
-    user,
+    userId,
     bookId,
+    username,
     content,
   });
 
   if (!validation.error) {
     const comment = new Comment({
       _id: new mongoose.Types.ObjectId(),
-      user,
+      userId,
       bookId,
+      username,
       content,
     });
 
@@ -32,7 +34,7 @@ const postComment = async (req, res) => {
           },
         })
       )
-      .catch((error) =>
+      .catch((error) => {
         res.status(500).json({
           error,
           message: {
@@ -40,8 +42,8 @@ const postComment = async (req, res) => {
             content:
               'Sorry again! this is not supposed to happen, Please report this to us.',
           },
-        })
-      );
+        });
+      });
   } else {
     res.status(401).json({
       message: {
