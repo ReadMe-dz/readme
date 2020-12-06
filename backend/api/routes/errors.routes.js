@@ -3,7 +3,7 @@ const express = require('express');
 const errorsRouter = express.Router();
 
 errorsRouter.use((req, res, next) => {
-  const error = new Error('Not Found');
+  const error = new Error(`Not Found. url:${req.url}`);
   error.status = 404;
   next(error);
 });
