@@ -42,7 +42,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.15",
     "multer": "^1.4.2",
-    "nodemailer": "^6.4.16"
+    "nodemailer": "^6.4.16",
+    "socket.io": "^3.0.3"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
