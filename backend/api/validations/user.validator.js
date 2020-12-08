@@ -14,7 +14,7 @@ const user = Joi.object({
 
   password: Joi.string().min(8).max(20),
 
-  birthdate: Joi.date().raw().required(),
+  birthdate: Joi.date().raw().allow(''),
 
   email: Joi.string().email(),
 

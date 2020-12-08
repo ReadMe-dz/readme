@@ -56,52 +56,67 @@
 
     .the-book {
       display: flex;
-      justify-content: center;
-      width: 100%;
 
-      .book-cover {
-        width: 260px;
-        height: 400px;
-        border-radius: 8px;
-        overflow: hidden;
-        margin-right: 40px;
-
-        span,
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-      .book-infos {
+      .the-infos {
         display: flex;
-        flex-direction: column;
-        width: 280px;
-        padding: 10px;
+        justify-content: center;
+        width: 60%;
 
-        & > div {
-          margin-bottom: 10px;
+        .book-cover,
+        .book-infos {
+          width: 50%;
+        }
+
+        .book-cover {
+          height: 400px;
+          max-width: 260px;
+          border-radius: 8px;
+          overflow: hidden;
+          margin-right: 40px;
+
+          span,
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .book-infos {
           display: flex;
+          flex-direction: column;
+          padding: 10px;
 
-          b {
-            font-weight: 700;
-            color: $pink;
-            text-transform: capitalize;
-            margin-right: 10px;
-          }
+          & > div {
+            margin-bottom: 10px;
+            display: flex;
 
-          span {
-            font-size: 15px;
-            color: $font;
-          }
-
-          &.more {
-            flex-direction: column;
             b {
-              margin-bottom: 10px;
+              font-weight: 700;
+              color: $pink;
+              text-transform: capitalize;
+              margin-right: 10px;
+              font-size: 15px;
+              font-family: $fontSerif;
+            }
+
+            span {
+              font-size: 15px;
+              color: $font;
+            }
+
+            &.more {
+              flex-direction: column;
+              b {
+                margin-bottom: 10px;
+              }
             }
           }
         }
+      }
+
+      .the-comments {
+        display: flex;
+        width: 40%;
       }
     }
 

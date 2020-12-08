@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import Image from '../../components/Image';
 import getIcon from '../../utils/icons';
 import './style.scss';
+import Comments from '../Comments';
 
 type prop = {
   id: string;
@@ -54,57 +55,62 @@ const BookDetails: React.FC<prop> = ({ id, closeDetails }) => {
         ) : (
           <>
             <div className="the-book">
-              <div className="book-cover">
-                <Image
-                  src={`${REACT_APP_BASE_URL}/${book.cover}`}
-                  alt={book.title}
-                />
+              <div className="the-infos">
+                <div className="book-cover">
+                  <Image
+                    src={`${REACT_APP_BASE_URL}/${book.cover}`}
+                    alt={book.title}
+                  />
+                </div>
+                <div className="book-infos">
+                  <div className="title">
+                    <b>Title: </b>
+                    <span>{book.title}</span>
+                  </div>
+
+                  <div className="author">
+                    <b>Author: </b>
+                    <span>{book.author}</span>
+                  </div>
+
+                  <div className="publisher">
+                    <b>publisher: </b>
+                    <span>{book.publisher || 'Not Maintained'}</span>
+                  </div>
+
+                  <div className="genre">
+                    <b>genre: </b>
+                    <span>{book.genre || 'Not Maintained'}</span>
+                  </div>
+
+                  <div className="langauge">
+                    <b>langauge: </b>
+                    <span>{book.langauge || 'Not Maintained'}</span>
+                  </div>
+
+                  <div className="state">
+                    <b>state: </b>
+                    <span>{book.state || 'Not Maintained'}</span>
+                  </div>
+
+                  <div className="year">
+                    <b>year: </b>
+                    <span>{book.year || 'Not Maintained'}</span>
+                  </div>
+
+                  <div className="price">
+                    <b>price: </b>
+                    <span>{`${book.price} DZD` || 'Not Maintained'}</span>
+                  </div>
+
+                  <div className="more">
+                    <b>More informations: </b>
+                    <span>{book.details || 'No details was maintained'}</span>
+                  </div>
+                </div>
               </div>
-              <div className="book-infos">
-                <div className="title">
-                  <b>Title: </b>
-                  <span>{book.title}</span>
-                </div>
-
-                <div className="author">
-                  <b>Author: </b>
-                  <span>{book.author}</span>
-                </div>
-
-                <div className="publisher">
-                  <b>publisher: </b>
-                  <span>{book.publisher || 'Not Maintained'}</span>
-                </div>
-
-                <div className="genre">
-                  <b>genre: </b>
-                  <span>{book.genre || 'Not Maintained'}</span>
-                </div>
-
-                <div className="langauge">
-                  <b>langauge: </b>
-                  <span>{book.langauge || 'Not Maintained'}</span>
-                </div>
-
-                <div className="state">
-                  <b>state: </b>
-                  <span>{book.state || 'Not Maintained'}</span>
-                </div>
-
-                <div className="year">
-                  <b>year: </b>
-                  <span>{book.year || 'Not Maintained'}</span>
-                </div>
-
-                <div className="price">
-                  <b>price: </b>
-                  <span>{`${book.price} DZD` || 'Not Maintained'}</span>
-                </div>
-
-                <div className="more">
-                  <b>More informations: </b>
-                  <span>{book.details || 'No details was maintained'}</span>
-                </div>
+              <div className="the-comments">
+                <Comments bookId={book.id} />
               </div>
             </div>
             <div className="owner">

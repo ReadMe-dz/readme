@@ -26,6 +26,7 @@ type book = {
   details?: string | null;
   cover: string;
   hearts: string[];
+  createdAt: string;
   user: bookOwner;
 };
 
@@ -122,6 +123,7 @@ Books.propTypes = {
       year: PropTypes.number,
       state: PropTypes.string,
       price: PropTypes.number.isRequired,
+      createdAt: PropTypes.string.isRequired,
       details: PropTypes.string,
       cover: PropTypes.string.isRequired,
       hearts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,

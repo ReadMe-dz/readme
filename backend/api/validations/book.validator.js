@@ -38,6 +38,8 @@ const book = Joi.object({
 
   details: Joi.string().allow(''),
 
+  hearts: Joi.array().items(Joi.string()).allow(),
+
   search: Joi.string().pattern(new RegExp(/^[a-zA-Z ]+$/)),
 });
 

@@ -1,0 +1,23 @@
+@import '../../assets//scss/constants.scss';
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 15px;
+
+  .comments-form {
+    height: 110px;
+  }
+
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+    height: 275px;
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 15px;
+  }
+}
