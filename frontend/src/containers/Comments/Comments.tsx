@@ -30,7 +30,7 @@ const Comments: React.FC<props> = ({ bookId }) => {
 
   useEffect(() => {
     socket.connect();
-    socket.on('message', (cmnt: comment) => {
+    socket.on('comment', (cmnt: comment) => {
       setComments((prevComments) => [cmnt, ...prevComments]);
     });
   }, []);
@@ -46,7 +46,7 @@ const Comments: React.FC<props> = ({ bookId }) => {
 
   const onSend = (cmnt: comment) => {
     setComments((prevComments) => [{ ...cmnt, bookId }, ...prevComments]);
-    socket.emit('message', { ...cmnt, bookId });
+    socket.emit('comment', { ...cmnt, bookId });
   };
 
   return (
