@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
-import CommentForm from '../../components/CommentForm';
+import CommentForm from '../CommentForm';
 import Comment from '../../components/Comment';
 
 import './style.scss';
