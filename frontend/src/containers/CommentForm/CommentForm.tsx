@@ -5,9 +5,9 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { comment as validate } from '../../validations';
-import Textarea from '../Textarea';
-import Button from '../Button';
-import Loader from '../Loader';
+import Textarea from '../../components/Textarea';
+import Button from '../../components/Button';
+import Loader from '../../components/Loader';
 
 import './style.scss';
 
@@ -30,7 +30,10 @@ const CommentForm: React.FC<any> = ({
 
   const onSubmit = (
     { content }: commentValues,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+    {
+      setSubmitting,
+      resetForm,
+    }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void }
   ) => {
     setSubmitting(false);
     setLoading(true);
@@ -41,6 +44,7 @@ const CommentForm: React.FC<any> = ({
       username: user.name,
     })
       .then(() => {
+        resetForm();
         onSend({
           content,
           bookId,
