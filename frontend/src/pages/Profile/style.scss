@@ -1,10 +1,16 @@
 @import '../../assets/scss/constants.scss';
 
-.profile__page {
+.profile-page {
   display: flex;
   flex: 1;
 
-  .profile__card {
+  .textarea {
+    textarea {
+      resize: none;
+    }
+  }
+
+  .profile-page-card {
     display: flex;
     justify-content: center;
     margin-left: 40px;
@@ -12,7 +18,7 @@
     width: 250px;
   }
 
-  .profile__books {
+  .profile-books {
     display: flex;
     flex-direction: column;
     width: calc(100% - 275px);
