@@ -1,25 +1,24 @@
 const mongoose = require('mongoose');
 
-const commentSchema = mongoose.Schema(
+const messageSchema = mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    userId: {
+    from: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    bookId: {
+    to: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
-      trim: true,
     },
-    username: { type: String, required: true, trim: true },
     content: { type: String, required: true, trim: true },
   },
   { timestamps: true }
 );
 
-commentSchema.set('toJSON', {
+messageSchema.set('toJSON', {
   virtuals: true,
   versionKey: false,
   transform: (doc, ret) => {
@@ -27,4 +26,4 @@ commentSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('Comment', commentSchema);
+module.exports = mongoose.model('Message', messageSchema);

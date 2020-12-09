@@ -65,7 +65,7 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  onConfirm: () => null,
+  onConfirm: undefined,
 };
 
 export default Modal;

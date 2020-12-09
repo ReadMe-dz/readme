@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import * as Yup from 'yup';
+import io from 'socket.io-client';
+import { Form, Formik } from 'formik';
+import { message as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import Books from '../../containers/Books';
-import ProfileCard from '../../components/ProfileCard';
+import ProfileCard from '../../containers/ProfileCard';
+import Textarea from '../../components/Textarea';
+import Button from '../../components/Button';
 import Modal from '../../components/Modal/Modal';
 import Loader from '../../components/Loader';
 import NotFound from '../NotFound';
 
 import './style.scss';
-
-const { REACT_APP_BASE_URL } = process.env;
 
 type bookOwner = {
   id: string;
@@ -36,6 +40,17 @@ interface Ibook {
   user: bookOwner;
 }
 
+type messageValues = {
+  content: string;
+};
+
+const { REACT_APP_BASE_URL } = process.env;
+
+const socket = io(REACT_APP_BASE_URL || '', {
+  transports: ['websocket'],
+  jsonp: false,
+});
+
 const Profile: React.FC = ({
   match: {
     params: { id },
@@ -49,10 +64,10 @@ const Profile: React.FC = ({
   const [loadingBooks, setLoadingBooks] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openChatModal, setOpenChatModal] = useState(false);
   const [bookToDelete, setBookToDelete] = useState('');
   const [notFound, setNotFound] = useState(false);
-
-  console.log(books);
+  const initialValues: messageValues = { content: '' };
 
   useEffect(() => {
     if (logged.id !== id) {
@@ -117,8 +132,30 @@ const Profile: React.FC = ({
     setOpenModal(false);
   };
 
-  const onClose = () => {
-    setOpenModal(false);
+  useEffect(() => {
+    socket.connect();
+  }, []);
+
+  const onSubmit = (
+    { content }: messageValues,
+    {
+      setSubmitting,
+      resetForm,
+    }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void }
+  ) => {
+    setSubmitting(false);
+    resetForm();
+    socket.emit('message', {
+      from: logged.id,
+      to: id,
+      content,
+    });
+
+    setOpenChatModal(false);
+    setMsg({
+      type: 'success',
+      content: 'Your message was sent successfully',
+    });
   };
 
   if (notFound) {
@@ -128,10 +165,10 @@ const Profile: React.FC = ({
   }
 
   return (
-    <div className="profile__page">
+    <div className="profile-page">
       {openModal && (
         <Modal
-          title="delete book"
+          title="Delete The Book"
           content={
             <>
               <p>Are you sure want to delete this book?</p>
@@ -140,14 +177,48 @@ const Profile: React.FC = ({
               </p>
             </>
           }
-          onClose={onClose}
+          onClose={() => setOpenModal(false)}
           onConfirm={onConfirm}
         />
       )}
-      <div className="profile__card">
-        {loading ? <Loader /> : <ProfileCard user={user} isOwner={isOwner} />}
+
+      {openChatModal && (
+        <Modal
+          title="Send Me A Message"
+          content={
+            <Formik
+              initialValues={initialValues}
+              validationSchema={Yup.object({
+                content: validate.content,
+              })}
+              onSubmit={onSubmit}
+            >
+              <Form>
+                <Textarea
+                  name="content"
+                  label=""
+                  className="content"
+                  placeholder="write your message"
+                />
+                <Button className="send-button" type="submit" content="send" />
+              </Form>
+            </Formik>
+          }
+          onClose={() => setOpenChatModal(false)}
+        />
+      )}
+      <div className="profile-page-card">
+        {loading ? (
+          <Loader />
+        ) : (
+          <ProfileCard
+            user={user}
+            openChatModal={() => setOpenChatModal(true)}
+            isOwner={isOwner}
+          />
+        )}
       </div>
-      <div className="profile__books">
+      <div className="profile-books">
         {loadingBooks ? (
           <Loader />
         ) : (

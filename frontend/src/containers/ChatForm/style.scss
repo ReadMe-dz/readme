@@ -1,0 +1,47 @@
+@import '../../assets/scss/constants.scss';
+
+.chat-form {
+  display: flex;
+
+  form {
+    display: flex;
+    height: 60px;
+    width: 100%;
+
+    .textarea {
+      position: relative;
+      height: 60px;
+      width: 100%;
+
+      label {
+        display: none;
+      }
+
+      textarea {
+        max-height: 100%;
+        min-height: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        padding: 5px 10px;
+        resize: none;
+      }
+
+      .error-message {
+        position: relative;
+        top: -85px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+    }
+
+    .send-button {
+      margin-left: 15px;
+      height: 60px;
+      text-transform: capitalize;
+
+      &:focus {
+        background: $pink;
+      }
+    }
+  }
+}

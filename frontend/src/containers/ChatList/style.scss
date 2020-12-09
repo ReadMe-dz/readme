@@ -1,0 +1,160 @@
+@import '../../assets/scss/constants.scss';
+
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+
+  .title {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .list {
+    padding-top: 25px;
+    padding-bottom: 150px;
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .item {
+      width: 100%;
+      margin-bottom: 10px;
+      transition: all 150ms ease-in;
+
+      &.active {
+        background-color: $light;
+      }
+
+      &:hover {
+        background-color: $light;
+      }
+
+      .item-button {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 5px 15px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+
+        b {
+          text-transform: capitalize;
+          color: $font;
+          font-size: 16px;
+          text-align: left;
+        }
+
+        .avatar-button {
+          width: 38px;
+          height: 38px;
+          margin-right: 10px;
+
+          span,
+          img {
+            width: 38px;
+            height: 38px;
+            border-radius: 100%;
+          }
+        }
+      }
+
+      .tooltip {
+        left: 50px;
+        top: -5px;
+        z-index: 100;
+
+        a {
+          text-decoration: none;
+        }
+
+        .user {
+          display: flex;
+          padding: 8px 25px 8px 10px;
+
+          .avatar {
+            width: 62px;
+            height: 62px;
+            margin-right: 10px;
+
+            span,
+            img {
+              width: 62px;
+              height: 62px;
+              border-radius: 100%;
+            }
+          }
+
+          .link {
+            display: flex;
+            flex-direction: column;
+
+            .name {
+              display: flex;
+              flex-direction: column;
+              margin-bottom: auto;
+
+              h4 {
+                text-transform: capitalize;
+                font-size: 16px;
+                color: $font;
+                margin-bottom: 5px;
+                transition: all 150ms ease;
+
+                &:hover {
+                  color: $pink;
+                }
+              }
+
+              b {
+                font-weight: 700;
+                color: $font;
+                font-size: 12px;
+                transition: all 150ms ease;
+
+                &:hover {
+                  color: $pink;
+                }
+              }
+            }
+
+            .wilaya {
+              display: flex;
+
+              span,
+              svg {
+                width: 14px;
+                height: 14px;
+                fill: $lightFont;
+              }
+
+              b {
+                margin-left: 5px;
+                font-size: 14px;
+                color: $font;
+                text-transform: capitalize;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .no-item {
+      display: flex;
+      padding: 25px;
+      text-align: center;
+
+      .alone {
+        display: inline;
+        align-self: center;
+        line-height: 1.5;
+        font-weight: 700;
+        color: $pink;
+        font-family: $fontSerif;
+      }
+    }
+  }
+}

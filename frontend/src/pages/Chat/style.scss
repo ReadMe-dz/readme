@@ -1,0 +1,48 @@
+@import '../../assets/scss/constants.scss';
+
+.chat {
+  display: flex;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+
+    &.aside-left {
+      padding-top: 25px;
+    }
+
+    &.aside-right {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 0 50px;
+      position: relative;
+      height: 100%;
+
+      .messages {
+        display: flex;
+        position: relative;
+        height: calc(100% - 90px);
+        overflow: hidden;
+
+        & > div {
+          width: 100%;
+        }
+
+        .no-one {
+          align-self: center;
+          margin: auto;
+          font-weight: 700;
+          color: $pink;
+          font-family: $fontSerif;
+        }
+      }
+
+      .chat-form {
+        margin: 15px 0;
+      }
+    }
+  }
+}

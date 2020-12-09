@@ -1,0 +1,16 @@
+@import '../../assets/scss/constants.scss';
+
+.tooltip {
+  position: relative;
+
+  .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid $lightGrey;
+    padding: 4px;
+    border-radius: 8px;
+    background: $white;
+    box-shadow: 0 0 5px 0 $lightGrey;
+  }
+}

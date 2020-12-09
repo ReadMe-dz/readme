@@ -27,6 +27,7 @@ import Settings from './pages/Settings';
 import ResetPassword from './pages/ResetPassword';
 import CompleteProfile from './pages/CompleteProfile';
 import Report from './pages/Report';
+import Chat from './pages/Chat';
 
 const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
   useEffect(() => {
@@ -56,6 +57,7 @@ const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
           <PrivateRoute path="/add-book" component={AddBook} />
           <PrivateRoute path="/settings" component={Settings} />
           <PrivateRoute path="/book/:id" component={EditBook} />
+          <PrivateRoute path="/messages" component={Chat} />
           <Route path="/report" component={Report} />
           <GuestRoute path="/login" component={Login} />
           <GuestRoute path="/subscribe" component={Subscribe} />
@@ -63,6 +65,7 @@ const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
           <GuestRoute path="/reset/:resetToken" component={ResetPassword} />
           <PrivateRoute path="/logout" component={Logout} />
           <PrivateRoute path="/not-found" component={NotFound} />
+          <PrivateRoute component={NotFound} />
           <Redirect to="/not-found" />
         </Switch>
       </Router>
