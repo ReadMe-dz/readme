@@ -4,9 +4,6 @@ const { ERROR } = require('../../utils/msgTypes');
 const getRequests = (req, res) => {
   const { page, id } = req.params;
   const limit = 6;
-
-  console.log(id);
-
   Request.find({ user: id })
     .skip(page * limit)
     .limit(limit)
