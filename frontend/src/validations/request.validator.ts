@@ -1,0 +1,44 @@
+import * as Yup from 'yup';
+import languages from '../constants/languages';
+
+const author: Yup.StringSchema = Yup.string()
+  .matches(
+    // eslint-disable-next-line
+    new RegExp(/^[a-zA-Z ]+$/),
+    'Invalid author name, only a...z characters and spaces are allowed'
+  )
+  .min(3, 'Must be 3 characters or more')
+  .max(50, 'Must be 50 characters or less')
+  .required('Required');
+
+const title: Yup.StringSchema = Yup.string()
+  .matches(
+    // eslint-disable-next-line
+    new RegExp(/^[a-zA-Z0-9_ ]+$/),
+    'Invalid title, only a...z characters, 0...9 digits, _ and spaces are allowed'
+  )
+  .min(3, 'Must be 4 characters or more')
+  .max(50, 'Must be 50 characters or less')
+  .required('Required');
+
+const language: Yup.StringSchema = Yup.string()
+  .oneOf(languages, 'Invalid book language')
+  .required('Required');
+
+const details: Yup.StringSchema = Yup.string().max(
+  255,
+  'Must be 50 characters or less'
+);
+
+const comment = Yup.string()
+  .min(3, 'Must be 4 characters or more')
+  .max(255, 'Must be 255 characters or less')
+  .required('The comment field can not be empty');
+
+export default {
+  author,
+  title,
+  language,
+  details,
+  comment,
+};
