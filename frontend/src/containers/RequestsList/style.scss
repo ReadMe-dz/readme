@@ -1,0 +1,19 @@
+@import '../../assets/scss/constants.scss';
+
+.requests-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  .no-requests {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+
+    p {
+      color: $lightFont;
+      font-size: 21px;
+      font-family: $fontSerif;
+    }
+  }
+}
