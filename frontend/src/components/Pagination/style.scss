@@ -1,0 +1,20 @@
+@import '../../assets/scss/constants.scss';
+
+.pagination {
+  padding: 10px;
+
+  .button {
+    border-radius: 100%;
+    margin: 0 4px;
+    border: 1px solid $transparentDark;
+    box-shadow: 0px 0 2px 2px $transparentDark;
+    background: $lightPink;
+
+    &.active,
+    &:active,
+    &:focus {
+      background: $pink;
+      box-shadow: none;
+    }
+  }
+}

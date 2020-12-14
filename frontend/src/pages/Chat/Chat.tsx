@@ -104,7 +104,11 @@ const Chat: React.FC = ({ user, setMsg }: any) => {
             </b>
           )}
         </div>
-        <ChatForm disabled={chatWith === null} onSend={onSend} />
+        <ChatForm
+          setMsg={setMsg}
+          disabled={chatWith === null}
+          onSend={onSend}
+        />
       </div>
     </div>
   );

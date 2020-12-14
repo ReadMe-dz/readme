@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
+import Image from '../Image';
 import './style.scss';
 
 type message = {
@@ -37,7 +37,11 @@ const ChatMessage: React.FC<props> = ({
     <div className={`chat-message ${isMe ? 'me' : 'not-me'}`}>
       <div className="content">
         <b className="sent-at">sent {moment(createdAt).fromNow()}</b>
-        <p>{content}</p>
+        {content.indexOf('data:image') === 0 ? (
+          <Image src={content} alt="" />
+        ) : (
+          <p>{content}</p>
+        )}
       </div>
     </div>
   );

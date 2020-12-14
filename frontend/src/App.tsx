@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectBook } from './redux-store/actions/book.actions';
 import { clearMsg } from './redux-store/actions/msg.actions';
@@ -28,6 +23,7 @@ import ResetPassword from './pages/ResetPassword';
 import CompleteProfile from './pages/CompleteProfile';
 import Report from './pages/Report';
 import Chat from './pages/Chat';
+import Requests from './pages/Requests';
 
 const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
   useEffect(() => {
@@ -58,13 +54,14 @@ const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
           <PrivateRoute path="/settings" component={Settings} />
           <PrivateRoute path="/book/:id" component={EditBook} />
           <PrivateRoute path="/messages" component={Chat} />
-          <Route path="/report" component={Report} />
+          <PrivateRoute path="/requests" component={Requests} />
+          <GuestRoute path="/report" component={Report} />
           <GuestRoute path="/login" component={Login} />
           <GuestRoute path="/subscribe" component={Subscribe} />
           <GuestRoute path="/forget-password" component={ForgetPassword} />
           <GuestRoute path="/reset/:resetToken" component={ResetPassword} />
           <PrivateRoute path="/logout" component={Logout} />
-          <PrivateRoute path="/not-found" component={NotFound} />
+          <GuestRoute path="/not-found" component={NotFound} />
           <PrivateRoute component={NotFound} />
           <Redirect to="/not-found" />
         </Switch>

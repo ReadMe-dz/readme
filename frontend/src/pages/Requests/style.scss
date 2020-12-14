@@ -1,0 +1,23 @@
+@import '../../assets/scss/constants.scss';
+
+.requests {
+  padding: 50px 10%;
+
+  .add-request {
+    .page-title {
+      font-size: 24px;
+    }
+  }
+
+  .requested {
+    margin-top: 25px;
+    .page-title {
+      font-size: 24px;
+      margin-bottom: 25px;
+    }
+
+    .loader-wrapper {
+      padding: 50px 0;
+    }
+  }
+}

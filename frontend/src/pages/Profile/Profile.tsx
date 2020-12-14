@@ -7,6 +7,8 @@ import { Form, Formik } from 'formik';
 import { message as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import Books from '../../containers/Books';
+import RequestsList from '../../containers/RequestsList';
+import Pagination from '../../components/Pagination';
 import ProfileCard from '../../containers/ProfileCard';
 import Textarea from '../../components/Textarea';
 import Button from '../../components/Button';
@@ -40,6 +42,30 @@ interface Ibook {
   user: bookOwner;
 }
 
+interface IRequest {
+  id: string;
+  user: {
+    id: string;
+    name: string;
+    username: string;
+    wilaya: string;
+  };
+  title: string;
+  author: string;
+  language: string;
+  details: string;
+  comments: {
+    id: string;
+    user: {
+      id: string;
+      name: string;
+    };
+    comment: string;
+    commentedAt: string;
+  }[];
+  createdAt: string;
+}
+
 type messageValues = {
   content: string;
 };
@@ -61,12 +87,16 @@ const Profile: React.FC = ({
   const [user, setUser] = useState(logged);
   const [books, setBooks] = useState<Ibook[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadingBooks, setLoadingBooks] = useState(false);
+  const [loadingData, setLoadingData] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openChatModal, setOpenChatModal] = useState(false);
   const [bookToDelete, setBookToDelete] = useState('');
   const [notFound, setNotFound] = useState(false);
+  const [show, setShow] = useState<'books' | 'requests'>('books');
+  const [requests, setRequests] = useState<IRequest[]>([]);
+  const [pagesCount, setPagesCount] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const initialValues: messageValues = { content: '' };
 
   useEffect(() => {
@@ -90,7 +120,7 @@ const Profile: React.FC = ({
       setIsOwner(true);
     }
 
-    setLoadingBooks(true);
+    setLoadingData(true);
     Axios.get(`${REACT_APP_BASE_URL}/books/user/${id}`)
       .then(({ data }) => {
         setBooks(data);
@@ -99,7 +129,7 @@ const Profile: React.FC = ({
         console.dir(err);
       })
       .finally(() => {
-        setLoadingBooks(false);
+        setLoadingData(false);
       });
   }, [id]);
 
@@ -122,7 +152,7 @@ const Profile: React.FC = ({
       });
   };
 
-  const onDelete = (book: string) => {
+  const onDeleteBook = (book: string) => {
     setOpenModal(true);
     setBookToDelete(book);
   };
@@ -156,6 +186,68 @@ const Profile: React.FC = ({
       type: 'success',
       content: 'Your message was sent successfully',
     });
+  };
+
+  const loadBooks = () => {
+    Axios.get(`${REACT_APP_BASE_URL}/requests/count/${id}`)
+      .then((res) => {
+        setPagesCount(Math.ceil(res.data.count / 6));
+      })
+      .catch((err) => {
+        const {
+          response: {
+            data: { message },
+          },
+        } = err;
+        setMsg(message);
+      })
+      .finally(() => {
+        setLoadingData(false);
+      });
+  };
+
+  const loadRequests = () => {
+    Axios.get(`${REACT_APP_BASE_URL}/requests/user/${id}/${currentPage}`)
+      .then((res) => {
+        setRequests(res.data.requests);
+      })
+      .catch((err) => {
+        const {
+          response: {
+            data: { message },
+          },
+        } = err;
+        setMsg(message);
+      })
+      .finally(() => {
+        setLoadingData(false);
+      });
+  };
+
+  useEffect(() => {
+    setLoadingData(true);
+    if (show === 'books') loadBooks();
+    if (show === 'requests') loadRequests();
+  }, []);
+
+  useEffect(() => {
+    setLoadingData(true);
+    loadRequests();
+  }, [currentPage]);
+
+  const onComment = (comment: any) => {
+    setRequests((prevReq) =>
+      prevReq.map((req) => {
+        if (req.id === comment.requestId) {
+          req.comments.push(comment);
+        }
+        return req;
+      })
+    );
+  };
+
+  const onDeleteRequest = (requestId: string) => {
+    setRequests((prevReq) => prevReq.filter((r) => r.id !== requestId));
   };
 
   if (notFound) {
@@ -218,26 +310,54 @@ const Profile: React.FC = ({
           />
         )}
       </div>
-      <div className="profile-books">
-        {loadingBooks ? (
-          <Loader />
-        ) : (
-          <>
-            <h2 className="head-title">
-              {isOwner ? 'Your Books:' : `${user.username}'s Books:`}
-            </h2>
-            <Books
-              isOwner={isOwner}
-              books={books}
-              deleteBook={onDelete}
-              noBookMsg={
-                isOwner
-                  ? 'You do not have any book yet.'
-                  : 'This user does not have any book yet.'
-              }
-            />
-          </>
-        )}
+      <div className="profile-content">
+        <div className="titles">
+          <Button
+            onClick={() => setShow('books')}
+            className={show === 'books' ? 'active' : ''}
+            content={<b>Books</b>}
+          />
+          <Button
+            onClick={() => setShow('requests')}
+            className={show === 'requests' ? 'active' : ''}
+            content={<b>Requests</b>}
+          />
+        </div>
+        <div className="contents">
+          {loadingData ? (
+            <Loader />
+          ) : (
+            <>
+              {show === 'books' && (
+                <Books
+                  isOwner={isOwner}
+                  books={books}
+                  deleteBook={onDeleteBook}
+                  noBookMsg={
+                    isOwner
+                      ? 'You do not have any book yet.'
+                      : 'This user does not have any book yet.'
+                  }
+                />
+              )}
+
+              {show === 'requests' && (
+                <>
+                  <RequestsList
+                    onDelete={onDeleteRequest}
+                    onComment={onComment}
+                    requests={requests}
+                  />
+                  <Pagination
+                    currentPage={currentPage}
+                    pagesCount={pagesCount}
+                    setCurrentPage={setCurrentPage}
+                  />
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

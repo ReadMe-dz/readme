@@ -1,0 +1,19 @@
+@import '../../assets/scss/constants.scss';
+
+.requests-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  .no-requests {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+
+    h2 {
+      font-family: 'Merriweather', Helvetica, serif;
+      font-weight: 700;
+      color: #202124;
+    }
+  }
+}

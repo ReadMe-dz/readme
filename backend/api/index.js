@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const connect = require('./db/connect');
+const { deleteOldRequests } = require('./crons');
 const {
   booksRouter,
   usersRouter,
@@ -9,6 +10,7 @@ const {
   commentsRouter,
   messagesRouter,
   errorsRouter,
+  requestsRouter,
 } = require('./routes');
 
 const app = express();
@@ -23,6 +25,9 @@ app.use('/users', usersRouter);
 app.use('/reports', reportsRouter);
 app.use('/comments', commentsRouter);
 app.use('/messages', messagesRouter);
+app.use('/requests', requestsRouter);
 app.use(errorsRouter);
+
+deleteOldRequests();
 
 module.exports = app;

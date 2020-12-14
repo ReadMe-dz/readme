@@ -18,7 +18,6 @@ type commentValues = {
 const { REACT_APP_BASE_URL } = process.env;
 
 const CommentForm: React.FC<any> = ({
-  msg,
   setMsg,
   bookId,
   user,
@@ -86,7 +85,7 @@ const CommentForm: React.FC<any> = ({
             <Button
               className="comment-button"
               type="submit"
-              disabled={msg.content}
+              disabled={loading}
               content={
                 loading ? <Loader dim={15} width={2} /> : <span>Comment</span>
               }
@@ -101,7 +100,6 @@ const CommentForm: React.FC<any> = ({
 
 const mapStateToProps = (state: any) => ({
   user: state.user,
-  msg: state.msg,
 });
 
 const mapActionsToProps = {

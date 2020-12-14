@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { message as validate } from '../../validations';
 import Textarea from '../../components/Textarea';
 import Button from '../../components/Button';
+import getIcon from '../../utils/icons';
 
 import './style.scss';
 
@@ -14,10 +15,11 @@ type messageValues = {
 
 type props = {
   onSend: (msg: string) => void;
+  setMsg: (message: any) => void;
   disabled: boolean;
 };
 
-const CommentForm: React.FC<props> = ({ onSend, disabled }) => {
+const CommentForm: React.FC<props> = ({ onSend, setMsg, disabled }) => {
   const initialValues: messageValues = { content: '' };
 
   const onSubmit = (
@@ -30,6 +32,48 @@ const CommentForm: React.FC<props> = ({ onSend, disabled }) => {
     setSubmitting(false);
     resetForm();
     onSend(content);
+  };
+
+  const onImageSend = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const {
+        target: { files },
+      } = e;
+
+      const file = files[0];
+      if (file) {
+        if (file.size < 1500000) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = function () {
+            if (reader.result) {
+              onSend(reader.result.toString());
+            } else {
+              setMsg({
+                type: 'error',
+                content: 'We could not upload the image, please try again.',
+              });
+            }
+          };
+        } else {
+          setMsg({
+            type: 'error',
+            content:
+              "The image's size is too large. please selcet images with a size less then 1.5 MB",
+          });
+        }
+      } else {
+        setMsg({
+          type: 'error',
+          content: 'We could not upload the image, please try again.',
+        });
+      }
+    } else {
+      setMsg({
+        type: 'error',
+        content: 'Unvalid image file.',
+      });
+    }
   };
 
   return (
@@ -46,8 +90,25 @@ const CommentForm: React.FC<props> = ({ onSend, disabled }) => {
             name="content"
             label=""
             className="content"
-            placeholder="write your message"
+            placeholder="Write your message"
           />
+
+          <div className="upload-image">
+            <input
+              disabled={disabled}
+              type="file"
+              onChange={onImageSend}
+              title="select an image"
+              accept="image/*"
+            />
+            <Button
+              disabled={disabled}
+              className="send-image"
+              type="button"
+              content={getIcon('upload')}
+            />
+          </div>
+
           <Button
             disabled={disabled}
             className="send-button"
@@ -62,6 +123,7 @@ const CommentForm: React.FC<props> = ({ onSend, disabled }) => {
 
 CommentForm.propTypes = {
   onSend: PropTypes.func.isRequired,
+  setMsg: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
 

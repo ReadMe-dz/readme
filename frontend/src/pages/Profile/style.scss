@@ -13,26 +13,55 @@
   .profile-page-card {
     display: flex;
     justify-content: center;
-    margin-left: 40px;
-    margin-top: 25px;
+    margin: 20px;
     width: 250px;
   }
 
-  .profile-books {
+  .profile-content {
     display: flex;
     flex-direction: column;
     width: calc(100% - 275px);
     height: calc(100vh - 80px);
     overflow-y: auto;
     margin-left: auto;
+    position: relative;
+    border-left: 1px solid $transparentDark;
 
-    .head-title {
-      font-size: 27px;
-      font-weight: 700;
-      color: $pink;
-      margin: 20px;
-      margin-bottom: 10px;
-      text-transform: capitalize;
+    .titles {
+      display: flex;
+      position: fixed;
+      z-index: 10;
+      width: 100%;
+      background: $white;
+      height: 50px;
+      border-bottom: 1px solid $transparentDark;
+
+      button {
+        &.button {
+          background: none;
+          border-right: 1px solid $transparentDark;
+          border-radius: 0;
+
+          b {
+            color: $dark;
+          }
+
+          &:hover {
+            background: $transparentDark;
+          }
+
+          &.active {
+            background: $pink;
+            b {
+              color: $light;
+            }
+          }
+        }
+      }
+    }
+
+    .contents {
+      padding: 50px;
     }
   }
 }
