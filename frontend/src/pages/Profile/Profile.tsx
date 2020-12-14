@@ -189,7 +189,7 @@ const Profile: React.FC = ({
   };
 
   const loadBooks = () => {
-    Axios.get(`${REACT_APP_BASE_URL}/requests/count`)
+    Axios.get(`${REACT_APP_BASE_URL}/requests/count/${id}`)
       .then((res) => {
         setPagesCount(Math.ceil(res.data.count / 6));
       })
@@ -207,7 +207,7 @@ const Profile: React.FC = ({
   };
 
   const loadRequests = () => {
-    Axios.get(`${REACT_APP_BASE_URL}/requests/user/${user.id}/${currentPage}`)
+    Axios.get(`${REACT_APP_BASE_URL}/requests/user/${id}/${currentPage}`)
       .then((res) => {
         setRequests(res.data.requests);
       })
