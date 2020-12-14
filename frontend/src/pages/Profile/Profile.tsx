@@ -42,8 +42,14 @@ interface Ibook {
   user: bookOwner;
 }
 
-type request = {
+interface IRequest {
   id: string;
+  user: {
+    id: string;
+    name: string;
+    username: string;
+    wilaya: string;
+  };
   title: string;
   author: string;
   language: string;
@@ -58,7 +64,7 @@ type request = {
     commentedAt: string;
   }[];
   createdAt: string;
-};
+}
 
 type messageValues = {
   content: string;
@@ -88,7 +94,7 @@ const Profile: React.FC = ({
   const [bookToDelete, setBookToDelete] = useState('');
   const [notFound, setNotFound] = useState(false);
   const [show, setShow] = useState<'books' | 'requests'>('books');
-  const [requests, setRequests] = useState<request[]>([]);
+  const [requests, setRequests] = useState<IRequest[]>([]);
   const [pagesCount, setPagesCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const initialValues: messageValues = { content: '' };

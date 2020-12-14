@@ -11,6 +11,12 @@ import './style.scss';
 
 type request = {
   id: string;
+  user: {
+    id: string;
+    name: string;
+    username: string;
+    wilaya: string;
+  };
   title: string;
   author: string;
   language: string;
@@ -58,6 +64,10 @@ const Requests: React.FC<props> = ({ setMsg }) => {
   }, []);
 
   useEffect(() => {
+    console.log(requests);
+  }, [requests]);
+
+  useEffect(() => {
     setLoading(true);
     Axios.get(`${REACT_APP_BASE_URL}/requests/${currentPage}`)
       .then((res) => {
@@ -90,8 +100,8 @@ const Requests: React.FC<props> = ({ setMsg }) => {
   return (
     <>
       <div className="requests">
+        <h2 className="page-title">Books Requests</h2>
         <div className="add-request">
-          <h2 className="page-title">Request A Book</h2>
           <RequestsForm />
         </div>
         <div className="requested">

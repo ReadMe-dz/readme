@@ -20,6 +20,12 @@ type commentValues = {
 
 type request = {
   id: string;
+  user: {
+    id: string;
+    name: string;
+    username: string;
+    wilaya: string;
+  };
   title: string;
   author: string;
   language: string;
@@ -226,6 +232,12 @@ const Request: React.FC<props> = ({
 Request.propTypes = {
   request: PropTypes.shape({
     id: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      wilaya: PropTypes.string.isRequired,
+    }).isRequired,
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
