@@ -52,7 +52,16 @@ type props = {
 const { REACT_APP_BASE_URL } = process.env;
 
 const Request: React.FC<props> = ({
-  request: { id, title, author, language, details, createdAt, comments },
+  request: {
+    id,
+    user: { id: userId, name, username, wilaya },
+    title,
+    author,
+    language,
+    details,
+    createdAt,
+    comments,
+  },
   onComment,
   setMsg,
   user,
@@ -125,17 +134,31 @@ const Request: React.FC<props> = ({
   return (
     <div className="request">
       <div className="head">
+        <Link className="user" to={`/user/${userId}`}>
+          <h2 className="name">{name}</h2>
+          <b>@{username}</b>
+        </Link>
+        <div className="coord">
+          <b className="created-at">
+            Added {moment(new Date(createdAt).toISOString()).fromNow()}
+          </b>
+          <b className="created-from">
+            , from <span>{wilaya}</span>.
+          </b>
+        </div>
+      </div>
+      <div className="content">
         <div className="infos">
           <p className="title">
-            <b>Title:</b>
+            <b>The Title:</b>
             <span>{title}</span>
           </p>
           <p className="author">
-            <b>Author:</b>
+            <b>The Author:</b>
             <span>{author}</span>
           </p>
           <p className="language">
-            <b>Language:</b>
+            <b>The Language:</b>
             <span>{language}</span>
           </p>
         </div>
@@ -146,11 +169,6 @@ const Request: React.FC<props> = ({
             </p>
           </div>
         )}
-        <div className="created-at">
-          <p>
-            Added <b>{moment(new Date(createdAt).toISOString()).fromNow()}</b>
-          </p>
-        </div>
       </div>
       <div className="foot">
         <Button

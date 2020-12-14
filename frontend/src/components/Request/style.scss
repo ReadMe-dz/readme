@@ -13,14 +13,62 @@
 
   .head {
     display: flex;
+    justify-content: space-between;
+
+    a.user {
+      display: flex;
+      flex-direction: column;
+      color: $font;
+      text-decoration: none;
+      margin-bottom: 25px;
+
+      h2 {
+        margin-bottom: 3px;
+        font-size: 15px;
+        text-transform: capitalize;
+      }
+
+      b {
+        font-weight: 700;
+        font-size: 11px;
+        color: $lightPink;
+      }
+
+      &:hover {
+        h2,
+        b {
+          color: $pink;
+        }
+      }
+    }
+
+    .coord {
+      display: flex;
+
+      .created-from,
+      .created-at {
+        font-weight: 700;
+        font-size: 12px;
+        color: $lightFont;
+
+        span {
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
+
+  .content {
+    display: flex;
     flex-direction: column;
+    margin-bottom: 25px;
 
     .infos {
       display: flex;
       flex-direction: column;
 
       p {
-        margin-bottom: 15px;
+        margin-bottom: 5px;
         word-break: break-all;
         line-height: 1.5;
 
@@ -45,28 +93,10 @@
       line-height: 1.5;
 
       b {
-        font-family: $fontSerif;
         color: $pink;
         font-weight: 700;
         margin-right: 5px;
       }
-    }
-  }
-
-  .created-at {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 25px;
-
-    p {
-      padding: 5px 10px;
-      background-color: $lightPink;
-      font-weight: 700;
-      font-size: 12px;
-      color: $light;
-      border-radius: 25px;
     }
   }
 
@@ -115,6 +145,7 @@
 
             input {
               margin: 0;
+              border: 1px solid $lightGrey;
             }
 
             .error-message {
