@@ -41,7 +41,7 @@ const RequestsList: React.FC<props> = ({ requests, onComment }) => {
         ))
       ) : (
         <div className="no-requests">
-          <p>There is no book request for the moment.</p>
+          <h2>There is no requests for the moment.</h2>
         </div>
       )}
     </div>

@@ -8,12 +8,12 @@
   .no-requests {
     display: flex;
     justify-content: center;
-    margin-top: 25px;
+    padding: 20px;
 
-    p {
-      color: $lightFont;
-      font-size: 21px;
-      font-family: $fontSerif;
+    h2 {
+      font-family: 'Merriweather', Helvetica, serif;
+      font-weight: 700;
+      color: #202124;
     }
   }
 }
