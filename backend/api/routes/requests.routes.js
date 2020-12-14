@@ -4,6 +4,7 @@ const {
   getRequests,
   getRequestsByUserId,
   getRequestsCount,
+  getRequestsCountByUserId,
   postRequest,
   deleteRequest,
   patchRequest,
@@ -12,6 +13,8 @@ const {
 } = require('../controllers/requests');
 
 const requestsRouter = express.Router();
+
+requestsRouter.get('/count/:user', getRequestsCountByUserId);
 
 requestsRouter.get('/count', getRequestsCount);
 

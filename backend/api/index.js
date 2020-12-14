@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const connect = require('./db/connect');
-const deleteOldRequests = require('./crons');
+const { deleteOldRequests } = require('./crons');
 const {
   booksRouter,
   usersRouter,
