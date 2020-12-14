@@ -45,6 +45,7 @@ type request = {
 type props = {
   request: request;
   onComment: (comment: any) => void;
+  onDelete: (id: string) => void;
   setMsg: (message: any) => void;
   user: any;
 };
@@ -63,6 +64,7 @@ const Request: React.FC<props> = ({
     comments,
   },
   onComment,
+  onDelete,
   setMsg,
   user,
 }) => {
@@ -131,6 +133,25 @@ const Request: React.FC<props> = ({
         setMsg(message);
       });
   };
+
+  const deleteRequest = () => {
+    Axios.delete(`${REACT_APP_BASE_URL}/requests/${id}`)
+      .then(() => {
+        setMsg({
+          type: 'success',
+          content: 'The request has been deleted.',
+        });
+
+        onDelete(id);
+      })
+      .catch((err) => {
+        console.log(err);
+        const {
+          response: { message },
+        } = err;
+        setMsg(message);
+      });
+  };
   return (
     <div className="request">
       <div className="head">
@@ -146,6 +167,13 @@ const Request: React.FC<props> = ({
             , from <span>{wilaya}</span>.
           </b>
         </div>
+        {user.id === userId && (
+          <Button
+            className="delete-button"
+            onClick={deleteRequest}
+            content={getIcon('trash')}
+          />
+        )}
       </div>
       <div className="content">
         <div className="infos">
@@ -274,6 +302,7 @@ Request.propTypes = {
     ).isRequired,
   }).isRequired,
   onComment: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   setMsg: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 };

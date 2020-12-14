@@ -13,14 +13,14 @@
 
   .head {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
 
     a.user {
       display: flex;
       flex-direction: column;
       color: $font;
       text-decoration: none;
-      margin-bottom: 25px;
 
       h2 {
         margin-bottom: 3px;
@@ -44,6 +44,7 @@
 
     .coord {
       display: flex;
+      margin-left: auto;
 
       .created-from,
       .created-at {
@@ -54,6 +55,19 @@
         span {
           text-transform: capitalize;
         }
+      }
+    }
+
+    .delete-button {
+      display: flex;
+      margin-left: 15px;
+      padding: 10px 10px;
+      background: $darkRed;
+
+      svg {
+        fill: $lighter;
+        width: 20px;
+        height: 20px;
       }
     }
   }
