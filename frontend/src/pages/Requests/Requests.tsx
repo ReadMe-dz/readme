@@ -64,10 +64,6 @@ const Requests: React.FC<props> = ({ setMsg }) => {
   }, []);
 
   useEffect(() => {
-    console.log(requests);
-  }, [requests]);
-
-  useEffect(() => {
     setLoading(true);
     Axios.get(`${REACT_APP_BASE_URL}/requests/${currentPage}`)
       .then((res) => {
@@ -97,6 +93,10 @@ const Requests: React.FC<props> = ({ setMsg }) => {
     );
   };
 
+  const onDelete = (requestId: string) => {
+    setRequests((prevReq) => prevReq.filter((r) => r.id !== requestId));
+  };
+
   return (
     <>
       <div className="requests">
@@ -111,7 +111,11 @@ const Requests: React.FC<props> = ({ setMsg }) => {
               <Loader />
             </div>
           ) : (
-            <RequestsList onComment={onComment} requests={requests} />
+            <RequestsList
+              onDelete={onDelete}
+              onComment={onComment}
+              requests={requests}
+            />
           )}
         </div>
 

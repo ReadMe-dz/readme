@@ -152,7 +152,7 @@ const Profile: React.FC = ({
       });
   };
 
-  const onDelete = (book: string) => {
+  const onDeleteBook = (book: string) => {
     setOpenModal(true);
     setBookToDelete(book);
   };
@@ -246,6 +246,10 @@ const Profile: React.FC = ({
     );
   };
 
+  const onDeleteRequest = (requestId: string) => {
+    setRequests((prevReq) => prevReq.filter((r) => r.id !== requestId));
+  };
+
   if (notFound) {
     return (
       <NotFound message="This user does not exist or it have been removed." />
@@ -328,7 +332,7 @@ const Profile: React.FC = ({
                 <Books
                   isOwner={isOwner}
                   books={books}
-                  deleteBook={onDelete}
+                  deleteBook={onDeleteBook}
                   noBookMsg={
                     isOwner
                       ? 'You do not have any book yet.'
@@ -339,7 +343,11 @@ const Profile: React.FC = ({
 
               {show === 'requests' && (
                 <>
-                  <RequestsList onComment={onComment} requests={requests} />
+                  <RequestsList
+                    onDelete={onDeleteRequest}
+                    onComment={onComment}
+                    requests={requests}
+                  />
                   <Pagination
                     currentPage={currentPage}
                     pagesCount={pagesCount}

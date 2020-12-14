@@ -30,14 +30,20 @@ type request = {
 type props = {
   requests: request[];
   onComment: (comment: any) => void;
+  onDelete: (id: string) => void;
 };
 
-const RequestsList: React.FC<props> = ({ requests, onComment }) => {
+const RequestsList: React.FC<props> = ({ requests, onComment, onDelete }) => {
   return (
     <div className="requests-list">
       {requests.length > 0 ? (
         requests.map((r: request) => (
-          <Request onComment={onComment} key={r.id} request={r} />
+          <Request
+            onDelete={onDelete}
+            onComment={onComment}
+            key={r.id}
+            request={r}
+          />
         ))
       ) : (
         <div className="no-requests">
@@ -77,6 +83,7 @@ RequestsList.propTypes = {
     }).isRequired
   ).isRequired,
   onComment: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default RequestsList;
