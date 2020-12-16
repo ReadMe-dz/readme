@@ -1,9 +1,91 @@
-TODO:
-=====
-[+] images uploader with multer
-[ ] form validation backend
-[+] add 6321661312364123146.png default profile picture
-[+] fix uploading profile picture when user exists
-[ ] remove console.log 
-[+] add error messages err.message in the backend
-[ ] add forget password
+# TODO:
+=======
+
+======================
+## Keys: 
+  
+  [?] => to be discussed (to be selected or discarded)
+  [ ] => need to be done (selected but no one is working on it)
+  [+] => in progress (someone is working on it)
+  [x] => done
+  [!] => errors (contains errors that need to be fixed)
+
+======================
+
+## administration
+
+- [ ] handle reports.
+
+## back-end
+
+- [ ] report errors automaticaly
+- [ ] replace userId with req.verifiedToken._id; in postBook, postComment, ...
+- [+] add paginations to books/reports/requests (and infinite scroll)
+      [ ] books
+      [ ] reports
+      [x] requests
+- [x] images uploader with multer
+- [x] form validation back-end
+- [x] add default profile picture
+- [x] fix uploading profile picture when user exists
+- [ ] remove console.log 
+- [+] add error messages err.message in the back-end
+- [x] add forget password
+- [x] add user validation
+- [x] add book validation
+- [x] add comments
+- [x] request a book
+- [ ] add recommend a book
+- [x] add chat
+- [x] sign in with google
+- [x] sign in with facebook
+- [x] forget password
+- [x] sign up with google
+- [x] sign up with facebook
+- [x] search
+- [+] settings
+- [x] edit profile
+- [x] edit book
+- [x] add Report error
+- [+] fix error messages in the backend (add error code, to simple user to report problems)
+- [ ] make usename unique
+- [ ] secure the chat with session.socket.io
+- [ ] add abuse, voilence, nudity ... to report types
+
+## front-end
+
+- [x] create a reCaptcha component and handle it alone
+- [x] sign in
+- [x] sign up
+- [x] forget password
+- [x] home page
+- [x] geust page
+- [x] book page
+- [x] NavBar
+- [+] settings (may need to add extra settings)
+- [x] edit profile
+- [x] edit book
+- [x] search tools
+- [+] footer
+- [x] add 404 page
+- [+] profile page
+- [x] edit profile
+- [x] edit book
+- [ ] add static pages (policy, terms ...)
+- [x] add modal component
+- [!] add reCaptcha (handle its errors - when offline, or didnt load.) (refactor reCaptcha)
+- [+] book dettails page
+- [x] chat
+- [x] sending images in chat
+- [ ] README
+- [ ] code of conduct
+- [ ] contribution guide
+- [ ] find a cleaner way to handle the types (and add the missing ones)
+- [ ] Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+
+# to-fix
+
+- [ ] errors on offline mode.
+- [x] label for textarea in the book comments.
+- [ ] hide the CommentForm when user is logged out.
