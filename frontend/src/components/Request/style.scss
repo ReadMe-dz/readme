@@ -181,7 +181,7 @@
           flex-direction: column;
           background: $transparentDark;
 
-          .head {
+          .comment-head {
             display: flex;
             flex-direction: row;
 
@@ -222,6 +222,14 @@
                 height: 17px;
                 fill: $pink;
               }
+            }
+          }
+
+          .comment-content {
+            padding: 9px 0;
+
+            p {
+              font-size: 14px;
             }
           }
         }
