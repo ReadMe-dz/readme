@@ -1,0 +1,101 @@
+@import '../../assets/scss/constants.scss';
+
+.chat-form {
+  display: flex;
+
+  form {
+    display: flex;
+    height: 60px;
+    width: 100%;
+
+    .textarea {
+      position: relative;
+      height: 60px;
+      width: 100%;
+
+      label {
+        display: none;
+      }
+
+      textarea {
+        max-height: 100%;
+        min-height: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        padding: 5px 10px;
+        border: 1px solid $transparentDark;
+        resize: none;
+      }
+
+      .error-message {
+        position: relative;
+        top: -85px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+    }
+
+    .upload-image {
+      min-height: 60px;
+      min-width: 60px;
+      max-height: 60px;
+      max-width: 60px;
+      margin-left: 15px;
+      position: relative;
+      overflow: hidden;
+
+      input {
+        display: block;
+        min-height: 60px;
+        min-width: 60px;
+        max-height: 60px;
+        max-width: 60px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+
+        &::-webkit-file-upload-button {
+          cursor: pointer;
+        }
+
+        &:disabled {
+          cursor: not-allowed;
+
+          &::-webkit-file-upload-button {
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      .send-image {
+        min-height: 60px;
+        min-width: 60px;
+        max-height: 60px;
+        max-width: 60px;
+        pointer-events: none;
+
+        svg {
+          width: 25px;
+          height: 25px;
+          fill: $white;
+        }
+
+        &:focus {
+          background: $pink;
+        }
+      }
+    }
+
+    .send-button {
+      margin-left: 15px;
+      height: 60px;
+      text-transform: capitalize;
+
+      &:focus {
+        background: $pink;
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+@import '../../assets/scss/constants.scss';
+
+.chat-message {
+  display: flex;
+  align-items: center;
+  max-width: 75%;
+  width: fit-content;
+  padding: 8px;
+  margin-bottom: 20px;
+  word-break: break-all;
+  z-index: 10;
+
+  .content {
+    position: relative;
+
+    p {
+      font-size: 14px;
+      color: $font;
+      line-height: 1.5;
+      cursor: default;
+    }
+
+    img {
+      max-width: 280px;
+    }
+
+    .sent-at {
+      position: absolute;
+      width: 150px;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: $fontSerif;
+      color: $lightFont;
+      z-index: -1;
+      opacity: 0;
+      transition: all 150ms 400ms ease;
+    }
+  }
+
+  &.me {
+    background-color: $light;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+
+    .content {
+      .sent-at {
+        left: 0;
+        top: 0px;
+      }
+    }
+
+    &:hover {
+      .content {
+        .sent-at {
+          top: -20px;
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &.not-me {
+    background-color: $purple;
+    margin-left: auto;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+
+    .content {
+      .sent-at {
+        right: 0px;
+        top: 0px;
+        text-align: right;
+      }
+    }
+
+    &:hover {
+      .content {
+        .sent-at {
+          top: -20px;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

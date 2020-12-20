@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Image from '../Image';
+import Image from '../../components/Image';
+import Button from '../../components/Button';
 import getIcon from '../../utils/icons';
 import './style.scss';
 
@@ -18,11 +19,12 @@ type props = {
     twitter?: string | null;
   };
   isOwner: boolean;
+  openChatModal: () => void;
 };
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3300';
+const { REACT_APP_BASE_URL } = process.env;
 
-const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
+const ProfileCard: React.FC<props> = ({ user, isOwner, openChatModal }) => {
   const {
     username,
     email,
@@ -40,7 +42,7 @@ const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
     <div className="profile-card">
       <div className="profile-picture">
         <Image
-          src={`${BASE_URL}/${picture || '0321661312364.png'}`}
+          src={`${REACT_APP_BASE_URL}/${picture || '0321661312364.png'}`}
           alt={name}
         />
       </div>
@@ -58,6 +60,8 @@ const ProfileCard: React.FC<props> = ({ user, isOwner }) => {
         <span className="icon">{getIcon('email')}</span>
         <span>{email}</span>
       </div>
+
+      {!isOwner && <Button onClick={openChatModal} content="Message Me" />}
 
       <span className="separator" />
 
@@ -115,6 +119,7 @@ ProfileCard.propTypes = {
     twitter: PropTypes.string,
   }).isRequired,
   isOwner: PropTypes.bool.isRequired,
+  openChatModal: PropTypes.func.isRequired,
 };
 
 export default ProfileCard;
