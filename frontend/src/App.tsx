@@ -25,7 +25,7 @@ import Report from './pages/Report';
 import Chat from './pages/Chat';
 import Requests from './pages/Requests';
 
-const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
+const App: React.FC<any> = ({ msg, user, book, selectedBook, clear }: any) => {
   useEffect(() => {
     CheckAuthentication();
   }, []);
@@ -43,7 +43,11 @@ const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
       {msg.content && <Message type={msg.type} content={msg.content} />}
       <Router>
         {book.id && (
-          <BookDetails id={book.id} closeDetails={() => selectedBook(null)} />
+          <BookDetails
+            id={book.id}
+            isLogged={user.authenticated}
+            closeDetails={() => selectedBook(null)}
+          />
         )}
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
@@ -72,6 +76,7 @@ const App: React.FC<any> = ({ msg, book, selectedBook, clear }: any) => {
 
 const mapStateToProps = (state: any) => ({
   msg: state.msg,
+  user: state.user,
   book: state.book,
 });
 

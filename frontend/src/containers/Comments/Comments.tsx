@@ -9,6 +9,7 @@ import './style.scss';
 
 type props = {
   bookId: string;
+  isLogged: boolean;
 };
 
 type comment = {
@@ -25,7 +26,7 @@ const socket = io(REACT_APP_BASE_URL || '', {
   jsonp: false,
 });
 
-const Comments: React.FC<props> = ({ bookId }) => {
+const Comments: React.FC<props> = ({ bookId, isLogged }) => {
   const [comments, setComments] = useState<comment[]>([]);
 
   useEffect(() => {
@@ -51,11 +52,19 @@ const Comments: React.FC<props> = ({ bookId }) => {
 
   return (
     <div className="comments">
-      <CommentForm onSend={onSend} bookId={bookId} total={comments.length} />
+      <h3 className="title">Comments: </h3>
+
+      {isLogged && (
+        <CommentForm onSend={onSend} bookId={bookId} total={comments.length} />
+      )}
       <div className="comments-list">
-        {comments.map((c: comment) => (
-          <Comment key={c.createdAt} comment={c} />
-        ))}
+        {comments.length > 0 ? (
+          comments.map((c: comment) => (
+            <Comment key={c.createdAt} comment={c} />
+          ))
+        ) : (
+          <p className="no-comment">No comment yet.</p>
+        )}
       </div>
     </div>
   );
@@ -63,6 +72,7 @@ const Comments: React.FC<props> = ({ bookId }) => {
 
 Comments.propTypes = {
   bookId: PropTypes.string.isRequired,
+  isLogged: PropTypes.bool.isRequired,
 };
 
 export default Comments;
