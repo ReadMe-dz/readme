@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import RequestsForm from '../../containers/RequestsForm';
 import RequestsList from '../../containers/RequestsList';
+import Footer from '../../containers/Footer';
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/Loader';
 import './style.scss';
@@ -125,6 +126,7 @@ const Requests: React.FC<props> = ({ setMsg }) => {
           setCurrentPage={setCurrentPage}
         />
       </div>
+      <Footer />
     </>
   );
 };

@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
+import Footer from '../../containers/Footer';
 import Input from '../../components/Input';
 import ImageUpload from '../../components/ImageUpload';
 import Select from '../../components/Select';
@@ -100,103 +101,106 @@ const EditProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
   };
 
   return (
-    <div className="edit-profile">
-      <div className="head">
-        <h1>Edit profile</h1>
-      </div>
-      <div className="edit-form">
-        <Formik
-          initialValues={initVal}
-          validationSchema={Yup.object({
-            name: validate.name,
-            wilaya: validate.wilaya,
-            phone: validate.phone,
-            twitter: validate.twitter,
-            facebook: validate.facebook,
-            moreInfo: validate.moreInfo,
-          })}
-          onSubmit={onSubmit}
-        >
-          <Form>
-            <div className="form-head">
-              <div className="left">
-                <ImageUpload
-                  label="Profile picture"
-                  name="picture"
-                  onChange={onChange}
-                  file={`${REACT_APP_BASE_URL}/${picture}`}
+    <>
+      <div className="edit-profile">
+        <div className="head">
+          <h1>Edit profile</h1>
+        </div>
+        <div className="edit-form">
+          <Formik
+            initialValues={initVal}
+            validationSchema={Yup.object({
+              name: validate.name,
+              wilaya: validate.wilaya,
+              phone: validate.phone,
+              twitter: validate.twitter,
+              facebook: validate.facebook,
+              moreInfo: validate.moreInfo,
+            })}
+            onSubmit={onSubmit}
+          >
+            <Form>
+              <div className="form-head">
+                <div className="left">
+                  <ImageUpload
+                    label="Profile picture"
+                    name="picture"
+                    onChange={onChange}
+                    file={`${REACT_APP_BASE_URL}/${picture}`}
+                  />
+                </div>
+                <div className="right">
+                  <Input
+                    name="name"
+                    label="Name"
+                    type="text"
+                    className="input-name"
+                  />
+
+                  <Select
+                    label="Wilaya"
+                    name="wilaya"
+                    options={wilayas}
+                    className="select-wilaya"
+                  />
+
+                  <Input
+                    name="birthdate"
+                    label="birthdate"
+                    type="date"
+                    className="input-birthdate"
+                    placeholder="mm-dd-yyyy"
+                  />
+                </div>
+              </div>
+
+              <Textarea
+                name="moreInfo"
+                label="Bio"
+                className="bio"
+                placeholder="Say somthing about yourself."
+              />
+
+              <div className="links">
+                <Input
+                  name="phone"
+                  label="phone"
+                  type="tel"
+                  className="input-phone"
+                  placeholder="Your phone number"
+                />
+
+                <Input
+                  name="facebook"
+                  label="facebook"
+                  type="url"
+                  className="input-facebook"
+                  placeholder="https://facebook.com/username"
+                />
+
+                <Input
+                  name="twitter"
+                  label="twitter"
+                  type="url"
+                  className="input-twitter"
+                  placeholder="https://twitter.com/username"
                 />
               </div>
-              <div className="right">
-                <Input
-                  name="name"
-                  label="Name"
-                  type="text"
-                  className="input-name"
-                />
 
-                <Select
-                  label="Wilaya"
-                  name="wilaya"
-                  options={wilayas}
-                  className="select-wilaya"
-                />
-
-                <Input
-                  name="birthdate"
-                  label="birthdate"
-                  type="date"
-                  className="input-birthdate"
-                  placeholder="mm-dd-yyyy"
-                />
-              </div>
-            </div>
-
-            <Textarea
-              name="moreInfo"
-              label="Bio"
-              className="bio"
-              placeholder="Say somthing about yourself."
-            />
-
-            <div className="links">
-              <Input
-                name="phone"
-                label="phone"
-                type="tel"
-                className="input-phone"
-                placeholder="Your phone number"
+              <Button
+                className="save-button"
+                type="submit"
+                disabled={msg.content}
+                content={
+                  loading ? <Loader dim={20} width={2} /> : <span>Save</span>
+                }
               />
-
-              <Input
-                name="facebook"
-                label="facebook"
-                type="url"
-                className="input-facebook"
-                placeholder="https://facebook.com/username"
-              />
-
-              <Input
-                name="twitter"
-                label="twitter"
-                type="url"
-                className="input-twitter"
-                placeholder="https://twitter.com/username"
-              />
-            </div>
-
-            <Button
-              className="save-button"
-              type="submit"
-              disabled={msg.content}
-              content={
-                loading ? <Loader dim={20} width={2} /> : <span>Save</span>
-              }
-            />
-          </Form>
-        </Formik>
+            </Form>
+          </Formik>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
