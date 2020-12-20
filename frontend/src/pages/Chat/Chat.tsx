@@ -89,26 +89,24 @@ const Chat: React.FC = ({ user, setMsg }: any) => {
       </div>
 
       <div className="aside aside-right">
-        <div className="messages">
-          {chatWith ? (
-            <>
+        {chatWith ? (
+          <>
+            <div className="messages">
               {loading ? (
                 <Loader dim={45} color="#ea4c89" />
               ) : (
                 <ChatMessages messages={messages} myId={user.id} />
               )}
-            </>
-          ) : (
-            <b className="no-one">
-              You need to select a person to start chatting with.
-            </b>
-          )}
-        </div>
-        <ChatForm
-          setMsg={setMsg}
-          disabled={chatWith === null}
-          onSend={onSend}
-        />
+            </div>
+            <ChatForm
+              setMsg={setMsg}
+              disabled={chatWith === null}
+              onSend={onSend}
+            />
+          </>
+        ) : (
+          <b className="no-one">Select a person to start chatting with.</b>
+        )}
       </div>
     </div>
   );
