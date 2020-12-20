@@ -18,16 +18,17 @@ const Pagination: React.FC<props> = ({
 }) => {
   return (
     <ScrollContainer className="pagination">
-      {Array.from({ length: pagesCount }, (v, i) => i).map((page) => {
-        return (
-          <Button
-            key={`page-${page}`}
-            className={`page-button ${currentPage === page ? 'active' : ''}`}
-            content={<b>{page}</b>}
-            onClick={() => setCurrentPage(page)}
-          />
-        );
-      })}
+      {pagesCount > 1 &&
+        Array.from({ length: pagesCount }, (v, i) => i).map((page) => {
+          return (
+            <Button
+              key={`page-${page}`}
+              className={`page-button ${currentPage === page ? 'active' : ''}`}
+              content={<b>{page}</b>}
+              onClick={() => setCurrentPage(page)}
+            />
+          );
+        })}
     </ScrollContainer>
   );
 };

@@ -7,7 +7,7 @@ import logo from '../../assets/images/logo.png';
 import './style.scss';
 
 type props = {
-  count: number;
+  count?: number;
 };
 
 const Footer: React.FC<props> = ({ count }) => {
@@ -60,14 +60,18 @@ const Footer: React.FC<props> = ({ count }) => {
           © {new Date().getFullYear()} <b>Read Me</b> . All rights reserved.
         </p>
         <p>Made with ♥ in Algeria</p>
-        <p>{count} books have been shared</p>
+        {count !== -1 && <p>{count} books have been shared</p>}
       </div>
     </div>
   );
 };
 
 Footer.propTypes = {
-  count: PropTypes.number.isRequired,
+  count: PropTypes.number,
+};
+
+Footer.defaultProps = {
+  count: -1,
 };
 
 export default Footer;

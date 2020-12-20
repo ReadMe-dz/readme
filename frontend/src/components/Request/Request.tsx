@@ -245,7 +245,7 @@ const Request: React.FC<props> = ({
             ) : (
               reqComments.map((comment) => (
                 <div key={comment.id} className="comment">
-                  <div className="head">
+                  <div className="comment-head">
                     <Link to={`/user/${comment.user.id}`}>
                       {comment.user.name}
                     </Link>
@@ -262,7 +262,7 @@ const Request: React.FC<props> = ({
                       />
                     )}
                   </div>
-                  <div className="content">
+                  <div className="comment-content">
                     <p>{comment.comment}</p>
                   </div>
                 </div>

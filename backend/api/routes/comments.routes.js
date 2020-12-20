@@ -4,7 +4,7 @@ const { getCommentsByBookId, postComment } = require('../controllers/comments');
 
 const commentsRouter = express.Router();
 
-commentsRouter.get('/:id', tokenVerification, getCommentsByBookId);
+commentsRouter.get('/:id', getCommentsByBookId);
 
 commentsRouter.post('/', tokenVerification, postComment);
 
