@@ -12,11 +12,12 @@ import Comments from '../Comments';
 type prop = {
   id: string;
   closeDetails: () => void;
+  isLogged: boolean;
 };
 
 const { REACT_APP_BASE_URL } = process.env;
 
-const BookDetails: React.FC<prop> = ({ id, closeDetails }) => {
+const BookDetails: React.FC<prop> = ({ id, isLogged, closeDetails }) => {
   const [bookDetails, setBookDetails] = useState<any>({
     book: {},
     user: {},
@@ -110,7 +111,7 @@ const BookDetails: React.FC<prop> = ({ id, closeDetails }) => {
                 </div>
               </div>
               <div className="the-comments">
-                <Comments bookId={book.id} />
+                <Comments isLogged={isLogged} bookId={book.id} />
               </div>
             </div>
             <div className="owner">
@@ -186,6 +187,7 @@ const BookDetails: React.FC<prop> = ({ id, closeDetails }) => {
 BookDetails.propTypes = {
   id: PropTypes.string.isRequired,
   closeDetails: PropTypes.func.isRequired,
+  isLogged: PropTypes.bool.isRequired,
 };
 
 export default BookDetails;
