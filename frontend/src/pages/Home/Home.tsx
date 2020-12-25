@@ -6,8 +6,9 @@ import {
   loadingBook,
   setBooksCount,
 } from '../../redux-store/actions/book.actions';
-import Books from '../../containers/Books';
+import InnerWrapper from '../../components/InnerWrapper';
 import Loader from '../../components/Loader';
+import Books from '../../containers/Books';
 import Geust from '../../containers/Geust';
 import Search from '../../containers/Search';
 import Footer from '../../containers/Footer';
@@ -139,19 +140,28 @@ const Home: React.FC<props> = ({ geust, book, setLoading, setCount }) => {
 
   return (
     <div className="home">
-      {geust ? (
-        <>
-          <Geust />
-          <Search onFilter={onFilter} />
-          {book.loading ? <Loader /> : <Books isOwner={false} books={books} />}
-        </>
-      ) : (
-        <>
-          <Search onFilter={onFilter} IsSearchBar />
-          {book.loading ? <Loader /> : <Books isOwner={false} books={books} />}
-        </>
-      )}
-
+      <InnerWrapper column>
+        {geust ? (
+          <>
+            <Geust />
+            <Search onFilter={onFilter} />
+            {book.loading ? (
+              <Loader />
+            ) : (
+              <Books isOwner={false} books={books} />
+            )}
+          </>
+        ) : (
+          <>
+            <Search onFilter={onFilter} IsSearchBar />
+            {book.loading ? (
+              <Loader />
+            ) : (
+              <Books isOwner={false} books={books} />
+            )}
+          </>
+        )}
+      </InnerWrapper>
       <Footer count={book.count} />
     </div>
   );

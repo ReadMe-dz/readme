@@ -7,6 +7,7 @@ import { Form, Formik } from 'formik';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { user as validate } from '../../validations';
 import Footer from '../../containers/Footer';
+import InnerWrapper from '../../components/InnerWrapper';
 import Modal from '../../components/Modal';
 import ReCaptcha from '../../components/ReCaptcha';
 import Input from '../../components/Input';
@@ -118,114 +119,117 @@ const Settings: React.FC = ({ setMsg, user }: any) => {
   return (
     <>
       <div className="settings">
-        <h1>Account Settings</h1>
-        {openModal && (
-          <Modal
-            title="delete account"
-            content={
-              <>
-                <p>Do you really want to delete your account ?</p>
-                <p>
-                  <b>Note: </b>
-                  <span>
-                    by confirming, we will{' '}
-                    <span className="danger">
-                      delete your account permanently
+        <InnerWrapper column>
+          <h1>Account Settings</h1>
+          {openModal && (
+            <Modal
+              title="delete account"
+              content={
+                <>
+                  <p>Do you really want to delete your account ?</p>
+                  <p>
+                    <b>Note: </b>
+                    <span>
+                      by confirming, we will{' '}
+                      <span className="danger">
+                        delete your account permanently
+                      </span>
+                      , and there will be no way to restore you data.
                     </span>
-                    , and there will be no way to restore you data.
-                  </span>
-                </p>
-              </>
-            }
-            onConfirm={onConfirm}
-            onClose={onClose}
-          />
-        )}
-        <div className="change-password">
-          <h2>Change password:</h2>
-          <p className="content">
-            In order to protect your <b>Read Me</b> account, make sure your
-            password:
-          </p>
-          <ul className="tips">
-            <li>Is 8 characters or longer.</li>
-            <li>Does not match or contain your username or name.</li>
-            <li>Does containt at least one capital letter.</li>
-            <li>Does containt at least one digit.</li>
-            <li>Does containt at least one special character.</li>
-          </ul>
-          <Formik
-            initialValues={initChangePasswordValues}
-            validationSchema={Yup.object({
-              currentPassword: validate.password,
-              password: validate.password,
-              confirmPassword: validate.passwordConfirmation,
-            })}
-            onSubmit={onSubmitChangePassword}
-          >
-            <Form className="change-password-form">
-              <div className="row">
-                <Input
-                  name="currentPassword"
-                  label="Current Password"
-                  type="password"
-                  className="input-password"
+                  </p>
+                </>
+              }
+              onConfirm={onConfirm}
+              onClose={onClose}
+            />
+          )}
+          <div className="change-password">
+            <h2>Change password:</h2>
+            <p className="content">
+              In order to protect your <b>Read Me</b> account, make sure your
+              password:
+            </p>
+            <ul className="tips">
+              <li>Is 8 characters or longer.</li>
+              <li>Does not match or contain your username or name.</li>
+              <li>Does containt at least one capital letter.</li>
+              <li>Does containt at least one digit.</li>
+              <li>Does containt at least one special character.</li>
+            </ul>
+            <Formik
+              initialValues={initChangePasswordValues}
+              validationSchema={Yup.object({
+                currentPassword: validate.password,
+                password: validate.password,
+                confirmPassword: validate.passwordConfirmation,
+              })}
+              onSubmit={onSubmitChangePassword}
+            >
+              <Form className="change-password-form">
+                <div className="row">
+                  <Input
+                    name="currentPassword"
+                    label="Current Password"
+                    type="password"
+                    className="input-password"
+                  />
+
+                  <Input
+                    name="password"
+                    label="New Password"
+                    type="password"
+                    className="input-password"
+                  />
+
+                  <Input
+                    name="confirmPassword"
+                    label="Password Confirmation"
+                    type="password"
+                    className="input-password"
+                  />
+                </div>
+
+                <ReCaptcha setIsHuman={setIsHuman} />
+
+                <Button
+                  className="change-password-button"
+                  type="submit"
+                  disabled={loading}
+                  content={
+                    loading ? (
+                      <Loader dim={20} width={2} />
+                    ) : (
+                      <span>Change Password</span>
+                    )
+                  }
                 />
+              </Form>
+            </Formik>
+          </div>
+          <div className="remove-account">
+            <h2>Delete account</h2>
+            <p className="content">
+              If you delete your <b>Read Me</b> account then your profile,
+              photos, books and everything else you&apos;ve added will be
+              ereased, and you won&apos;t be able to retrieve anything
+              you&apos;ve added.
+            </p>
 
-                <Input
-                  name="password"
-                  label="New Password"
-                  type="password"
-                  className="input-password"
-                />
-
-                <Input
-                  name="confirmPassword"
-                  label="Password Confirmation"
-                  type="password"
-                  className="input-password"
-                />
-              </div>
-
-              <ReCaptcha setIsHuman={setIsHuman} />
-
-              <Button
-                className="change-password-button"
-                type="submit"
-                disabled={loading}
-                content={
-                  loading ? (
-                    <Loader dim={20} width={2} />
-                  ) : (
-                    <span>Change Password</span>
-                  )
-                }
-              />
-            </Form>
-          </Formik>
-        </div>
-        <div className="remove-account">
-          <h2>Delete account</h2>
-          <p className="content">
-            If you delete your <b>Read Me</b> account then your profile, photos,
-            books and everything else you&apos;ve added will be ereased, and you
-            won&apos;t be able to retrieve anything you&apos;ve added.
-          </p>
-
-          <Button
-            className="delete-button"
-            type="button"
-            disabled={loadingDelete}
-            content={
-              loadingDelete ? (
-                <Loader dim={20} width={2} color="#f14141" />
-              ) : (
-                <span>Delete Account</span>
-              )
-            }
-            onClick={() => setOpenModal(true)}
-          />
-        </div>
+            <Button
+              className="delete-button"
+              type="button"
+              disabled={loadingDelete}
+              content={
+                loadingDelete ? (
+                  <Loader dim={20} width={2} color="#f14141" />
+                ) : (
+                  <span>Delete Account</span>
+                )
+              }
+              onClick={() => setOpenModal(true)}
+            />
+          </div>
+        </InnerWrapper>
       </div>
       <Footer />
     </>

@@ -6,6 +6,7 @@ import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import RequestsForm from '../../containers/RequestsForm';
 import RequestsList from '../../containers/RequestsList';
 import Footer from '../../containers/Footer';
+import InnerWrapper from '../../components/InnerWrapper';
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/Loader';
 import './style.scss';
@@ -101,30 +102,32 @@ const Requests: React.FC<props> = ({ setMsg }) => {
   return (
     <>
       <div className="requests">
-        <h2 className="page-title">Books Requests</h2>
-        <div className="add-request">
-          <RequestsForm />
-        </div>
-        <div className="requested">
-          <h2 className="page-title">Requested Books</h2>
-          {loading ? (
-            <div className="loader-wrapper">
-              <Loader />
-            </div>
-          ) : (
-            <RequestsList
-              onDelete={onDelete}
-              onComment={onComment}
-              requests={requests}
-            />
-          )}
-        </div>
+        <InnerWrapper column>
+          <h2 className="page-title">Books Requests</h2>
+          <div className="add-request">
+            <RequestsForm />
+          </div>
+          <div className="requested">
+            <h2 className="page-title">Requested Books</h2>
+            {loading ? (
+              <div className="loader-wrapper">
+                <Loader />
+              </div>
+            ) : (
+              <RequestsList
+                onDelete={onDelete}
+                onComment={onComment}
+                requests={requests}
+              />
+            )}
+          </div>
 
-        <Pagination
-          currentPage={currentPage}
-          pagesCount={pagesCount}
-          setCurrentPage={setCurrentPage}
-        />
+          <Pagination
+            currentPage={currentPage}
+            pagesCount={pagesCount}
+            setCurrentPage={setCurrentPage}
+          />
+        </InnerWrapper>
       </div>
       <Footer />
     </>

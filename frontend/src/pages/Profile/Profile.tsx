@@ -8,6 +8,7 @@ import { message as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import Books from '../../containers/Books';
 import RequestsList from '../../containers/RequestsList';
+import InnerWrapper from '../../components/InnerWrapper';
 import Pagination from '../../components/Pagination';
 import ProfileCard from '../../containers/ProfileCard';
 import Textarea from '../../components/Textarea';
@@ -258,107 +259,113 @@ const Profile: React.FC = ({
 
   return (
     <div className="profile-page">
-      {openModal && (
-        <Modal
-          title="Delete The Book"
-          content={
-            <>
-              <p>Are you sure want to delete this book?</p>
-              <p>
-                <b>Note: </b>This action can not be undone.
-              </p>
-            </>
-          }
-          onClose={() => setOpenModal(false)}
-          onConfirm={onConfirm}
-        />
-      )}
-
-      {openChatModal && (
-        <Modal
-          title="Send Me A Message"
-          content={
-            <Formik
-              initialValues={initialValues}
-              validationSchema={Yup.object({
-                content: validate.content,
-              })}
-              onSubmit={onSubmit}
-            >
-              <Form>
-                <Textarea
-                  name="content"
-                  label=""
-                  className="content"
-                  placeholder="write your message"
-                />
-                <Button className="send-button" type="submit" content="send" />
-              </Form>
-            </Formik>
-          }
-          onClose={() => setOpenChatModal(false)}
-        />
-      )}
-      <div className="profile-page-card">
-        {loading ? (
-          <Loader />
-        ) : (
-          <ProfileCard
-            user={user}
-            openChatModal={() => setOpenChatModal(true)}
-            isOwner={isOwner}
+      <InnerWrapper>
+        {openModal && (
+          <Modal
+            title="Delete The Book"
+            content={
+              <>
+                <p>Are you sure want to delete this book?</p>
+                <p>
+                  <b>Note: </b>This action can not be undone.
+                </p>
+              </>
+            }
+            onClose={() => setOpenModal(false)}
+            onConfirm={onConfirm}
           />
         )}
-      </div>
-      <div className="profile-content">
-        <div className="titles">
-          <Button
-            onClick={() => setShow('books')}
-            className={show === 'books' ? 'active' : ''}
-            content={<b>Books</b>}
+
+        {openChatModal && (
+          <Modal
+            title="Send Me A Message"
+            content={
+              <Formik
+                initialValues={initialValues}
+                validationSchema={Yup.object({
+                  content: validate.content,
+                })}
+                onSubmit={onSubmit}
+              >
+                <Form>
+                  <Textarea
+                    name="content"
+                    label=""
+                    className="content"
+                    placeholder="write your message"
+                  />
+                  <Button
+                    className="send-button"
+                    type="submit"
+                    content="send"
+                  />
+                </Form>
+              </Formik>
+            }
+            onClose={() => setOpenChatModal(false)}
           />
-          <Button
-            onClick={() => setShow('requests')}
-            className={show === 'requests' ? 'active' : ''}
-            content={<b>Requests</b>}
-          />
-        </div>
-        <div className="contents">
-          {loadingData ? (
+        )}
+        <div className="profile-page-card">
+          {loading ? (
             <Loader />
           ) : (
-            <>
-              {show === 'books' && (
-                <Books
-                  isOwner={isOwner}
-                  books={books}
-                  deleteBook={onDeleteBook}
-                  noBookMsg={
-                    isOwner
-                      ? 'You do not have any book yet.'
-                      : 'This user does not have any book yet.'
-                  }
-                />
-              )}
-
-              {show === 'requests' && (
-                <>
-                  <RequestsList
-                    onDelete={onDeleteRequest}
-                    onComment={onComment}
-                    requests={requests}
-                  />
-                  <Pagination
-                    currentPage={currentPage}
-                    pagesCount={pagesCount}
-                    setCurrentPage={setCurrentPage}
-                  />
-                </>
-              )}
-            </>
+            <ProfileCard
+              user={user}
+              openChatModal={() => setOpenChatModal(true)}
+              isOwner={isOwner}
+            />
           )}
         </div>
-      </div>
+        <div className="profile-content">
+          <div className="titles">
+            <Button
+              onClick={() => setShow('books')}
+              className={show === 'books' ? 'active' : ''}
+              content={<b>Books</b>}
+            />
+            <Button
+              onClick={() => setShow('requests')}
+              className={show === 'requests' ? 'active' : ''}
+              content={<b>Requests</b>}
+            />
+          </div>
+          <div className="contents">
+            {loadingData ? (
+              <Loader />
+            ) : (
+              <>
+                {show === 'books' && (
+                  <Books
+                    isOwner={isOwner}
+                    books={books}
+                    deleteBook={onDeleteBook}
+                    noBookMsg={
+                      isOwner
+                        ? 'You do not have any book yet.'
+                        : 'This user does not have any book yet.'
+                    }
+                  />
+                )}
+
+                {show === 'requests' && (
+                  <>
+                    <RequestsList
+                      onDelete={onDeleteRequest}
+                      onComment={onComment}
+                      requests={requests}
+                    />
+                    <Pagination
+                      currentPage={currentPage}
+                      pagesCount={pagesCount}
+                      setCurrentPage={setCurrentPage}
+                    />
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      </InnerWrapper>
     </div>
   );
 };
