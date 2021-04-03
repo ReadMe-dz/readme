@@ -78,6 +78,11 @@ const ForgetPassword: React.FC<any> = ({ msg, setMsg }: any) => {
       </div>
       <div className="aside aside-right">
         <div className="head">
+          <div className="logo">
+            <Link to="/">
+              <img src={logo} alt="Read Me Logo" />
+            </Link>
+          </div>
           <p>
             Not a member?
             <Link className="subscribe-link" to="/subscribe">

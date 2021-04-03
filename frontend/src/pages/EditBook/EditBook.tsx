@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import { book as validate } from '../../validations';
 import Footer from '../../containers/Footer';
+import InnerWrapper from '../../components/InnerWrapper';
 import Input from '../../components/Input';
 import ImageUpload from '../../components/ImageUpload';
 import Select from '../../components/Select';
@@ -138,124 +139,126 @@ const EditBook: React.FC = ({ setMsg, msg, user: { id }, match }: any) => {
   return (
     <>
       <div className="edit-book">
-        <h1>Edit a book</h1>
-        <div className="edit-form">
-          <Formik
-            enableReinitialize
-            initialValues={initVal}
-            validationSchema={Yup.object({
-              title: validate.title,
-              author: validate.author,
-              publisher: validate.publisher,
-              language: validate.language,
-              year: validate.year,
-              price: validate.price,
-              state: validate.state,
-              details: validate.details,
-            })}
-            onSubmit={onSubmit}
-          >
-            <Form>
-              <div className="form-head">
-                <div className="left">
-                  {cover !== 'default' ? (
-                    <ImageUpload
-                      label="Book Cover"
-                      name="cover"
-                      className="book-cover"
-                      onChange={onChange}
-                      file={`${REACT_APP_BASE_URL}/${cover}`}
+        <InnerWrapper column>
+          <h1>Edit a book</h1>
+          <div className="edit-form">
+            <Formik
+              enableReinitialize
+              initialValues={initVal}
+              validationSchema={Yup.object({
+                title: validate.title,
+                author: validate.author,
+                publisher: validate.publisher,
+                language: validate.language,
+                year: validate.year,
+                price: validate.price,
+                state: validate.state,
+                details: validate.details,
+              })}
+              onSubmit={onSubmit}
+            >
+              <Form>
+                <div className="form-head">
+                  <div className="left">
+                    {cover !== 'default' ? (
+                      <ImageUpload
+                        label="Book Cover"
+                        name="cover"
+                        className="book-cover"
+                        onChange={onChange}
+                        file={`${REACT_APP_BASE_URL}/${cover}`}
+                      />
+                    ) : (
+                      <div className="default-cover">
+                        <Image src={noCover} alt="default cover" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="right">
+                    <Input
+                      name="title"
+                      label="Title"
+                      type="text"
+                      className="input-title"
+                      placeholder="loading ..."
                     />
-                  ) : (
-                    <div className="default-cover">
-                      <Image src={noCover} alt="default cover" />
+
+                    <Input
+                      name="author"
+                      label="Author"
+                      type="text"
+                      className="input-author"
+                      placeholder="loading ..."
+                    />
+
+                    <Input
+                      name="publisher"
+                      label="Publisher"
+                      type="text"
+                      className="input-publisher"
+                      placeholder="loading ..."
+                    />
+
+                    <div className="row">
+                      <Select
+                        label="Language"
+                        name="language"
+                        options={languages}
+                        className="select-language"
+                      />
+                      <Select
+                        label="Genre"
+                        name="genre"
+                        options={genres}
+                        className="select-genre"
+                      />
+                      <Input
+                        name="year"
+                        label="Year"
+                        type="number"
+                        className="input-year"
+                        placeholder="loading ..."
+                      />
+                      <Select
+                        label="State"
+                        name="state"
+                        options={states}
+                        className="select-state"
+                      />
+                      <Input
+                        name="price"
+                        label="Price"
+                        type="number"
+                        className="input-price"
+                        placeholder="loading ..."
+                      />
                     </div>
-                  )}
-                </div>
-                <div className="right">
-                  <Input
-                    name="title"
-                    label="Title"
-                    type="text"
-                    className="input-title"
-                    placeholder="loading ..."
-                  />
-
-                  <Input
-                    name="author"
-                    label="Author"
-                    type="text"
-                    className="input-author"
-                    placeholder="loading ..."
-                  />
-
-                  <Input
-                    name="publisher"
-                    label="Publisher"
-                    type="text"
-                    className="input-publisher"
-                    placeholder="loading ..."
-                  />
-
-                  <div className="row">
-                    <Select
-                      label="Language"
-                      name="language"
-                      options={languages}
-                      className="select-language"
-                    />
-                    <Select
-                      label="Genre"
-                      name="genre"
-                      options={genres}
-                      className="select-genre"
-                    />
-                    <Input
-                      name="year"
-                      label="Year"
-                      type="number"
-                      className="input-year"
-                      placeholder="loading ..."
-                    />
-                    <Select
-                      label="State"
-                      name="state"
-                      options={states}
-                      className="select-state"
-                    />
-                    <Input
-                      name="price"
-                      label="Price"
-                      type="number"
-                      className="input-price"
-                      placeholder="loading ..."
-                    />
                   </div>
                 </div>
-              </div>
 
-              <Textarea
-                name="details"
-                label="More Details"
-                className="details"
-                placeholder="Say somthing about the book."
-              />
+                <Textarea
+                  name="details"
+                  label="More Details"
+                  className="details"
+                  placeholder="Say somthing about the book."
+                />
 
-              <Button
-                className="save-button"
-                type="submit"
-                disabled={msg.content}
-                content={
-                  loading ? (
-                    <Loader dim={20} width={2} />
-                  ) : (
-                    <span>Edit Book</span>
-                  )
-                }
-              />
-            </Form>
-          </Formik>
-        </div>
+                <Button
+                  className="save-button"
+                  type="submit"
+                  disabled={msg.content}
+                  content={
+                    loading ? (
+                      <Loader dim={20} width={2} />
+                    ) : (
+                      <span>Edit Book</span>
+                    )
+                  }
+                />
+              </Form>
+            </Formik>
+          </div>
+        </InnerWrapper>
       </div>
       <Footer />
     </>

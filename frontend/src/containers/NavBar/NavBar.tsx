@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import InnerWrapper from '../../components/InnerWrapper';
 import Image from '../../components/Image';
 import Button from '../../components/Button';
 import SearchBar from '../SearchBar';
@@ -29,7 +30,7 @@ const NavBar: React.FC<any> = ({ user, isSearch }: any) => {
               <Link to={`/user/${id}`}>Profile</Link>
               <Link to="/edit">Edit Profile</Link>
               <Link to="/add-book">Add A Book</Link>
-              <Link to="/requests">Request A Book</Link>
+              {/* <Link to="/requests">Request A Book</Link> */}
               <Link to="/messages">Messages</Link>
               <span className="separator" />
               <Link to="/settings">Account Settings</Link>
@@ -60,14 +61,16 @@ const NavBar: React.FC<any> = ({ user, isSearch }: any) => {
 
   return (
     <div className="navbar">
-      <Link className="logo" to="/">
-        <img src={logo} alt="read me" />
-        <h1>Read Me</h1>
-      </Link>
-      {isSearch && (
-        <SearchBar placeholder="Search by book's title or author's name" />
-      )}
-      {user.authenticated ? renderProfile() : renderLinks()}
+      <InnerWrapper>
+        <Link className="logo" to="/">
+          <img src={logo} alt="read me" />
+          <h1>Read Me</h1>
+        </Link>
+        {isSearch && (
+          <SearchBar placeholder="Search by book's title or author's name" />
+        )}
+        {user.authenticated ? renderProfile() : renderLinks()}
+      </InnerWrapper>
     </div>
   );
 };

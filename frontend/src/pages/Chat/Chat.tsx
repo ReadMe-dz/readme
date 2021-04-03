@@ -6,6 +6,7 @@ import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
 import ChatMessages from '../../containers/ChatMessages';
 import ChatForm from '../../containers/ChatForm';
 import ChatList from '../../containers/ChatList';
+import InnerWrapper from '../../components/InnerWrapper';
 import Loader from '../../components/Loader';
 import './style.scss';
 
@@ -84,30 +85,32 @@ const Chat: React.FC = ({ user, setMsg }: any) => {
 
   return (
     <div className="chat">
-      <div className="aside aside-left">
-        <ChatList setChatWith={setChatWith} list={chatList} />
-      </div>
+      <InnerWrapper>
+        <div className="aside aside-left">
+          <ChatList setChatWith={setChatWith} list={chatList} />
+        </div>
 
-      <div className="aside aside-right">
-        {chatWith ? (
-          <>
-            <div className="messages">
-              {loading ? (
-                <Loader dim={45} color="#ea4c89" />
-              ) : (
-                <ChatMessages messages={messages} myId={user.id} />
-              )}
-            </div>
-            <ChatForm
-              setMsg={setMsg}
-              disabled={chatWith === null}
-              onSend={onSend}
-            />
-          </>
-        ) : (
-          <b className="no-one">Select a person to start chatting with.</b>
-        )}
-      </div>
+        <div className="aside aside-right">
+          {chatWith ? (
+            <>
+              <div className="messages">
+                {loading ? (
+                  <Loader dim={45} color="#ea4c89" />
+                ) : (
+                  <ChatMessages messages={messages} myId={user.id} />
+                )}
+              </div>
+              <ChatForm
+                setMsg={setMsg}
+                disabled={chatWith === null}
+                onSend={onSend}
+              />
+            </>
+          ) : (
+            <b className="no-one">Select a person to start chatting with.</b>
+          )}
+        </div>
+      </InnerWrapper>
     </div>
   );
 };

@@ -96,6 +96,11 @@ const ResetPassword: React.FC<any> = ({
       </div>
       <div className="aside aside-right">
         <div className="head">
+          <div className="logo">
+            <Link to="/">
+              <img src={logo} alt="Read Me Logo" />
+            </Link>
+          </div>
           <p>
             Got your memory back?
             <Link className="login-link" to="/login">

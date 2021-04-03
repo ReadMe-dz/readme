@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { user as validate } from '../../validations';
 import { setMsg as setMessage } from '../../redux-store/actions/msg.actions';
+import InnerWrapper from '../../components/InnerWrapper';
 import Input from '../../components/Input';
 import ImageUpload from '../../components/ImageUpload';
 import Select from '../../components/Select';
@@ -108,122 +109,124 @@ const CompleteProfile: React.FC<any> = ({ user, msg, setMsg }: any) => {
 
   return (
     <div className="complete-profile">
-      <div className="head">
-        <h1>Complete profile</h1>
-      </div>
-      <div className="edit-form">
-        <Formik
-          initialValues={initVal}
-          validationSchema={Yup.object({
-            name: validate.name,
-            wilaya: validate.wilaya,
-            phone: validate.phone,
-            twitter: validate.twitter,
-            facebook: validate.facebook,
-            moreInfo: validate.moreInfo,
-            password: validate.password,
-            birthdate: validate.birthdate,
-            passwordConfirmation: validate.passwordConfirmation,
-          })}
-          onSubmit={onSubmit}
-        >
-          <Form>
-            <div className="form-head">
-              <div className="left">
-                <ImageUpload
-                  label="Profile picture"
-                  name="picture"
-                  onChange={onChange}
-                  file={`${REACT_APP_BASE_URL}/${picture}`}
+      <InnerWrapper column>
+        <div className="head">
+          <h1>Complete profile</h1>
+        </div>
+        <div className="edit-form">
+          <Formik
+            initialValues={initVal}
+            validationSchema={Yup.object({
+              name: validate.name,
+              wilaya: validate.wilaya,
+              phone: validate.phone,
+              twitter: validate.twitter,
+              facebook: validate.facebook,
+              moreInfo: validate.moreInfo,
+              password: validate.password,
+              birthdate: validate.birthdate,
+              passwordConfirmation: validate.passwordConfirmation,
+            })}
+            onSubmit={onSubmit}
+          >
+            <Form>
+              <div className="form-head">
+                <div className="left">
+                  <ImageUpload
+                    label="Profile picture"
+                    name="picture"
+                    onChange={onChange}
+                    file={`${REACT_APP_BASE_URL}/${picture}`}
+                  />
+                </div>
+                <div className="right">
+                  <Input
+                    name="name"
+                    label="Name"
+                    type="text"
+                    className="input-name"
+                  />
+
+                  <Select
+                    label="Wilaya"
+                    name="wilaya"
+                    options={wilayas}
+                    className="select-wilaya"
+                  />
+
+                  <Input
+                    name="birthdate"
+                    label="birthdate"
+                    type="date"
+                    className="input-birthdate"
+                    placeholder="mm-dd-yyyy"
+                  />
+                </div>
+              </div>
+
+              <div className="passwords">
+                <Input
+                  name="password"
+                  label="Password"
+                  type="password"
+                  className="input-password"
+                  placeholder="Your password"
+                />
+
+                <Input
+                  name="passwordConfirmation"
+                  label="Password Confirmation"
+                  type="password"
+                  className="input-password"
+                  placeholder="Password Confirmation"
                 />
               </div>
-              <div className="right">
+
+              <Textarea
+                name="moreInfo"
+                label="Bio"
+                className="bio"
+                placeholder="Say somthing about yourself."
+              />
+
+              <div className="links">
                 <Input
-                  name="name"
-                  label="Name"
-                  type="text"
-                  className="input-name"
+                  name="phone"
+                  label="phone"
+                  type="tel"
+                  className="input-phone"
+                  placeholder="Your phone number"
                 />
 
-                <Select
-                  label="Wilaya"
-                  name="wilaya"
-                  options={wilayas}
-                  className="select-wilaya"
+                <Input
+                  name="facebook"
+                  label="facebook"
+                  type="url"
+                  className="input-facebook"
+                  placeholder="https://facebook.com/username"
                 />
 
                 <Input
-                  name="birthdate"
-                  label="birthdate"
-                  type="date"
-                  className="input-birthdate"
-                  placeholder="mm-dd-yyyy"
+                  name="twitter"
+                  label="twitter"
+                  type="url"
+                  className="input-twitter"
+                  placeholder="https://twitter.com/username"
                 />
               </div>
-            </div>
 
-            <div className="passwords">
-              <Input
-                name="password"
-                label="Password"
-                type="password"
-                className="input-password"
-                placeholder="Your password"
+              <Button
+                className="save-button"
+                type="submit"
+                disabled={msg.content}
+                content={
+                  loading ? <Loader dim={20} width={2} /> : <span>Save</span>
+                }
               />
-
-              <Input
-                name="passwordConfirmation"
-                label="Password Confirmation"
-                type="password"
-                className="input-password"
-                placeholder="Password Confirmation"
-              />
-            </div>
-
-            <Textarea
-              name="moreInfo"
-              label="Bio"
-              className="bio"
-              placeholder="Say somthing about yourself."
-            />
-
-            <div className="links">
-              <Input
-                name="phone"
-                label="phone"
-                type="tel"
-                className="input-phone"
-                placeholder="Your phone number"
-              />
-
-              <Input
-                name="facebook"
-                label="facebook"
-                type="url"
-                className="input-facebook"
-                placeholder="https://facebook.com/username"
-              />
-
-              <Input
-                name="twitter"
-                label="twitter"
-                type="url"
-                className="input-twitter"
-                placeholder="https://twitter.com/username"
-              />
-            </div>
-
-            <Button
-              className="save-button"
-              type="submit"
-              disabled={msg.content}
-              content={
-                loading ? <Loader dim={20} width={2} /> : <span>Save</span>
-              }
-            />
-          </Form>
-        </Formik>
-      </div>
+            </Form>
+          </Formik>
+        </div>
+      </InnerWrapper>
     </div>
   );
 };
