@@ -30,7 +30,7 @@ const NavBar: React.FC<any> = ({ user, isSearch }: any) => {
               <Link to={`/user/${id}`}>Profile</Link>
               <Link to="/edit">Edit Profile</Link>
               <Link to="/add-book">Add A Book</Link>
-              <Link to="/requests">Request A Book</Link>
+              {/* <Link to="/requests">Request A Book</Link> */}
               <Link to="/messages">Messages</Link>
               <span className="separator" />
               <Link to="/settings">Account Settings</Link>

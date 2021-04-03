@@ -165,6 +165,7 @@ const Profile: React.FC = ({
 
   useEffect(() => {
     socket.connect();
+    setShow('books');
   }, []);
 
   const onSubmit = (
@@ -228,7 +229,7 @@ const Profile: React.FC = ({
   useEffect(() => {
     setLoadingData(true);
     if (show === 'books') loadBooks();
-    if (show === 'requests') loadRequests();
+    // if (show === 'requests') loadRequests();
   }, []);
 
   useEffect(() => {
@@ -317,7 +318,7 @@ const Profile: React.FC = ({
           )}
         </div>
         <div className="profile-content">
-          <div className="titles">
+          {/* <div className="titles">
             <Button
               onClick={() => setShow('books')}
               className={show === 'books' ? 'active' : ''}
@@ -328,7 +329,7 @@ const Profile: React.FC = ({
               className={show === 'requests' ? 'active' : ''}
               content={<b>Requests</b>}
             />
-          </div>
+          </div> */}
           <div className="contents">
             {loadingData ? (
               <Loader />
