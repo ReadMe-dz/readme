@@ -1,2 +1,2 @@
-# Read Me - WIP
+# Read Me
 > An Algerian books selling platform.
