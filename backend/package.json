@@ -55,5 +55,8 @@
     "lint-staged": "^10.4.2",
     "nodemon": "^1.19.1",
     "prettier": "^2.1.2"
+  },
+  "engines" : { 
+    "node" : "v14.15.0"
   }
 }
