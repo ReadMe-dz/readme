@@ -189,7 +189,7 @@
           flex-wrap: wrap;
           justify-content: center;
 
-          & > div {
+          & > div, & > a {
             display: flex;
             margin: 0 10px;
 
@@ -203,10 +203,11 @@
               }
             }
 
-            b {
+            b, a {
               font-weight: 700;
               font-size: 14px;
               line-height: 1.5;
+              color: $font
             }
           }
         }
