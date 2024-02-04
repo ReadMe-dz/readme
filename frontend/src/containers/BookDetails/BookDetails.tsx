@@ -143,14 +143,14 @@ const BookDetails: React.FC<prop> = ({ id, isLogged, closeDetails }) => {
                     {user.facebook && (
                       <a className="facebook" href={user.facebook}>
                         <span className="icon">{getIcon('facebook')}</span>
-                        <b>{user.facebook}</b>
+                        <b>Facebook</b>
                       </a>
                     )}
 
                     {user.twitter && (
                       <a className="twitter" href={user.twitter}>
                         <span className="icon">{getIcon('twitter')}</span>
-                        <b>{user.twitter}</b>
+                        <b>Twitter</b>
                       </a>
                     )}
 
