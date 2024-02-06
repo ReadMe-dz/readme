@@ -21,7 +21,7 @@
     "@types/redux-logger": "^3.0.8",
     "@types/redux-thunk": "^2.1.0",
     "@types/yup": "^0.29.9",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "formik": "^2.2.1",
     "history": "^5.0.0",
     "jwt-decode": "^3.0.0",
